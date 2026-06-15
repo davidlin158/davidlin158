@@ -1,0 +1,14 @@
+{
+  "trip_name": "Japan Spring Trip",
+  "currency": "$",
+  "days": [
+    {"date":"2026-04-01","label":"Day 1 — Tokyo","stops":[
+      {"name":"Senso-ji Temple","lat":35.7148,"lon":139.7967,"time":"09:00","notes":"Arrive early","cost":0,"category":"sightseeing"},
+      {"name":"Sushi lunch","lat":35.6655,"lon":139.7707,"time":"12:30","cost":40,"category":"food"}
+    ]},
+    {"date":"2026-04-02","label":"Day 2 — Kyoto","stops":[
+      {"name":"Shinkansen to Kyoto","time":"08:00","cost":90,"category":"transport"},
+      {"name":"Fushimi Inari","lat":34.9671,"lon":135.7727,"time":"11:00","notes":"Thousands of torii gates","cost":0,"category":"sightseeing"}
+    ]}
+  ]
+}
