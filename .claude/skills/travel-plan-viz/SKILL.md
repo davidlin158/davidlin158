@@ -1,69 +1,48 @@
 ---
 name: travel-plan-viz
-description: Turn a travel itinerary into a self-contained, interactive HTML visualization (day-by-day timeline, map of stops, and budget summary). Use when the user wants to visualize, render, or build a webpage/dashboard for a trip, vacation, or travel plan from a description, list of stops, or a JSON/YAML itinerary.
+description: 把旅行行程做成美观、可离线、手机优先的单文件 HTML（交互地图+每日时间轴+出发前订票提醒）。两种用法——只给目的地和天数让它帮你规划，或丢一份现成计划让它直接出页面。触发：旅行计划可视化、做旅行攻略网页、行程 HTML、travel plan visualization。
 ---
 
-# Travel Plan Visualizer
+# 旅行计划可视化
 
-Generate a single, self-contained HTML file that visualizes a travel itinerary:
-a day-by-day timeline, an interactive map of the stops, and a budget summary.
-The output has no external build step and no runtime dependencies beyond a CDN
-map library, so it opens directly in any browser.
+把一趟旅行变成单文件 HTML 页面：交互地图、每日时间轴、出发前订票提醒。机械逻辑用自带引擎（`assets/map.js`、`assets/reminders.js`），美学交给设计步骤（`frontend-design` / `huashu-design`，或内置准则兜底）。
 
-## Workflow
+## 第一步：判断模式
 
-1. **Collect the itinerary.** Gather the trip into structured data. If the user
-   gave free-form text ("3 days in Tokyo, then 2 in Kyoto…"), turn it into the
-   itinerary JSON shape below yourself before generating. Ask only for details
-   that materially change the output and that you cannot reasonably infer
-   (e.g. travel dates if the user wants a dated timeline). Sensible defaults are
-   fine for everything else.
+- 用户**只给了目的地+天数**（如"香港 4 天 3 晚"）→ 模式 A（从零规划）。
+- 用户**已提供行程**（文字或旧 HTML 文件）→ 模式 B（解析已有计划）。
 
-2. **Write the itinerary to a JSON file**, e.g. `itinerary.json`, following the
-   schema in `references/schema.md`.
+## 模式 A：从零规划
 
-3. **Generate the visualization** by running:
+1. 读 `references/research-guide.md`，联网调研目的地。
+2. 在对话里用 markdown 提出详实逐日计划（早/中/晚、景点、交通、住宿）。
+3. 与用户来回迭代，直到用户明确确认。
+4. 进入"调研补全 + 生成"。
 
-   ```bash
-   python3 scripts/generate.py itinerary.json -o trip.html --title "My Trip"
-   ```
+## 模式 B：已有计划
 
-4. **Surface the result.** Tell the user where `trip.html` is. If the session
-   supports sending files, send it so they can open it.
+1. 解析用户给的行程（若是旧 HTML，从中提取结构化数据）。
+2. **顺手提建议（Agent 增值，但别硬来）**：把用户的计划对照"完善行程"的维度（行前须知/天气应对、提前订票项、点到点交通、节奏与缓冲、当地必吃、片区住宿是否合理等）快速体检，在**对话里**给**最多 3–4 条**具体、可选的优化建议。原则：
+   - 只挑**真实存在的缺口**；计划本就完整就直说"挺完整"，**不要硬凑、不要说教、不要替用户重排行程**。
+   - 一句点出问题 + 一句给方向即可，简洁；建议默认口头给，保持 HTML 成品干净（用户想把建议也放进页面再加）。
+   - 这是我们区别于"纯提示词转 HTML"的地方——发挥 Agent 的判断力，但点到为止。
+3. 进入"调研补全 + 生成"（生成不被建议阻塞；采纳哪些由用户定）。
 
-## Itinerary data shape
+## 调研补全 + 生成
 
-Minimal example — see `references/schema.md` for the full schema:
+1. 按 `references/research-guide.md` 联网补全：坐标、真实图片 URL、评分、点评、营业时间/休息日、门票参考价、需提前订项及 `leadDays`；**行前须知**（天气/台风/穿搭/支付/App/购票时机）、**点到点交通**（方式/票价/耗时）、**时令限定活动**、每餐**必点菜+参考价**；航班给 3-5 个**待选班次**、酒店按**片区+价位**推荐、并准备**免责声明**与全程**贴士**。排程体现**天气/季节逻辑**（户外排凉爽时段）。**不查实时票价。**
+2. 组织成 `assets/page-contract.md` 里定义的 `trip` 数据结构。
+3. 用**设计步骤**生成风格化 HTML：**优先**调用专业设计 skill——`frontend-design` 或 `huashu-design`（花叔Design），任一已安装即用；**两者都没有**时，按 `references/design-guidelines.md` 的内置美学准则自己出。无论哪种方式都要严格遵守 `assets/page-contract.md` 的区块与约束：
+   - 内联 `assets/map.js`、`assets/reminders.js` 内容到 HTML（保证单文件）。
+   - 页顶清单用 `computeReminders` + `renderChecklistHTML`。
+   - 展示行前须知区块；航班区展示待选班次（已预订的高亮），酒店区按片区+价位展示，附近显著展示免责声明。
+   - 时间轴卡片展示营业时间/门票参考价/交通/时令活动等可选字段；展示每日餐饮（必点菜+价）、当日与全程贴士、单日二选一方案（若有）。
+   - 地图用 `initTravelMap`，引入 Leaflet CDN 的 CSS/JS。
+   - 时间轴上 `needsBooking` 项插入 `reminderBadgeHTML(leadDays)`。
+   - 每趟行程用不同配色。
+4. 保存为 `<行程名>-旅行计划.html` 到工作目录。
+5. 告诉用户：之后可把该 HTML 文件丢回来，说"把第三天的 X 挪到第四天"，会在原结构上修改。
 
-```json
-{
-  "trip_name": "Japan Spring Trip",
-  "currency": "USD",
-  "days": [
-    {
-      "date": "2026-04-01",
-      "label": "Day 1 — Tokyo",
-      "stops": [
-        {
-          "name": "Senso-ji Temple",
-          "lat": 35.7148,
-          "lon": 139.7967,
-          "time": "09:00",
-          "notes": "Arrive early to beat crowds",
-          "cost": 0,
-          "category": "sightseeing"
-        }
-      ]
-    }
-  ]
-}
-```
+## 不做
 
-## Notes
-
-- `lat`/`lon` are optional per stop. Stops without coordinates still appear on
-  the timeline; only geolocated stops are drawn on the map.
-- If no stop has coordinates, the map section is omitted automatically.
-- `cost` is summed per day and across the trip for the budget panel.
-- The script validates the JSON and prints a clear error if a required field is
-  missing, so fix the data and re-run rather than editing the HTML by hand.
+实时票价/机票价格、代订票、多语言 UI、后端。全程静态单文件。
