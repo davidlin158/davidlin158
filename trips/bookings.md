@@ -139,6 +139,29 @@
 - 罗马→巴塞交通方式(罗马 8/9 14:05 起飞,估算约 16:00 抵 BCN)
 - **8/12 离开时间**
 
+
+### 🛍️ 巴塞 · 确定要去的店(用户选定,14 家)
+**🟢 Eixample —— 酒店步行可达**
+| 店 | 评分 | 类型 | 位置 |
+|---|---|---|---|
+| **LA COMET** | 5.0 (2883) | 女装 | **Rambla de Catalunya 110** ✅已核实,步行 5 min |
+| **Óptica PJ.LOBSTER** | 4.7 (332) | 眼镜 | Carrer del Consell de Cent,步行 8 min |
+| **Bobo Choses Flagship** | 4.5 (60) | 童装 | Rambla de Catalunya(巴塞本土品牌旗舰) |
+| **Boboli** | 4.1 (77) | 童装 | Rambla de Catalunya |
+
+**🟡 需走远**
+| **Leopardo Leopardi** | 4.9 (198) | 设计选品 | Gràcia 区 ✅已核实 |
+| **Los Féliz Vintage** | 4.9 (53) | 复古服装 | Ciutat Vella 老城 ✅已核实 |
+
+**⬜ 位置待确认**:TINYCOTTONS(4.6/736,巴塞本土童装)· Miista(4.7/432,鞋履)· YUMILAB(4.8/37)· Muy Frágil(4.8/38)· BASSAL(4.6/29)· Greenlifestyle Ecofashion(4.8/40)· Ktu Concept Store(4.5/87)· Abitare Kids(4.6/454,儿童家具)
+
+**⏰ 购物时间只有约 6.5 小时**
+- ❌ **8/9 周日** —— 西班牙商店基本全关
+- ✅ **8/10 周一 17:00–20:30(3.5h)** —— 最佳窗口,🟢 那 4 家全在当天动线上
+- ❌ 8/11 —— 包车+CruiX 到 21:30,店已关
+- ✅ **8/12 周三 11:00–14:00(3h)** —— ⚠️ 小店 14:00 起午休
+- ⚠️ **8 月西班牙独立小店常放假**,出发前逐家看地图营业状态
+
 ### 关键提示
 - ⚠️ **巴塞扒手在欧洲名列前茅**(兰布拉/地铁/海滩)
 - 加泰罗尼亚语区:Carrer=街 · Passeig=大道 · Plaça=广场
