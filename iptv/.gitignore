@@ -1,0 +1,4 @@
+.cache/
+__pycache__/
+out/*.report.json
+out/*.live.m3u

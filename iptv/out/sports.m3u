@@ -1,0 +1,10 @@
+#EXTM3U x-tvg-url=""
+# 由 iptv/build_playlist.py 生成 —— 仅收录公开可访问的合法免费频道
+# 生成时间: 2026-08-18 23:52:30 +0000   频道数: 3
+
+#EXTINF:-1 tvg-id="TRTSpor" tvg-name="TRT Spor" group-title="Europe · Türkiye",TRT Spor
+https://tv-trtspor1.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTSpor2" tvg-name="TRT Spor Yıldız" group-title="Europe · Türkiye",TRT Spor Yıldız
+https://tv-trtspor2.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="RedBullTV" tvg-name="Red Bull TV" group-title="Global",Red Bull TV
+https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8

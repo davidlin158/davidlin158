@@ -1,0 +1,755 @@
+{
+  "_comment": "合法免费体育频道白名单。license: official-free=运营方自己公开推流 | fta=免费开路台(卫星/地面波,官方网播) | fast=免费广告支持流媒体频道。stream 字段只在运营方公开固定端点时填写;其余为 null,由 build_playlist.py 运行时按 iptv_org_id 从公开频道库解析当前地址。",
+  "channels": [
+    {
+      "id": "RedBullTV",
+      "name": "Red Bull TV",
+      "country": "INT",
+      "group": "Global",
+      "license": "official-free",
+      "geo": "worldwide",
+      "official": "https://www.redbull.com/int-en/tv",
+      "iptv_org_id": "RedBullTV.us",
+      "stream": "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8",
+      "leagues": [
+        "motorsport",
+        "extreme-sports",
+        "cliff-diving",
+        "air-race"
+      ],
+      "note": "Red Bull 自有 CDN,官方免费全球开放,无地域限制"
+    },
+    {
+      "id": "FIFAPlus",
+      "name": "FIFA+",
+      "country": "INT",
+      "group": "Global",
+      "license": "official-free",
+      "geo": "worldwide",
+      "official": "https://www.plus.fifa.com/",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "fifa-tournaments",
+        "womens-football",
+        "youth-football",
+        "archive"
+      ],
+      "note": "FIFA 官方免费平台,合法直播大量成年/青年/女足赛事,需用网页或 App(有 DRM,不出固定 m3u8)"
+    },
+    {
+      "id": "OlympicsChannel",
+      "name": "Olympics Channel",
+      "country": "INT",
+      "group": "Global",
+      "license": "official-free",
+      "geo": "partial",
+      "official": "https://www.olympics.com/en/original-series",
+      "iptv_org_id": "OlympicsChannel.int",
+      "stream": null,
+      "leagues": [
+        "olympic-sports"
+      ],
+      "note": "IOC 官方免费频道"
+    },
+    {
+      "id": "beINSportsXTRA",
+      "name": "beIN SPORTS XTRA",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://www.beinsports.com/en-us/xtra",
+      "iptv_org_id": "beINSportsXTRA.us",
+      "stream": null,
+      "leagues": [
+        "ligue-1",
+        "laliga",
+        "copa-libertadores",
+        "afc"
+      ],
+      "note": "beIN 官方免费 FAST 频道(区别于付费的 beIN SPORTS 正赛频道),含部分法甲/西甲比赛与集锦"
+    },
+    {
+      "id": "StadiumSports",
+      "name": "Stadium",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://watchstadium.com/",
+      "iptv_org_id": "Stadium.us",
+      "stream": null,
+      "leagues": [
+        "ncaa-football",
+        "ncaa-basketball",
+        "college-sports"
+      ],
+      "note": "免费直播美国大学体育赛事"
+    },
+    {
+      "id": "CBSSportsHQ",
+      "name": "CBS Sports HQ",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://www.cbssports.com/live/",
+      "iptv_org_id": "CBSSportsHQ.us",
+      "stream": null,
+      "leagues": [
+        "nfl-news",
+        "nba-news",
+        "mlb-news",
+        "ncaa-news"
+      ],
+      "note": "24 小时免费体育新闻/数据分析,无比赛直播权"
+    },
+    {
+      "id": "FuboSportsNetwork",
+      "name": "Fubo Sports Network",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://www.fubo.tv/welcome/channel/fubo-sports-network",
+      "iptv_org_id": "FuboSportsNetwork.us",
+      "stream": null,
+      "leagues": [
+        "talk",
+        "highlights"
+      ],
+      "note": "免费 FAST 体育频道"
+    },
+    {
+      "id": "SportsGrid",
+      "name": "SportsGrid",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://www.sportsgrid.com/",
+      "iptv_org_id": "SportsGrid.us",
+      "stream": null,
+      "leagues": [
+        "betting-analysis",
+        "dfs"
+      ],
+      "note": "免费体育博彩/数据分析频道"
+    },
+    {
+      "id": "NFLChannel",
+      "name": "NFL Channel",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://www.nfl.com/",
+      "iptv_org_id": "NFLChannel.us",
+      "stream": null,
+      "leagues": [
+        "nfl"
+      ],
+      "note": "NFL 官方免费 FAST 频道:集锦/纪录片/经典赛,不含现场直播"
+    },
+    {
+      "id": "PBRRidePass",
+      "name": "PBR RidePass",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://pbr.com/",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "bull-riding"
+      ],
+      "note": "职业公牛骑术,部分免费"
+    },
+    {
+      "id": "TheSpunOn",
+      "name": "Sports Illustrated / Minute Media FAST",
+      "country": "US",
+      "group": "United States",
+      "license": "fast",
+      "geo": "US",
+      "official": "https://www.si.com/tv",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "highlights"
+      ],
+      "note": "免费体育资讯频道"
+    },
+    {
+      "id": "CBCSports",
+      "name": "CBC Sports",
+      "country": "CA",
+      "group": "Canada",
+      "license": "fta",
+      "geo": "CA",
+      "official": "https://www.cbc.ca/sports",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "olympic-sports",
+        "curling",
+        "athletics",
+        "soccer-cpl"
+      ],
+      "note": "加拿大公共广播,重大赛事(奥运/冰壶/田径)官网免费直播,加拿大境内可看"
+    },
+    {
+      "id": "CFLPlus",
+      "name": "CFL+",
+      "country": "CA",
+      "group": "Canada",
+      "license": "official-free",
+      "geo": "non-CA",
+      "official": "https://www.cfl.ca/cflplus/",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "cfl"
+      ],
+      "note": "加拿大橄榄球联盟官方免费直播,仅限加拿大境外观看"
+    },
+    {
+      "id": "RadioCanadaSports",
+      "name": "Radio-Canada Sports",
+      "country": "CA",
+      "group": "Canada",
+      "license": "fta",
+      "geo": "CA",
+      "official": "https://ici.radio-canada.ca/sports",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "olympic-sports"
+      ],
+      "note": "法语公共台体育版块"
+    },
+    {
+      "id": "Sport1DE",
+      "name": "Sport1",
+      "country": "DE",
+      "group": "Europe · Germany",
+      "license": "fta",
+      "geo": "DE",
+      "official": "https://www.sport1.de/tv-programm",
+      "iptv_org_id": "Sport1.de",
+      "stream": null,
+      "leagues": [
+        "bundesliga-highlights",
+        "darts",
+        "motorsport",
+        "handball",
+        "us-sports"
+      ],
+      "note": "德国免费开路体育台,含飞镖/手球/部分德甲集锦(Doppelpass)"
+    },
+    {
+      "id": "ARDDas Erste",
+      "name": "Das Erste (ARD)",
+      "country": "DE",
+      "group": "Europe · Germany",
+      "license": "fta",
+      "geo": "DE",
+      "official": "https://www.ardmediathek.de/live",
+      "iptv_org_id": "DasErste.de",
+      "stream": null,
+      "leagues": [
+        "dfb-pokal",
+        "uefa-national-team",
+        "sportschau"
+      ],
+      "note": "德国公共台,德国杯/国家队部分免费直播"
+    },
+    {
+      "id": "ZDF",
+      "name": "ZDF",
+      "country": "DE",
+      "group": "Europe · Germany",
+      "license": "fta",
+      "geo": "DE",
+      "official": "https://www.zdf.de/live-tv",
+      "iptv_org_id": "ZDF.de",
+      "stream": null,
+      "leagues": [
+        "dfb-pokal",
+        "uefa-national-team"
+      ],
+      "note": "德国公共台"
+    },
+    {
+      "id": "LEquipe",
+      "name": "L'Équipe",
+      "country": "FR",
+      "group": "Europe · France",
+      "license": "fta",
+      "geo": "FR",
+      "official": "https://www.lequipe.fr/tv/",
+      "iptv_org_id": "LEquipe.fr",
+      "stream": null,
+      "leagues": [
+        "ligue-2",
+        "cycling",
+        "handball",
+        "rugby-pro-d2",
+        "motorsport"
+      ],
+      "note": "法国免费开路体育台(TNT 21 频道),含法乙/自行车/手球直播"
+    },
+    {
+      "id": "France3",
+      "name": "France 3",
+      "country": "FR",
+      "group": "Europe · France",
+      "license": "fta",
+      "geo": "FR",
+      "official": "https://www.france.tv/france-3/direct.html",
+      "iptv_org_id": "France3.fr",
+      "stream": null,
+      "leagues": [
+        "tour-de-france",
+        "roland-garros"
+      ],
+      "note": "法国公共台"
+    },
+    {
+      "id": "RaiSport",
+      "name": "Rai Sport",
+      "country": "IT",
+      "group": "Europe · Italy",
+      "license": "fta",
+      "geo": "IT",
+      "official": "https://www.raiplay.it/dirette/raisport",
+      "iptv_org_id": "RaiSport.it",
+      "stream": null,
+      "leagues": [
+        "serie-c",
+        "cycling",
+        "volleyball",
+        "winter-sports",
+        "athletics"
+      ],
+      "note": "意大利公共免费体育台,含意丙/排球/自行车"
+    },
+    {
+      "id": "Sportitalia",
+      "name": "Sportitalia",
+      "country": "IT",
+      "group": "Europe · Italy",
+      "license": "fta",
+      "geo": "IT",
+      "official": "https://www.sportitalia.com/",
+      "iptv_org_id": "Sportitalia.it",
+      "stream": null,
+      "leagues": [
+        "primavera",
+        "serie-c",
+        "world-football"
+      ],
+      "note": "意大利免费开路体育台,含青年联赛直播"
+    },
+    {
+      "id": "Teledeporte",
+      "name": "Teledeporte (RTVE)",
+      "country": "ES",
+      "group": "Europe · Spain",
+      "license": "fta",
+      "geo": "ES",
+      "official": "https://www.rtve.es/play/videos/directo/canales-lineales/teledeporte/",
+      "iptv_org_id": "Teledeporte.es",
+      "stream": null,
+      "leagues": [
+        "copa-del-rey",
+        "basketball-acb",
+        "cycling-vuelta",
+        "athletics",
+        "futsal"
+      ],
+      "note": "西班牙公共免费体育台,含国王杯部分场次/篮球/环西赛"
+    },
+    {
+      "id": "RTVE La1",
+      "name": "La 1 (RTVE)",
+      "country": "ES",
+      "group": "Europe · Spain",
+      "license": "fta",
+      "geo": "ES",
+      "official": "https://www.rtve.es/play/videos/directo/la-1/",
+      "iptv_org_id": "La1.es",
+      "stream": null,
+      "leagues": [
+        "copa-del-rey",
+        "uefa-national-team"
+      ],
+      "note": "西班牙公共台"
+    },
+    {
+      "id": "TVPSport",
+      "name": "TVP Sport",
+      "country": "PL",
+      "group": "Europe · Poland",
+      "license": "fta",
+      "geo": "PL",
+      "official": "https://sport.tvp.pl/",
+      "iptv_org_id": "TVPSport.pl",
+      "stream": null,
+      "leagues": [
+        "ekstraklasa",
+        "volleyball",
+        "ski-jumping",
+        "speedway",
+        "uefa-national-team"
+      ],
+      "note": "波兰公共免费体育台,排球/跳台滑雪强项"
+    },
+    {
+      "id": "CTSport",
+      "name": "ČT Sport",
+      "country": "CZ",
+      "group": "Europe · Czechia",
+      "license": "fta",
+      "geo": "CZ",
+      "official": "https://sport.ceskatelevize.cz/",
+      "iptv_org_id": "CTSport.cz",
+      "stream": null,
+      "leagues": [
+        "czech-extraliga",
+        "fortuna-liga",
+        "biathlon",
+        "hockey"
+      ],
+      "note": "捷克公共免费体育台,冰球强项"
+    },
+    {
+      "id": "ORFSportPlus",
+      "name": "ORF Sport +",
+      "country": "AT",
+      "group": "Europe · Austria",
+      "license": "fta",
+      "geo": "AT",
+      "official": "https://tv.orf.at/orf3/sportplus/",
+      "iptv_org_id": "ORFSportPlus.at",
+      "stream": null,
+      "leagues": [
+        "austrian-bundesliga",
+        "winter-sports",
+        "handball"
+      ],
+      "note": "奥地利公共免费体育台"
+    },
+    {
+      "id": "TRTSpor",
+      "name": "TRT Spor",
+      "country": "TR",
+      "group": "Europe · Türkiye",
+      "license": "fta",
+      "geo": "worldwide",
+      "official": "https://www.trtspor.com.tr/canli-yayin-izle/",
+      "iptv_org_id": "TRTSpor.tr",
+      "stream": "https://tv-trtspor1.medya.trt.com.tr/master.m3u8",
+      "leagues": [
+        "super-lig-highlights",
+        "basketball-bsl",
+        "volleyball",
+        "athletics"
+      ],
+      "note": "土耳其国家公共体育台,官方公开推流,通常无地域限制"
+    },
+    {
+      "id": "TRTSpor2",
+      "name": "TRT Spor Yıldız",
+      "country": "TR",
+      "group": "Europe · Türkiye",
+      "license": "fta",
+      "geo": "worldwide",
+      "official": "https://www.trtspor.com.tr/",
+      "iptv_org_id": "TRTSporYildiz.tr",
+      "stream": "https://tv-trtspor2.medya.trt.com.tr/master.m3u8",
+      "leagues": [
+        "volleyball",
+        "basketball",
+        "olympic-sports"
+      ],
+      "note": "TRT 第二体育频道"
+    },
+    {
+      "id": "NPO1",
+      "name": "NPO 1",
+      "country": "NL",
+      "group": "Europe · Netherlands",
+      "license": "fta",
+      "geo": "NL",
+      "official": "https://npo.nl/start/live",
+      "iptv_org_id": "NPO1.nl",
+      "stream": null,
+      "leagues": [
+        "cycling",
+        "speed-skating",
+        "uefa-national-team"
+      ],
+      "note": "荷兰公共台,速滑/自行车免费直播"
+    },
+    {
+      "id": "RTP3",
+      "name": "RTP 3 / RTP Play",
+      "country": "PT",
+      "group": "Europe · Portugal",
+      "license": "fta",
+      "geo": "PT",
+      "official": "https://www.rtp.pt/play/direto/rtp3",
+      "iptv_org_id": "RTP3.pt",
+      "stream": null,
+      "leagues": [
+        "taca-de-portugal",
+        "uefa-national-team"
+      ],
+      "note": "葡萄牙公共台"
+    },
+    {
+      "id": "SVT",
+      "name": "SVT1",
+      "country": "SE",
+      "group": "Europe · Nordics",
+      "license": "fta",
+      "geo": "SE",
+      "official": "https://www.svtplay.se/kanaler",
+      "iptv_org_id": "SVT1.se",
+      "stream": null,
+      "leagues": [
+        "winter-sports",
+        "athletics",
+        "handball"
+      ],
+      "note": "瑞典公共台"
+    },
+    {
+      "id": "NRK1",
+      "name": "NRK1",
+      "country": "NO",
+      "group": "Europe · Nordics",
+      "license": "fta",
+      "geo": "NO",
+      "official": "https://tv.nrk.no/direkte/nrk1",
+      "iptv_org_id": "NRK1.no",
+      "stream": null,
+      "leagues": [
+        "biathlon",
+        "cross-country-skiing",
+        "handball"
+      ],
+      "note": "挪威公共台,冬季项目"
+    },
+    {
+      "id": "YleTV2",
+      "name": "Yle TV2",
+      "country": "FI",
+      "group": "Europe · Nordics",
+      "license": "fta",
+      "geo": "FI",
+      "official": "https://areena.yle.fi/tv/opas",
+      "iptv_org_id": "YleTV2.fi",
+      "stream": null,
+      "leagues": [
+        "liiga",
+        "ice-hockey",
+        "winter-sports"
+      ],
+      "note": "芬兰公共台,冰球"
+    },
+    {
+      "id": "ERTSports",
+      "name": "ERT Sports",
+      "country": "GR",
+      "group": "Europe · Greece",
+      "license": "fta",
+      "geo": "GR",
+      "official": "https://www.ertflix.gr/",
+      "iptv_org_id": "ERTSports.gr",
+      "stream": null,
+      "leagues": [
+        "greek-cup",
+        "basketball",
+        "water-polo"
+      ],
+      "note": "希腊公共体育台"
+    },
+    {
+      "id": "HRT2",
+      "name": "HRT 2",
+      "country": "HR",
+      "group": "Europe · Balkans",
+      "license": "fta",
+      "geo": "HR",
+      "official": "https://hrti.hrt.hr/",
+      "iptv_org_id": "HRT2.hr",
+      "stream": null,
+      "leagues": [
+        "handball",
+        "water-polo",
+        "uefa-national-team"
+      ],
+      "note": "克罗地亚公共台"
+    },
+    {
+      "id": "RTS2",
+      "name": "RTS 2",
+      "country": "RS",
+      "group": "Europe · Balkans",
+      "license": "fta",
+      "geo": "RS",
+      "official": "https://www.rts.rs/",
+      "iptv_org_id": "RTS2.rs",
+      "stream": null,
+      "leagues": [
+        "basketball-aba",
+        "volleyball",
+        "water-polo"
+      ],
+      "note": "塞尔维亚公共台,篮球强项"
+    },
+    {
+      "id": "TV4Sport",
+      "name": "RTVS Šport",
+      "country": "SK",
+      "group": "Europe · Slovakia",
+      "license": "fta",
+      "geo": "SK",
+      "official": "https://www.stvr.sk/",
+      "iptv_org_id": "STVRSport.sk",
+      "stream": null,
+      "leagues": [
+        "ice-hockey",
+        "cycling",
+        "winter-sports"
+      ],
+      "note": "斯洛伐克公共体育台"
+    },
+    {
+      "id": "M4Sport",
+      "name": "M4 Sport",
+      "country": "HU",
+      "group": "Europe · Hungary",
+      "license": "fta",
+      "geo": "HU",
+      "official": "https://mediaklikk.hu/m4/",
+      "iptv_org_id": "M4Sport.hu",
+      "stream": null,
+      "leagues": [
+        "nb-i",
+        "water-polo",
+        "handball",
+        "swimming"
+      ],
+      "note": "匈牙利公共免费体育台,含匈甲直播/水球"
+    },
+    {
+      "id": "TVR1",
+      "name": "TVR 1",
+      "country": "RO",
+      "group": "Europe · Romania",
+      "license": "fta",
+      "geo": "RO",
+      "official": "https://www.tvrplus.ro/",
+      "iptv_org_id": "TVR1.ro",
+      "stream": null,
+      "leagues": [
+        "uefa-national-team",
+        "handball"
+      ],
+      "note": "罗马尼亚公共台"
+    },
+    {
+      "id": "BNTHD",
+      "name": "BNT 3",
+      "country": "BG",
+      "group": "Europe · Bulgaria",
+      "license": "fta",
+      "geo": "BG",
+      "official": "https://bnt.bg/live",
+      "iptv_org_id": "BNT3.bg",
+      "stream": null,
+      "leagues": [
+        "volleyball",
+        "wrestling",
+        "athletics"
+      ],
+      "note": "保加利亚公共体育台"
+    },
+    {
+      "id": "RTSSport",
+      "name": "RTS Sport (SRG)",
+      "country": "CH",
+      "group": "Europe · Switzerland",
+      "license": "fta",
+      "geo": "CH",
+      "official": "https://www.rts.ch/sport/",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "swiss-super-league-highlights",
+        "ski",
+        "ice-hockey"
+      ],
+      "note": "瑞士公共台体育版块"
+    },
+    {
+      "id": "RTE2",
+      "name": "RTÉ2",
+      "country": "IE",
+      "group": "Europe · Ireland",
+      "license": "fta",
+      "geo": "IE",
+      "official": "https://www.rte.ie/player/",
+      "iptv_org_id": "RTE2.ie",
+      "stream": null,
+      "leagues": [
+        "gaa",
+        "hurling",
+        "gaelic-football",
+        "six-nations"
+      ],
+      "note": "爱尔兰公共台,盖尔运动免费直播"
+    },
+    {
+      "id": "BBCiPlayer",
+      "name": "BBC One / iPlayer",
+      "country": "GB",
+      "group": "Europe · United Kingdom",
+      "license": "fta",
+      "geo": "GB",
+      "official": "https://www.bbc.co.uk/iplayer/live/bbcone",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "fa-cup",
+        "match-of-the-day",
+        "wimbledon",
+        "six-nations",
+        "olympic-sports"
+      ],
+      "note": "英国公共台,需 TV Licence 且严格地域锁,不提供可转发端点"
+    },
+    {
+      "id": "ITV1",
+      "name": "ITV1 / ITVX",
+      "country": "GB",
+      "group": "Europe · United Kingdom",
+      "license": "fta",
+      "geo": "GB",
+      "official": "https://www.itv.com/watch",
+      "iptv_org_id": null,
+      "stream": null,
+      "leagues": [
+        "fa-cup",
+        "uefa-national-team",
+        "europa-league-highlights"
+      ],
+      "note": "英国免费开路台,地域锁"
+    }
+  ]
+}

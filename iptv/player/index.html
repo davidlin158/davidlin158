@@ -1,0 +1,131 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>体育直播源 · 播放器</title>
+<style>
+:root{--bg:#0f1216;--panel:#171b21;--line:#252b33;--ink:#e8edf3;--dim:#8b96a5;--acc:#e0603a;--ok:#4ba36b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+header{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+h1{margin:0;font-size:19px;font-weight:600;letter-spacing:.3px}
+header .sub{color:var(--dim);font-size:13px}
+.wrap{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 62px)}
+@media(max-width:820px){.wrap{grid-template-columns:1fr}}
+aside{border-right:1px solid var(--line);overflow-y:auto;max-height:calc(100vh - 62px)}
+@media(max-width:820px){aside{max-height:none;border-right:0;border-bottom:1px solid var(--line)}}
+.search{padding:12px 14px;position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line)}
+.search input{width:100%;padding:9px 11px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--ink);font-size:14px}
+.search input:focus{outline:none;border-color:var(--acc)}
+.grp{padding:9px 14px 5px;color:var(--dim);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+.ch{padding:9px 14px;cursor:pointer;border-left:3px solid transparent;font-size:14px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.ch:hover{background:var(--panel)}
+.ch.on{background:var(--panel);border-left-color:var(--acc);color:#fff}
+.ch .tag{font-size:11px;color:var(--dim);border:1px solid var(--line);border-radius:3px;padding:1px 6px;white-space:nowrap}
+main{padding:22px;display:flex;flex-direction:column;gap:14px}
+video{width:100%;background:#000;border-radius:8px;aspect-ratio:16/9}
+.meta{color:var(--dim);font-size:13.5px}
+.meta b{color:var(--ink);font-weight:600}
+.msg{padding:11px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line);font-size:13.5px;color:var(--dim)}
+.msg.err{border-color:#5c2f28;color:#f0a898}
+a{color:var(--acc)}
+</style></head><body>
+<header>
+  <h1>体育直播源</h1>
+  <span class="sub">仅收录合法免费频道 · 列表由 <code>build_playlist.py</code> 生成</span>
+</header>
+<div class="wrap">
+  <aside>
+    <div class="search"><input id="q" placeholder="搜索频道 / 国家…" autocomplete="off"></div>
+    <div id="list"></div>
+  </aside>
+  <main>
+    <video id="v" controls playsinline></video>
+    <div class="meta" id="meta">从左侧选择一个频道开始播放。</div>
+    <div class="msg" id="msg">
+      浏览器播放受 CORS 限制 —— 不少电视台的服务器不允许跨域取流，网页里会失败但在
+      <b>VLC / IINA / PotPlayer</b> 里正常。播不出来时请把 <code>sports.m3u</code> 直接拖进播放器。
+    </div>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+<script>
+const PLAYLIST = '../out/sports.m3u';
+const $ = s => document.querySelector(s);
+let channels = [], hls = null, active = null;
+
+function parseM3U(text){
+  const out = []; let cur = null;
+  for (const raw of text.split('\n')){
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith('#EXTINF')){
+      const attrs = Object.fromEntries([...line.matchAll(/([\w-]+)="([^"]*)"/g)].map(m => [m[1], m[2]]));
+      cur = { name: line.slice(line.indexOf(',') + 1).trim(), group: attrs['group-title'] || '其他', logo: attrs['tvg-logo'] || '' };
+    } else if (!line.startsWith('#') && cur){
+      cur.url = line; out.push(cur); cur = null;
+    }
+  }
+  return out;
+}
+
+function render(filter = ''){
+  const f = filter.toLowerCase();
+  const shown = channels.filter(c => !f || c.name.toLowerCase().includes(f) || c.group.toLowerCase().includes(f));
+  const groups = {};
+  for (const c of shown) (groups[c.group] ||= []).push(c);
+  const list = $('#list');
+  list.innerHTML = '';
+  if (!shown.length){ list.innerHTML = '<div class="grp">没有匹配的频道</div>'; return; }
+  for (const [g, items] of Object.entries(groups)){
+    const h = document.createElement('div'); h.className = 'grp'; h.textContent = `${g} · ${items.length}`;
+    list.appendChild(h);
+    for (const c of items){
+      const el = document.createElement('div');
+      el.className = 'ch' + (active === c.url ? ' on' : '');
+      el.innerHTML = `<span></span><span class="tag">HLS</span>`;
+      el.firstChild.textContent = c.name;
+      el.onclick = () => play(c);
+      list.appendChild(el);
+    }
+  }
+}
+
+function play(c){
+  active = c.url;
+  $('#meta').innerHTML = `正在播放 <b></b> — <span class="tag"></span>`;
+  $('#meta').querySelector('b').textContent = c.name;
+  $('#meta').querySelector('.tag').textContent = c.group;
+  const v = $('#v');
+  if (hls){ hls.destroy(); hls = null; }
+  if (window.Hls && Hls.isSupported()){
+    hls = new Hls({ manifestLoadingTimeOut: 12000, manifestLoadingMaxRetry: 1 });
+    hls.on(Hls.Events.ERROR, (_, d) => {
+      if (!d.fatal) return;
+      showErr(`${c.name} 加载失败（${d.details}）。多半是跨域限制或该地址已失效 —— 试试用 VLC 打开，或重新跑一次 check_streams.py。`);
+    });
+    hls.loadSource(c.url); hls.attachMedia(v);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => { clearErr(); v.play().catch(() => {}); });
+  } else if (v.canPlayType('application/vnd.apple.mpegurl')){
+    v.src = c.url; v.play().catch(() => {});
+  } else {
+    showErr('当前浏览器不支持 HLS 播放。');
+  }
+  render($('#q').value);
+}
+
+function showErr(t){ const m = $('#msg'); m.className = 'msg err'; m.textContent = t; }
+function clearErr(){ const m = $('#msg'); m.className = 'msg'; m.textContent = '播放中。若画面卡住，说明源不稳定，换一个频道或重新探活。'; }
+
+fetch(PLAYLIST)
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+  .then(t => {
+    channels = parseM3U(t);
+    render();
+    if (!channels.length) showErr('播放列表是空的 —— 先运行 build_playlist.py 生成 out/sports.m3u。');
+  })
+  .catch(e => {
+    $('#list').innerHTML = '<div class="grp">未能加载播放列表</div>';
+    showErr(`读取 ${PLAYLIST} 失败（${e.message}）。请先运行 python3 build_playlist.py 生成播放列表。`);
+  });
+
+$('#q').addEventListener('input', e => render(e.target.value));
+</script></body></html>

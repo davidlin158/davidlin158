@@ -1,0 +1,324 @@
+{
+  "generated_at": "2026-08-18T23:52:30+0000",
+  "countries": [
+    "US",
+    "CA",
+    "GB",
+    "IE",
+    "FR",
+    "DE",
+    "IT",
+    "ES",
+    "PT",
+    "NL",
+    "BE",
+    "LU",
+    "CH",
+    "AT",
+    "PL",
+    "CZ",
+    "SK",
+    "HU",
+    "RO",
+    "BG",
+    "GR",
+    "TR",
+    "SE",
+    "NO",
+    "DK",
+    "FI",
+    "IS",
+    "HR",
+    "RS",
+    "SI",
+    "BA",
+    "ME",
+    "MK",
+    "AL",
+    "UA",
+    "LT",
+    "LV",
+    "EE",
+    "CY",
+    "MT",
+    "AD",
+    "MC",
+    "SM",
+    "INT"
+  ],
+  "count": 3,
+  "entries": [
+    {
+      "id": "TRTSpor",
+      "name": "TRT Spor",
+      "country": "TR",
+      "group": "Europe · Türkiye",
+      "logo": "",
+      "url": "https://tv-trtspor1.medya.trt.com.tr/master.m3u8",
+      "referrer": "",
+      "user_agent": "",
+      "quality": "",
+      "source": "curated",
+      "official": "https://www.trtspor.com.tr/canli-yayin-izle/",
+      "license": "fta",
+      "geo": "worldwide",
+      "leagues": [
+        "super-lig-highlights",
+        "basketball-bsl",
+        "volleyball",
+        "athletics"
+      ],
+      "note": "土耳其国家公共体育台,官方公开推流,通常无地域限制"
+    },
+    {
+      "id": "TRTSpor2",
+      "name": "TRT Spor Yıldız",
+      "country": "TR",
+      "group": "Europe · Türkiye",
+      "logo": "",
+      "url": "https://tv-trtspor2.medya.trt.com.tr/master.m3u8",
+      "referrer": "",
+      "user_agent": "",
+      "quality": "",
+      "source": "curated",
+      "official": "https://www.trtspor.com.tr/",
+      "license": "fta",
+      "geo": "worldwide",
+      "leagues": [
+        "volleyball",
+        "basketball",
+        "olympic-sports"
+      ],
+      "note": "TRT 第二体育频道"
+    },
+    {
+      "id": "RedBullTV",
+      "name": "Red Bull TV",
+      "country": "INT",
+      "group": "Global",
+      "logo": "",
+      "url": "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8",
+      "referrer": "",
+      "user_agent": "",
+      "quality": "",
+      "source": "curated",
+      "official": "https://www.redbull.com/int-en/tv",
+      "license": "official-free",
+      "geo": "worldwide",
+      "leagues": [
+        "motorsport",
+        "extreme-sports",
+        "cliff-diving",
+        "air-race"
+      ],
+      "note": "Red Bull 自有 CDN,官方免费全球开放,无地域限制"
+    }
+  ],
+  "unresolved": [
+    {
+      "name": "FIFA+",
+      "official": "https://www.plus.fifa.com/",
+      "note": "FIFA 官方免费平台,合法直播大量成年/青年/女足赛事,需用网页或 App(有 DRM,不出固定 m3u8)"
+    },
+    {
+      "name": "Olympics Channel",
+      "official": "https://www.olympics.com/en/original-series",
+      "note": "IOC 官方免费频道"
+    },
+    {
+      "name": "beIN SPORTS XTRA",
+      "official": "https://www.beinsports.com/en-us/xtra",
+      "note": "beIN 官方免费 FAST 频道(区别于付费的 beIN SPORTS 正赛频道),含部分法甲/西甲比赛与集锦"
+    },
+    {
+      "name": "Stadium",
+      "official": "https://watchstadium.com/",
+      "note": "免费直播美国大学体育赛事"
+    },
+    {
+      "name": "CBS Sports HQ",
+      "official": "https://www.cbssports.com/live/",
+      "note": "24 小时免费体育新闻/数据分析,无比赛直播权"
+    },
+    {
+      "name": "Fubo Sports Network",
+      "official": "https://www.fubo.tv/welcome/channel/fubo-sports-network",
+      "note": "免费 FAST 体育频道"
+    },
+    {
+      "name": "SportsGrid",
+      "official": "https://www.sportsgrid.com/",
+      "note": "免费体育博彩/数据分析频道"
+    },
+    {
+      "name": "NFL Channel",
+      "official": "https://www.nfl.com/",
+      "note": "NFL 官方免费 FAST 频道:集锦/纪录片/经典赛,不含现场直播"
+    },
+    {
+      "name": "PBR RidePass",
+      "official": "https://pbr.com/",
+      "note": "职业公牛骑术,部分免费"
+    },
+    {
+      "name": "Sports Illustrated / Minute Media FAST",
+      "official": "https://www.si.com/tv",
+      "note": "免费体育资讯频道"
+    },
+    {
+      "name": "CBC Sports",
+      "official": "https://www.cbc.ca/sports",
+      "note": "加拿大公共广播,重大赛事(奥运/冰壶/田径)官网免费直播,加拿大境内可看"
+    },
+    {
+      "name": "CFL+",
+      "official": "https://www.cfl.ca/cflplus/",
+      "note": "加拿大橄榄球联盟官方免费直播,仅限加拿大境外观看"
+    },
+    {
+      "name": "Radio-Canada Sports",
+      "official": "https://ici.radio-canada.ca/sports",
+      "note": "法语公共台体育版块"
+    },
+    {
+      "name": "Sport1",
+      "official": "https://www.sport1.de/tv-programm",
+      "note": "德国免费开路体育台,含飞镖/手球/部分德甲集锦(Doppelpass)"
+    },
+    {
+      "name": "Das Erste (ARD)",
+      "official": "https://www.ardmediathek.de/live",
+      "note": "德国公共台,德国杯/国家队部分免费直播"
+    },
+    {
+      "name": "ZDF",
+      "official": "https://www.zdf.de/live-tv",
+      "note": "德国公共台"
+    },
+    {
+      "name": "L'Équipe",
+      "official": "https://www.lequipe.fr/tv/",
+      "note": "法国免费开路体育台(TNT 21 频道),含法乙/自行车/手球直播"
+    },
+    {
+      "name": "France 3",
+      "official": "https://www.france.tv/france-3/direct.html",
+      "note": "法国公共台"
+    },
+    {
+      "name": "Rai Sport",
+      "official": "https://www.raiplay.it/dirette/raisport",
+      "note": "意大利公共免费体育台,含意丙/排球/自行车"
+    },
+    {
+      "name": "Sportitalia",
+      "official": "https://www.sportitalia.com/",
+      "note": "意大利免费开路体育台,含青年联赛直播"
+    },
+    {
+      "name": "Teledeporte (RTVE)",
+      "official": "https://www.rtve.es/play/videos/directo/canales-lineales/teledeporte/",
+      "note": "西班牙公共免费体育台,含国王杯部分场次/篮球/环西赛"
+    },
+    {
+      "name": "La 1 (RTVE)",
+      "official": "https://www.rtve.es/play/videos/directo/la-1/",
+      "note": "西班牙公共台"
+    },
+    {
+      "name": "TVP Sport",
+      "official": "https://sport.tvp.pl/",
+      "note": "波兰公共免费体育台,排球/跳台滑雪强项"
+    },
+    {
+      "name": "ČT Sport",
+      "official": "https://sport.ceskatelevize.cz/",
+      "note": "捷克公共免费体育台,冰球强项"
+    },
+    {
+      "name": "ORF Sport +",
+      "official": "https://tv.orf.at/orf3/sportplus/",
+      "note": "奥地利公共免费体育台"
+    },
+    {
+      "name": "NPO 1",
+      "official": "https://npo.nl/start/live",
+      "note": "荷兰公共台,速滑/自行车免费直播"
+    },
+    {
+      "name": "RTP 3 / RTP Play",
+      "official": "https://www.rtp.pt/play/direto/rtp3",
+      "note": "葡萄牙公共台"
+    },
+    {
+      "name": "SVT1",
+      "official": "https://www.svtplay.se/kanaler",
+      "note": "瑞典公共台"
+    },
+    {
+      "name": "NRK1",
+      "official": "https://tv.nrk.no/direkte/nrk1",
+      "note": "挪威公共台,冬季项目"
+    },
+    {
+      "name": "Yle TV2",
+      "official": "https://areena.yle.fi/tv/opas",
+      "note": "芬兰公共台,冰球"
+    },
+    {
+      "name": "ERT Sports",
+      "official": "https://www.ertflix.gr/",
+      "note": "希腊公共体育台"
+    },
+    {
+      "name": "HRT 2",
+      "official": "https://hrti.hrt.hr/",
+      "note": "克罗地亚公共台"
+    },
+    {
+      "name": "RTS 2",
+      "official": "https://www.rts.rs/",
+      "note": "塞尔维亚公共台,篮球强项"
+    },
+    {
+      "name": "RTVS Šport",
+      "official": "https://www.stvr.sk/",
+      "note": "斯洛伐克公共体育台"
+    },
+    {
+      "name": "M4 Sport",
+      "official": "https://mediaklikk.hu/m4/",
+      "note": "匈牙利公共免费体育台,含匈甲直播/水球"
+    },
+    {
+      "name": "TVR 1",
+      "official": "https://www.tvrplus.ro/",
+      "note": "罗马尼亚公共台"
+    },
+    {
+      "name": "BNT 3",
+      "official": "https://bnt.bg/live",
+      "note": "保加利亚公共体育台"
+    },
+    {
+      "name": "RTS Sport (SRG)",
+      "official": "https://www.rts.ch/sport/",
+      "note": "瑞士公共台体育版块"
+    },
+    {
+      "name": "RTÉ2",
+      "official": "https://www.rte.ie/player/",
+      "note": "爱尔兰公共台,盖尔运动免费直播"
+    },
+    {
+      "name": "BBC One / iPlayer",
+      "official": "https://www.bbc.co.uk/iplayer/live/bbcone",
+      "note": "英国公共台,需 TV Licence 且严格地域锁,不提供可转发端点"
+    },
+    {
+      "name": "ITV1 / ITVX",
+      "official": "https://www.itv.com/watch",
+      "note": "英国免费开路台,地域锁"
+    }
+  ]
+}
