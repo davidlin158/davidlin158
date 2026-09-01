@@ -1,0 +1,1282 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 数据科学八周</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#eaeef2; --grid:rgba(42,111,176,.07); --card:#fbfcfd; --card2:#f2f5f8; --sunk:#e7ecf1;
+  --ink:#101a22; --ink2:#33434f; --dim:#66798a; --faint:#8fa1b0;
+  --line:#d8e0e7; --line2:#c4cfd9;
+  --p1:#2a6fb0; --p2:#c2761a; --p3:#b23f73; --p4:#6b5bc9;
+  --accent:#2a6fb0; --accent-soft:rgba(42,111,176,.10);
+  --good:#2c7a52; --good-soft:rgba(44,122,82,.12);
+  --warn:#a8571b;
+  --code-bg:#f4f7fa; --code-ink:#1d2b36;
+  --kw:#8a3b8f; --str:#2c7a52; --num:#a8571b; --com:#8494a1; --fn:#2a6fb0; --bi:#b23f73;
+  --shadow:0 1px 1px rgba(16,32,48,.04), 0 6px 20px rgba(16,32,48,.06);
+  --display:"Archivo","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --sans:"Source Sans 3","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --grid:rgba(122,170,214,.07); --card:#161e26; --card2:#1b242d; --sunk:#121a21;
+  --ink:#e3eaf0; --ink2:#c0ccd6; --dim:#8fa1b0; --faint:#6d7f8d;
+  --line:#26313b; --line2:#33414d;
+  --p1:#5d9dd8; --p2:#d9974a; --p3:#d4739f; --p4:#9b8ce6;
+  --accent:#5d9dd8; --accent-soft:rgba(93,157,216,.14);
+  --good:#54ab7c; --good-soft:rgba(84,171,124,.16);
+  --warn:#d0913f;
+  --code-bg:#111921; --code-ink:#d3dde6;
+  --kw:#c98bd0; --str:#79c79b; --num:#e0a469; --com:#66798a; --fn:#6fb0e6; --bi:#e08bb0;
+  --shadow:0 1px 1px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.28);
+}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --grid:rgba(122,170,214,.07); --card:#161e26; --card2:#1b242d; --sunk:#121a21;
+  --ink:#e3eaf0; --ink2:#c0ccd6; --dim:#8fa1b0; --faint:#6d7f8d;
+  --line:#26313b; --line2:#33414d;
+  --p1:#5d9dd8; --p2:#d9974a; --p3:#d4739f; --p4:#9b8ce6;
+  --accent:#5d9dd8; --accent-soft:rgba(93,157,216,.14);
+  --good:#54ab7c; --good-soft:rgba(84,171,124,.16);
+  --warn:#d0913f;
+  --code-bg:#111921; --code-ink:#d3dde6;
+  --kw:#c98bd0; --str:#79c79b; --num:#e0a469; --com:#66798a; --fn:#6fb0e6; --bi:#e08bb0;
+  --shadow:0 1px 1px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.65;text-wrap:pretty;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:700;letter-spacing:-.012em;text-wrap:balance;line-height:1.25}
+p{margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:500}
+
+/* ---------- shell ---------- */
+.shell{max-width:1200px;margin:0 auto;padding:0 22px 110px;display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:1040px){.shell{grid-template-columns:230px minmax(0,1fr);column-gap:44px;padding-top:0}}
+
+/* ---------- masthead ---------- */
+.mast{grid-column:1/-1;padding:44px 0 26px;border-bottom:1px solid var(--line)}
+.mast .row1{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.mast h1{font-size:clamp(30px,5.2vw,48px);letter-spacing:-.026em;flex:1 1 300px}
+.mast h1 .n{font-family:var(--mono);font-weight:700;color:var(--accent)}
+.mast .lede{margin-top:12px;color:var(--dim);font-size:16px;max-width:60ch}
+.mast .lede b{color:var(--ink2);font-weight:600}
+.themebtn{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;background:var(--card);border:1px solid var(--line2);color:var(--dim);
+  border-radius:99px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+.themebtn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* ---------- meters ---------- */
+.meters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:26px}
+.meter{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px 14px}
+.meter .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.meter .v{font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums}
+.meter .v small{font-size:13px;font-weight:600;color:var(--dim);margin-left:3px;letter-spacing:0}
+.bar{height:5px;background:var(--sunk);border-radius:99px;margin-top:9px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .45s ease}
+.bar i.ok{background:var(--good)}
+
+/* ---------- axis (8-week timeline) ---------- */
+.axis{margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px 12px}
+.axis .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
+.axis .head .t{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.axis .head .now{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.track{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;align-items:end}
+.seg{display:block;text-decoration:none;color:inherit}
+.seg .slot{height:34px;background:var(--sunk);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;
+  background-image:repeating-linear-gradient(to top,transparent 0,transparent calc(25% - 1px),var(--line) calc(25% - 1px),var(--line) 25%)}
+.seg .fill{width:100%;height:0%;border-radius:3px 3px 2px 2px;transition:height .45s ease;min-height:0}
+.seg .lb{display:block;font-family:var(--mono);font-size:10.5px;color:var(--faint);text-align:center;padding-top:6px;border-top:1px solid var(--line);margin-top:5px}
+.seg:hover .lb{color:var(--ink)}
+.seg.cur .lb{color:var(--ink);font-weight:700}
+.seg.cur .slot{box-shadow:inset 0 0 0 1.5px var(--line2)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--dim)}
+.legend i{width:9px;height:9px;border-radius:2px;flex:none}
+
+/* ---------- rail ---------- */
+.rail{display:none}
+@media(min-width:1040px){
+ .rail{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow-y:auto;padding:26px 0 30px}
+ .rail .ring{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+ .rail nav{display:flex;flex-direction:column;gap:1px}
+ .rail nav a{display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:4px;font-size:13.5px;color:var(--ink2);text-decoration:none;border-left:2px solid transparent}
+ .rail nav a:hover{background:var(--card);color:var(--ink)}
+ .rail nav a .wk{font-family:var(--mono);font-size:11px;color:var(--faint);width:26px;flex:none}
+ .rail nav a .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .rail nav a .dot{width:7px;height:7px;border-radius:99px;background:var(--line2);flex:none;margin-left:auto}
+ .rail nav a .dot.part{background:var(--accent)}
+ .rail nav a .dot.done{background:var(--good)}
+ .rail .sep{height:1px;background:var(--line);margin:14px 0}
+ .rail .resetbtn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;background:none;border:1px solid var(--line2);color:var(--faint);border-radius:4px;padding:5px 9px;cursor:pointer;width:100%}
+ .rail .resetbtn:hover{color:var(--warn);border-color:var(--warn)}
+ .rail .synced{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:9px;line-height:1.5}
+}
+.ringwrap{position:relative;width:56px;height:56px;flex:none}
+.ringwrap svg{transform:rotate(-90deg);display:block}
+.ringwrap b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ---------- main sections ---------- */
+main{min-width:0;padding-top:34px}
+section{margin-bottom:52px;scroll-margin-top:18px}
+.sechead{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sechead h2{font-size:clamp(20px,3vw,25px)}
+.sechead .en{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-left:auto}
+.sechead .note{font-size:13.5px;color:var(--dim);flex-basis:100%;margin-top:-6px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:18px 20px}
+.cols{display:grid;gap:14px}
+@media(min-width:660px){.cols.c2{grid-template-columns:1fr 1fr}.cols.c3{grid-template-columns:repeat(3,1fr)}}
+
+/* rules list */
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.rules li{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.rules li:first-child{border-top:0;padding-top:0}
+.rules li:last-child{padding-bottom:0}
+.rules .num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);flex:none;padding-top:3px;width:20px}
+.rules b{display:block;font-weight:600;color:var(--ink)}
+.rules p{color:var(--dim);font-size:14px;margin-top:2px}
+
+/* rhythm */
+.rhythm{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rhythm li{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.rhythm li:last-child{border-bottom:0}
+.rhythm .t{font-family:var(--mono);font-size:12.5px;color:var(--accent);font-variant-numeric:tabular-nums;text-align:right}
+.rhythm .d{font-size:14px;color:var(--ink2)}
+.rhythm .d em{font-style:normal;color:var(--dim)}
+</style>
+<style>
+/* ---------- week modules ---------- */
+.weeks{display:flex;flex-direction:column;gap:14px}
+.wk{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--pc);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.wk[data-phase="1"]{--pc:var(--p1)} .wk[data-phase="2"]{--pc:var(--p2)}
+.wk[data-phase="3"]{--pc:var(--p3)} .wk[data-phase="4"]{--pc:var(--p4)}
+.wk > summary{list-style:none;cursor:pointer;padding:16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:5px 14px;align-items:center}
+.wk > summary::-webkit-details-marker{display:none}
+.wk > summary:hover{background:var(--card2)}
+.wkno{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--pc);background:color-mix(in srgb,var(--pc) 11%,transparent);
+  border-radius:3px;padding:4px 7px;align-self:start}
+.wk h3{font-size:18.5px;letter-spacing:-.015em}
+.wk .goal{grid-column:2;font-size:13.5px;color:var(--dim);margin-top:1px}
+.wkprog{display:flex;align-items:center;gap:9px;align-self:start;padding-top:3px}
+.wkprog .mini{width:46px;height:4px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.wkprog .mini i{display:block;height:100%;width:0;background:var(--pc);border-radius:99px;transition:width .4s ease}
+.wkprog .cnt{font-family:var(--mono);font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums;min-width:32px;text-align:right}
+.wkprog .chev{color:var(--faint);font-size:11px;transition:transform .2s}
+.wk[open] .wkprog .chev{transform:rotate(90deg)}
+.wkbody{padding:2px 18px 20px;border-top:1px solid var(--line)}
+
+/* task rows */
+.tasks{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column}
+.tasks li{border-bottom:1px solid var(--line)}
+.tasks li:last-child{border-bottom:0}
+.task{display:grid;grid-template-columns:auto 34px 1fr;gap:11px;align-items:start;padding:10px 2px;cursor:pointer}
+.task input{appearance:none;width:16px;height:16px;margin:3px 0 0;border:1.5px solid var(--line2);border-radius:3.5px;background:var(--card);cursor:pointer;flex:none;position:relative}
+.task input:checked{background:var(--good);border-color:var(--good)}
+.task input:checked::after{content:"";position:absolute;left:4.6px;top:1.4px;width:4px;height:8.5px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.task .day{font-family:var(--mono);font-size:11px;color:var(--faint);padding-top:4px;letter-spacing:.03em}
+.task .txt{font-size:14.5px;color:var(--ink2)}
+.task .txt em{font-style:normal;color:var(--dim);font-size:13.5px;display:block;margin-top:1px}
+.task input:checked ~ .txt{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--line2)}
+.task input:checked ~ .txt em{text-decoration:none;opacity:.6}
+.task.deliver .day{color:var(--pc);font-weight:700}
+.task.deliver .txt{color:var(--ink)}
+
+/* pkg chips */
+.pkgs{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pkg{font-family:var(--mono);font-size:11.5px;color:var(--ink2);background:var(--card2);border:1px solid var(--line);border-radius:3px;padding:3px 7px}
+.pkg.new{border-color:color-mix(in srgb,var(--pc) 45%,var(--line));color:var(--pc)}
+
+/* check question */
+.selfq{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-left:2px solid var(--pc);border-radius:0 4px 4px 0;padding:11px 14px;font-size:13.5px;color:var(--ink2)}
+.selfq b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc);display:block;margin-bottom:3px;font-weight:700}
+
+/* code */
+pre{margin:14px 0 0;background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:13px 15px;overflow-x:auto}
+pre code{font-family:var(--mono);font-size:12.5px;line-height:1.72;color:var(--code-ink);white-space:pre;display:block}
+.caplbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-top:16px;display:block}
+.hljs-keyword,.hljs-built_in.hljs-keyword{color:var(--kw)}
+.hljs-string,.hljs-meta .hljs-string{color:var(--str)}
+.hljs-number,.hljs-literal{color:var(--num)}
+.hljs-comment{color:var(--com);font-style:italic}
+.hljs-title,.hljs-title.function_,.hljs-title.class_{color:var(--fn)}
+.hljs-built_in,.hljs-type{color:var(--bi)}
+.hljs-params{color:var(--code-ink)}
+.hljs-attr,.hljs-property{color:var(--code-ink)}
+.hljs-meta{color:var(--com)}
+.hljs-operator,.hljs-punctuation{color:var(--dim)}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:0;border-bottom:1px solid var(--line)}
+.tabs button{font-family:var(--mono);font-size:12px;letter-spacing:.04em;background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);padding:8px 11px;cursor:pointer;margin-bottom:-1px}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+.panel{padding-top:4px}
+.panel h4{font-size:14px;margin-top:18px;color:var(--ink)}
+.panel h4:first-child{margin-top:12px}
+
+/* table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+  padding:10px 14px;border-bottom:1px solid var(--line2);background:var(--card2);position:sticky;top:0;font-weight:500}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--card2)}
+td.p{font-family:var(--mono);font-size:12.5px;color:var(--ink);white-space:nowrap}
+td.w{font-family:var(--mono);font-size:11.5px;color:#fff;white-space:nowrap;width:1%}
+td.w span{background:var(--wc);border-radius:3px;padding:2px 6px;display:inline-block}
+tr[data-phase="1"]{--wc:var(--p1)} tr[data-phase="2"]{--wc:var(--p2)}
+tr[data-phase="3"]{--wc:var(--p3)} tr[data-phase="4"]{--wc:var(--p4)}
+.grouprow td{background:var(--sunk);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:7px 14px}
+.grouprow:hover td{background:var(--sunk)}
+
+/* traps */
+.traps{display:grid;gap:12px}
+@media(min-width:760px){.traps{grid-template-columns:1fr 1fr}}
+.trap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.trap .bad{font-family:var(--mono);font-size:12.5px;color:var(--warn);display:block}
+.trap .fix{font-size:13.5px;color:var(--ink2);margin-top:6px}
+.trap .fix code{font-family:var(--mono);font-size:12.5px;background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:1px 4px}
+
+/* senior list */
+.senior{list-style:none;margin:0;padding:0;display:grid;gap:0}
+@media(min-width:760px){.senior{grid-template-columns:1fr 1fr;column-gap:26px}}
+.senior li{border-bottom:1px solid var(--line)}
+.senior .task{grid-template-columns:auto 1fr}
+
+/* resources */
+.res{display:grid;gap:10px}
+@media(min-width:660px){.res{grid-template-columns:1fr 1fr}}
+.res a{display:flex;flex-direction:column;gap:2px;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:4px;text-decoration:none}
+.res a:hover{border-color:var(--accent);background:var(--card2)}
+.res a b{font-size:14px;color:var(--ink);font-weight:600}
+.res a span{font-size:12.5px;color:var(--dim)}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--faint);font-size:12.5px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer .mono{font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div class="row1">
+    <h1>Python 数据科学 <span class="n">8</span> 周</h1>
+    <button class="themebtn" id="themebtn" type="button">切换主题</button>
+  </div>
+  <p class="lede">从「基本没写过 Python」到 <b>senior data scientist 日常够用的全部工具箱</b>。8 周 × 每周 7 天，每天 3–4 小时。每周前 5 天学，后 2 天只做交付物。勾选进度会自动保存。</p>
+
+  <div class="meters">
+    <div class="meter">
+      <div class="k">总进度</div>
+      <div class="v"><span id="m-pct">0</span><small>%</small></div>
+      <div class="bar"><i id="m-pct-bar" style="width:0%"></i></div>
+    </div>
+    <div class="meter">
+      <div class="k">已完成条目</div>
+      <div class="v"><span id="m-done">0</span><small>/ <span id="m-total">0</span></small></div>
+      <div class="bar"><i id="m-done-bar" style="width:0%"></i></div>
+    </div>
+    <div class="meter">
+      <div class="k">交付物</div>
+      <div class="v"><span id="m-proj">0</span><small>/ 8</small></div>
+      <div class="bar"><i id="m-proj-bar" class="ok" style="width:0%"></i></div>
+    </div>
+    <div class="meter">
+      <div class="k">当前应在</div>
+      <div class="v" id="m-week" style="font-size:22px">第 1 周</div>
+      <div class="bar"><i id="m-week-bar" style="width:0%"></i></div>
+    </div>
+  </div>
+
+  <figure class="axis" style="margin:24px 0 0">
+    <div class="head">
+      <figcaption class="t">八周进度轴 · 每格高度 = 该周完成比例</figcaption>
+      <span class="now" id="axis-now">尚未开始</span>
+    </div>
+    <div class="track" id="track"></div>
+    <div class="legend">
+      <span><i style="background:var(--p1)"></i>阶段一 · 语言与工程</span>
+      <span><i style="background:var(--p2)"></i>阶段二 · 数据处理</span>
+      <span><i style="background:var(--p3)"></i>阶段三 · 统计与建模</span>
+      <span><i style="background:var(--p4)"></i>阶段四 · 深度学习与上线</span>
+    </div>
+  </figure>
+</header>
+
+<aside class="rail">
+  <div class="ring">
+    <div class="ringwrap">
+      <svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
+        <circle cx="28" cy="28" r="24" fill="none" stroke="var(--sunk)" stroke-width="6"></circle>
+        <circle id="ring" cx="28" cy="28" r="24" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
+                stroke-dasharray="150.8" stroke-dashoffset="150.8"></circle>
+      </svg>
+      <b id="ring-pct">0%</b>
+    </div>
+    <div style="font-size:12.5px;color:var(--dim);line-height:1.4">总进度<br><span class="mono" id="ring-sub" style="font-size:11px;color:var(--faint)">0 / 0 条</span></div>
+  </div>
+  <nav id="railnav" aria-label="周次导航"></nav>
+  <div class="sep"></div>
+  <nav style="gap:1px">
+    <a href="#pkgtable"><span class="wk">REF</span>包速查表</a>
+    <a href="#cheat"><span class="wk">REF</span>代码速查</a>
+    <a href="#traps"><span class="wk">REF</span>新手十坑</a>
+    <a href="#senior"><span class="wk">REF</span>Senior 自检</a>
+    <a href="#res"><span class="wk">REF</span>资源</a>
+  </nav>
+  <div class="sep"></div>
+  <button class="resetbtn" id="resetbtn" type="button">清空全部进度</button>
+  <div class="synced" id="synced">进度存在本机浏览器</div>
+</aside>
+
+<main>
+
+<section id="how">
+  <div class="sechead"><h2>怎么用这个页面</h2><span class="en">How to use</span></div>
+  <div class="cols c2">
+    <div class="card pad">
+      <ol class="rules">
+        <li><span class="num">01</span><div><b>一次只做一格</b><p>每一格是一个 40–90 分钟能闭环的动作。做完勾掉再看下一格，不要通读全页。</p></div></li>
+        <li><span class="num">02</span><div><b>读两成，敲八成</b><p>每个概念先读一小段官方文档，然后立刻在 Jupyter 里复现，再故意改坏它看报错。看视频不算学过。</p></div></li>
+        <li><span class="num">03</span><div><b>交付物才是学习</b><p>每周后两天不学新东西，只把这周的项目做完、写 README、推到 GitHub。8 周结束你有 8 个能拿出手的仓库。</p></div></li>
+        <li><span class="num">04</span><div><b>卡住 25 分钟就换路</b><p>先读报错最后三行，再搜英文原文，再问 AI 让它<em>解释</em>而不是直接给答案。把当天卡点写进日志。</p></div></li>
+      </ol>
+    </div>
+    <div class="card pad">
+      <div class="eyebrow" style="margin-bottom:10px">每天 3.5 小时怎么切</div>
+      <ul class="rhythm">
+        <li><span class="t">25 min</span><span class="d">默写复习 <em>合上笔记，把昨天的 API 手打一遍</em></span></li>
+        <li><span class="t">50 min</span><span class="d">新概念 <em>官方文档 + 跟着敲例子</em></span></li>
+        <li><span class="t">80 min</span><span class="d">动手练 <em>今天格子里的任务，自己找数据</em></span></li>
+        <li><span class="t">40 min</span><span class="d">推项目 <em>本周交付物往前挪一步</em></span></li>
+        <li><span class="t">15 min</span><span class="d">写日志 <em>今天卡住的一件事 + 明天第一步</em></span></li>
+      </ul>
+      <div class="selfq" style="--pc:var(--accent);margin-top:16px">
+        <b>时间不够时的取舍</b>只砍「新概念」，永远不砍「动手练」和「写日志」。三周后你会发现，重复动手比多看内容有效得多。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="sechead"><h2>八周课程表</h2><span class="en">The 8-week plan</span>
+    <p class="note">点开任意一周展开每日任务。<span class="mono" style="font-size:12px">D1–D5</span> 是学习日，<span class="mono" style="font-size:12px">D6–D7</span> 是交付物。</p>
+  </div>
+  <div class="weeks" id="weeks">
+
+  <details class="wk" id="w0" data-phase="1">
+    <summary>
+      <span class="wkno">DAY 0</span>
+      <h3>把工具装对，一次装好</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/5</span><span class="chev">▸</span></div>
+      <p class="goal">半天时间。这一步做马虎，后面每周都要为环境问题掉血。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w0t1"><span class="day">01</span><span class="txt">装 Python 3.12 + <b>uv</b>（现在最省心的包管理器）<em>uv venv .venv &amp;&amp; source .venv/bin/activate &amp;&amp; uv pip install jupyterlab pandas numpy matplotlib</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w0t2"><span class="day">02</span><span class="txt">装 VS Code + Python / Jupyter 扩展，跑通第一个 notebook<em>会选 kernel、会用 Shift+Enter、会看变量面板</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w0t3"><span class="day">03</span><span class="txt">装 git，注册 GitHub，建仓库 <code class="mono">ds-8weeks</code><em>会 clone / add / commit / push 四个动作就够了</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w0t4"><span class="day">04</span><span class="txt">建立目录习惯：<code class="mono">data/ notebooks/ src/ tests/ README.md</code><em>data/ 写进 .gitignore，数据永远不进 git</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w0t5"><span class="day">05</span><span class="txt">装 <b>ruff</b> 并在 VS Code 里开保存自动格式化<em>让工具替你记住代码风格，别用脑子记</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">uv</span><span class="pkg new">jupyterlab</span><span class="pkg new">ruff</span><span class="pkg new">git</span></div>
+      <span class="caplbl">这一天唯一要记住的命令</span>
+      <pre><code class="language-bash"># 每次新项目就这三行，别再全局 pip install
+uv venv .venv
+source .venv/bin/activate     # Windows: .venv\Scripts\activate
+uv pip install -r requirements.txt</code></pre>
+      <div class="selfq"><b>自检</b>为什么不能所有项目共用一套全局环境？（提示：两个项目要求 pandas 1.5 和 2.2 时会发生什么）</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w1" data-phase="1" open>
+    <summary>
+      <span class="wkno">WEEK 01</span>
+      <h3>Python 语法地基</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：能独立写出 200 行、有函数、有异常处理的脚本，且自己看得懂。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w1d1"><span class="day">D1</span><span class="txt">数值 / 字符串 / f-string / 真假值；<code class="mono">help()</code> <code class="mono">type()</code> <code class="mono">dir()</code> 三件套<em>练：写 10 个小表达式，先猜结果再运行，猜错的记下来</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w1d2"><span class="day">D2</span><span class="txt">list / tuple / dict / set：增删改查、可变 vs 不可变、切片、浅拷贝陷阱<em>练：用 dict 统计一段文本的词频，不许用 Counter</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w1d3"><span class="day">D3</span><span class="txt">if / for / while、<code class="mono">range</code> <code class="mono">enumerate</code> <code class="mono">zip</code>、列表与字典推导式<em>练：把三个 for 循环改写成推导式，再改回去，体会可读性边界</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w1d4"><span class="day">D4</span><span class="txt">函数：默认参数、<code class="mono">*args/**kwargs</code>、返回多值、作用域、docstring<em>练：写一个 clean_column(name) 把各种脏列名规范化，覆盖 8 种情况</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w1d5"><span class="day">D5</span><span class="txt">文件读写与 <code class="mono">pathlib</code>、csv / json、异常 <code class="mono">try/except/raise</code><em>练：读一个故意写坏的 csv，让程序不崩溃并报告坏在第几行</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w1p"><span class="day">D6·7</span><span class="txt">交付物：纯标准库命令行工具<em>读入一个 CSV → 清洗 → 输出每列的类型、缺失率、Top5 取值。写 README，推 GitHub。</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">pathlib</span><span class="pkg new">csv</span><span class="pkg new">json</span><span class="pkg new">datetime</span><span class="pkg new">argparse</span><span class="pkg new">random</span></div>
+      <span class="caplbl">本周最该形成肌肉记忆的写法</span>
+      <pre><code class="language-python">from pathlib import Path
+import csv, json
+from collections import defaultdict
+
+def summarize(path: Path) -> dict:
+    """读 CSV，返回每列的取值计数。坏行跳过并记录。"""
+    counts, bad = defaultdict(lambda: defaultdict(int)), []
+    with path.open(encoding="utf-8", newline="") as f:
+        for lineno, row in enumerate(csv.DictReader(f), start=2):
+            try:
+                for col, val in row.items():
+                    counts[col][val.strip() or "&lt;缺失&gt;"] += 1
+            except AttributeError:
+                bad.append(lineno)
+    return {"counts": {k: dict(v) for k, v in counts.items()}, "bad_lines": bad}
+
+if __name__ == "__main__":
+    print(json.dumps(summarize(Path("data/raw.csv")), ensure_ascii=False, indent=2))</code></pre>
+      <div class="selfq"><b>周末自检</b>可变默认参数 <code class="mono">def f(x, acc=[])</code> 为什么危险？<code class="mono">a = b = [1,2]</code> 之后改 a，b 会变吗？切片 <code class="mono">a[:]</code> 是深拷贝吗？</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w2" data-phase="1">
+    <summary>
+      <span class="wkno">WEEK 02</span>
+      <h3>从「能跑」到「能维护」</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：代码有结构、有类型、有测试。这一周是拉开 analyst 和 scientist 的地方。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w2d1"><span class="day">D1</span><span class="txt">模块与包、import 机制、<code class="mono">if __name__ == "__main__"</code>、相对 vs 绝对导入<em>练：把 Week 1 的脚本拆成 io.py / clean.py / cli.py 三个模块</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w2d2"><span class="day">D2</span><span class="txt">类与对象、<code class="mono">__init__</code> <code class="mono">__repr__</code>、<code class="mono">@dataclass</code>、什么时候<b>不该</b>用类<em>练：用 dataclass 定义一份配置对象，替换掉散落的全局变量</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w2d3"><span class="day">D3</span><span class="txt">迭代器与生成器、<code class="mono">yield</code>、惰性求值与内存占用<em>练：写个生成器逐行读 1GB 日志，对比一次性 readlines() 的内存</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w2d4"><span class="day">D4</span><span class="txt">装饰器、<code class="mono">functools</code>（wraps / lru_cache / partial）、上下文管理器 <code class="mono">with</code><em>练：写一个 @timed 装饰器打印函数耗时，用它测你自己的清洗函数</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w2d5"><span class="day">D5</span><span class="txt">类型注解 + mypy、<code class="mono">collections</code>、<code class="mono">itertools</code>、正则 <code class="mono">re</code><em>练：给全部函数加类型注解，跑通 mypy；用 re 抽出日志里的时间戳和 IP</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w2p"><span class="day">D6·7</span><span class="txt">交付物：把 Week 1 工具重构成正式的包<em>src/ 布局 + pyproject.toml + 至少 8 个 pytest 用例 + ruff 全绿 + README 用法示例</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">dataclasses</span><span class="pkg new">typing</span><span class="pkg new">functools</span><span class="pkg new">itertools</span><span class="pkg new">collections</span><span class="pkg new">re</span><span class="pkg new">pytest</span><span class="pkg new">mypy</span></div>
+      <span class="caplbl">装饰器 + 类型注解 + dataclass，一次看全</span>
+      <pre><code class="language-python">import time, functools
+from dataclasses import dataclass, field
+from typing import Callable, Iterator
+
+def timed(fn: Callable) -> Callable:
+    @functools.wraps(fn)                 # 保住原函数的名字和 docstring
+    def wrapper(*args, **kwargs):
+        t0 = time.perf_counter()
+        out = fn(*args, **kwargs)
+        print(f"{fn.__name__} 用了 {time.perf_counter() - t0:.3f}s")
+        return out
+    return wrapper
+
+@dataclass(frozen=True)                  # frozen=True 防止配置被偷偷改掉
+class CleanConfig:
+    drop_threshold: float = 0.5
+    date_cols: list[str] = field(default_factory=list)
+
+@timed
+def read_lines(path: str) -> Iterator[str]:   # 生成器：不把整个文件读进内存
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            yield line.rstrip("\n")</code></pre>
+      <div class="selfq"><b>周末自检</b>生成器什么时候比 list 省内存、什么时候反而更慢？<code class="mono">@functools.wraps</code> 不加会丢什么？<code class="mono">lru_cache</code> 用在有副作用的函数上会出什么事？</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w3" data-phase="2">
+    <summary>
+      <span class="wkno">WEEK 03</span>
+      <h3>NumPy 与 pandas 入门</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：拿到一份陌生的脏数据，两小时内说清楚它长什么样、哪里不能信。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w3d1"><span class="day">D1</span><span class="txt">ndarray：dtype、shape、<code class="mono">axis</code> 到底指哪个方向、视图 vs 拷贝<em>练：把 axis=0/1 的 sum、mean 各画一遍图，直到不再需要猜</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w3d2"><span class="day">D2</span><span class="txt">索引切片、布尔掩码、花式索引、<code class="mono">np.where</code>、<code class="mono">default_rng</code> 随机数<em>练：不用任何 for 循环，把一个 1000×5 矩阵里的异常值替换成列中位数</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w3d3"><span class="day">D3</span><span class="txt">广播 broadcasting 规则、向量化取代循环、<code class="mono">%timeit</code> 量化差距<em>练：同一个计算写 for 版和向量化版，测出 50–200 倍差距</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w3d4"><span class="day">D4</span><span class="txt">Series / DataFrame、读写 csv 与 parquet、dtype 与 <code class="mono">category</code>、缺失值 NaN/NA<em>练：把一个 500MB csv 转成 parquet，对比体积和读取速度</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w3d5"><span class="day">D5</span><span class="txt"><code class="mono">loc</code> vs <code class="mono">iloc</code>、条件筛选、<code class="mono">assign</code>、排序、<code class="mono">SettingWithCopyWarning</code> 的真正原因<em>练：把 5 段带 warning 的代码改成干净写法</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w3p"><span class="day">D6·7</span><span class="txt">交付物：一份真实数据的清洗 notebook<em>建议用 Kaggle 或政府开放数据。产出：清洗前后对比表 + 每一步为什么这么处理的说明</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">numpy</span><span class="pkg new">pandas</span><span class="pkg new">pyarrow</span><span class="pkg">jupyterlab</span></div>
+      <span class="caplbl">pandas 的正确姿势：链式 + assign，不改原表</span>
+      <pre><code class="language-python">import pandas as pd, numpy as np
+
+df = pd.read_parquet("data/orders.parquet")
+
+clean = (
+    df
+    .rename(columns=str.lower)
+    .astype({"city": "category", "order_ts": "datetime64[ns]"})
+    .loc[lambda d: d["amount"].between(0, d["amount"].quantile(0.999))]   # 去掉极端值
+    .assign(
+        amount_log = lambda d: np.log1p(d["amount"]),
+        is_weekend = lambda d: d["order_ts"].dt.dayofweek >= 5,
+        city       = lambda d: d["city"].cat.add_categories("未知").fillna("未知"),
+    )
+    .reset_index(drop=True)
+)
+
+# 永远不要这样：df[df.amount > 0]["amount"] = 0   ← 改的是临时副本，静默失败</code></pre>
+      <div class="selfq"><b>周末自检</b>为什么 <code class="mono">df[df.a&gt;1]['b'] = 0</code> 不生效？<code class="mono">.loc</code> 和 <code class="mono">.iloc</code> 在布尔数组上行为一样吗？<code class="mono">category</code> 类型在什么情况下反而更慢？</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w4" data-phase="2">
+    <summary>
+      <span class="wkno">WEEK 04</span>
+      <h3>pandas 进阶 · SQL · 更大的数据</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：任何「按某几个维度算某几个指标」的需求，20 分钟内写对且跑得动。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w4d1"><span class="day">D1</span><span class="txt">groupby 三兄弟：<code class="mono">agg</code> / <code class="mono">transform</code> / <code class="mono">apply</code> 的返回形状差在哪<em>练：同一个「每组占比」需求，用三种方式各写一遍</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w4d2"><span class="day">D2</span><span class="txt"><code class="mono">merge</code> 四种 how、<code class="mono">concat</code>、索引对齐、<code class="mono">validate=</code> 和 <code class="mono">indicator=</code><em>练：故意造一次多对多 join 让行数爆炸，然后用 validate 提前拦住</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w4d3"><span class="day">D3</span><span class="txt">重塑：<code class="mono">pivot_table</code> / <code class="mono">melt</code> / <code class="mono">stack</code>、MultiIndex 的取数<em>练：宽表转长表再转回去，做出一张能直接贴进汇报的透视表</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w4d4"><span class="day">D4</span><span class="txt">时间序列：<code class="mono">to_datetime</code>、时区、<code class="mono">resample</code>、<code class="mono">rolling</code>、<code class="mono">shift</code>、同比环比<em>练：算 7 日滚动均值和同比，注意别用到未来数据</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w4d5"><span class="day">D5</span><span class="txt">SQL 窗口函数与 CTE；<code class="mono">duckdb</code> 直接查 parquet；<code class="mono">sqlalchemy</code> 连库；<code class="mono">polars</code> 速览<em>练：同一个指标分别用 SQL 和 pandas 写，结果必须完全对上</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w4p"><span class="day">D6·7</span><span class="txt">交付物：一条「SQL 取数 → pandas 加工 → 指标表」流水线<em>加一条硬要求：用 %%timeit 把最慢的一步优化到至少快 5 倍，并在 README 里写清是怎么快的</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">duckdb</span><span class="pkg new">sqlalchemy</span><span class="pkg new">polars</span><span class="pkg new">pyspark</span><span class="pkg">pandas</span></div>
+      <span class="caplbl">groupby 三兄弟的区别，一屏说清</span>
+      <pre><code class="language-python">g = df.groupby("city", observed=True)
+
+g["amount"].agg(["sum", "mean", "count"])          # 每组一行  → 汇总表
+df["city_share"] = g["amount"].transform("sum")    # 与原表等长 → 能直接贴回去
+g.apply(lambda d: d.nlargest(3, "amount"))         # 最灵活也最慢，能不用就不用
+
+# 命名聚合，列名自己起，别再事后 rename
+df.groupby("city", observed=True).agg(
+    gmv        = ("amount", "sum"),
+    orders     = ("order_id", "nunique"),
+    avg_ticket = ("amount", "mean"),
+).sort_values("gmv", ascending=False)
+
+# duckdb：不落库，直接对 parquet 写 SQL，比 pandas 快且省内存
+import duckdb
+duckdb.sql("""
+    SELECT city, date_trunc('month', order_ts) AS m, sum(amount) AS gmv,
+           sum(amount) / sum(sum(amount)) OVER (PARTITION BY m) AS share
+    FROM 'data/orders.parquet' GROUP BY 1, 2 ORDER BY 2, 3 DESC
+""").df()</code></pre>
+      <div class="selfq"><b>周末自检</b>merge 之后行数变多说明了什么？<code class="mono">rolling(7).mean()</code> 默认包含当天吗，会不会泄漏未来？为什么大表上 <code class="mono">apply</code> 常常是性能杀手？</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w5" data-phase="3">
+    <summary>
+      <span class="wkno">WEEK 05</span>
+      <h3>可视化与统计推断</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：能把一个数字变成一句业务方听得懂、且经得起追问的结论。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w5d1"><span class="day">D1</span><span class="txt">matplotlib 结构：Figure / Axes、<code class="mono">subplots</code>、坐标轴标注、保存到文件<em>练：只用面向对象接口画图，彻底戒掉 plt.xxx 的隐式当前图</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w5d2"><span class="day">D2</span><span class="txt">seaborn 分布 / 关系 / 分类图、<code class="mono">FacetGrid</code>；plotly 做交互图<em>练：同一份数据画 6 种图，写下每种适合回答什么问题</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w5d3"><span class="day">D3</span><span class="txt">EDA 流程：单变量 → 双变量 → 缺失与异常 → 泄漏排查，输出「数据体检报告」<em>练：把这个流程写成一个可复用的函数库，以后每份新数据都跑一遍</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w5d4"><span class="day">D4</span><span class="txt">描述统计、长尾分布、中心极限、置信区间、<b>bootstrap</b>（<code class="mono">scipy.stats</code>）<em>练：对中位数做 bootstrap 置信区间——这是解析解不好写、但业务最常问的量</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w5d5"><span class="day">D5</span><span class="txt">A/B 测试全套：t 检验、卡方、功效与样本量、多重比较；<code class="mono">statsmodels</code> 回归解读<em>练：给一个「转化率从 3.0% 提到 3.2%」的需求算出需要多少样本</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w5p"><span class="day">D6·7</span><span class="txt">交付物：一份 EDA 报告 + 一份 A/B 实验分析<em>实验部分必须包含：假设、样本量计算、结果、置信区间、以及「我不建议上线」这种敢下的结论</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">matplotlib</span><span class="pkg new">seaborn</span><span class="pkg new">plotly</span><span class="pkg new">scipy</span><span class="pkg new">statsmodels</span></div>
+      <span class="caplbl">A/B 分析的最小完整骨架</span>
+      <pre><code class="language-python">import numpy as np
+from scipy import stats
+from statsmodels.stats.power import NormalIndPower
+from statsmodels.stats.proportion import proportion_effectsize, proportions_ztest
+
+# 1) 开跑之前先算样本量，不是跑完再算
+effect = proportion_effectsize(0.032, 0.030)          # 3.0% → 3.2%
+n = NormalIndPower().solve_power(effect, power=0.8, alpha=0.05, ratio=1)
+print(f"每组至少需要 {np.ceil(n):,.0f} 个样本")
+
+# 2) 结果检验
+conv = np.array([1_602, 1_501]); n_obs = np.array([50_000, 50_000])
+z, p = proportions_ztest(conv, n_obs)
+
+# 3) 只报 p 值是不够的，必须给效应量的区间
+rng = np.random.default_rng(42)
+a = rng.binomial(1, conv[0]/n_obs[0], n_obs[0]); b = rng.binomial(1, conv[1]/n_obs[1], n_obs[1])
+diffs = [rng.choice(a, a.size).mean() - rng.choice(b, b.size).mean() for _ in range(2_000)]
+lo, hi = np.percentile(diffs, [2.5, 97.5])
+print(f"p={p:.4f}  提升 {np.mean(diffs)*100:+.3f}pp  95% CI [{lo*100:+.3f}, {hi*100:+.3f}]pp")</code></pre>
+      <div class="selfq"><b>周末自检</b>p 值<b>不</b>是「原假设为真的概率」，那它是什么？95% 置信区间怎么用一句话讲给产品经理？做了 20 个指标的检验，为什么总有一个「显著」？</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w6" data-phase="3">
+    <summary>
+      <span class="wkno">WEEK 06</span>
+      <h3>机器学习端到端</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：给一个业务问题，能独立跑完 baseline → 特征 → 调参 → 误差分析 → 结论。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w6d1"><span class="day">D1</span><span class="txt">sklearn API 心智模型：<code class="mono">fit / transform / predict</code>、切分、<b>数据泄漏的三种来源</b><em>练：故意制造一次泄漏（先标准化再切分），看 AUC 虚高多少</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w6d2"><span class="day">D2</span><span class="txt"><code class="mono">Pipeline</code> + <code class="mono">ColumnTransformer</code>：把预处理焊死进模型<em>练：从此不再手工 transform 测试集——这是最容易出线上事故的地方</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w6d3"><span class="day">D3</span><span class="txt">交叉验证与指标：KFold / Stratified / <b>TimeSeriesSplit</b>；AUC、PR-AUC、F1、RMSE、MAE 怎么选<em>练：在 1% 正样本的数据上对比 AUC 和 PR-AUC，理解为什么前者会骗人</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w6d4"><span class="day">D4</span><span class="txt">特征工程：类别编码、缩放、分箱、时间与聚合特征、不平衡处理<em>练：只靠特征把 baseline 提升 10%，不换模型</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w6d5"><span class="day">D5</span><span class="txt">树模型：随机森林、<code class="mono">lightgbm</code> / <code class="mono">xgboost</code> / <code class="mono">catboost</code>；<code class="mono">optuna</code> 调参；<code class="mono">shap</code> 解释<em>练：用 SHAP 找出一个「太好用了反而可疑」的特征，查它是不是泄漏</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w6p"><span class="day">D6·7</span><span class="txt">交付物：一个完整建模仓库<em>必须有：一个蠢基线（如全预测多数类）、误差分析章节、以及「这个模型什么时候不该用」一节</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">scikit-learn</span><span class="pkg new">lightgbm</span><span class="pkg new">xgboost</span><span class="pkg new">catboost</span><span class="pkg new">optuna</span><span class="pkg new">shap</span><span class="pkg new">imbalanced-learn</span></div>
+      <span class="caplbl">Pipeline：整个 Week 6 只需要记住这一段</span>
+      <pre><code class="language-python">from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+from lightgbm import LGBMClassifier
+
+num = ["amount", "tenure_days"]; cat = ["city", "channel"]
+
+pre = ColumnTransformer([
+    ("num", Pipeline([("imp", SimpleImputer(strategy="median")),
+                      ("sc",  StandardScaler())]), num),
+    ("cat", OneHotEncoder(handle_unknown="ignore", min_frequency=20), cat),
+])
+
+model = Pipeline([("pre", pre), ("clf", LGBMClassifier(n_estimators=400, learning_rate=0.05))])
+
+cv = StratifiedKFold(5, shuffle=True, random_state=42)
+scores = cross_val_score(model, X, y, cv=cv, scoring="average_precision")
+print(f"PR-AUC {scores.mean():.4f} ± {scores.std():.4f}")
+# 关键：所有预处理都在 Pipeline 里 → 每一折只用训练部分 fit，泄漏无处发生</code></pre>
+      <div class="selfq"><b>周末自检</b>为什么不能先对全量数据标准化再切分？时间序列为什么不能用普通 KFold？你的模型比「永远预测多数类」好多少——如果答不上来，这个模型还不算做完。</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w7" data-phase="4">
+    <summary>
+      <span class="wkno">WEEK 07</span>
+      <h3>深度学习 · NLP · LLM 工程</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：会用，也知道什么时候<b>不该</b>用。表格数据上打不过 LightGBM 就别硬上。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w7d1"><span class="day">D1</span><span class="txt">PyTorch 基本盘：tensor、<code class="mono">autograd</code>、<code class="mono">nn.Module</code>、优化器、训练循环骨架<em>练：手写一次线性回归的训练循环，不用任何高层封装</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w7d2"><span class="day">D2</span><span class="txt"><code class="mono">Dataset</code> / <code class="mono">DataLoader</code>、GPU 与 device、过拟合与正则、学习率调度<em>练：画出 train/val loss 曲线，认出欠拟合、过拟合、学习率过大三种形状</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w7d3"><span class="day">D3</span><span class="txt">迁移学习：拿预训练模型微调；以及「什么时候不该上深度学习」的判断清单<em>练：同一个表格任务，深度模型 vs LightGBM 对比耗时与效果</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w7d4"><span class="day">D4</span><span class="txt">NLP：分词、embedding、<code class="mono">transformers</code> pipeline 与微调、句向量相似度<em>练：用 sentence-transformers 做一个语义搜索的小 demo</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w7d5"><span class="day">D5</span><span class="txt">LLM 工程：调 API、结构化输出、RAG 基本盘（切分 → 向量库 → 检索 → <b>评测</b>）<em>练：给你的 RAG 写一个 20 条问答的评测集，没有评测集的 RAG 等于没做</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w7p"><span class="day">D6·7</span><span class="txt">交付物：一个文本分类器或 RAG 小应用<em>硬要求：和 Week 6 的 TF-IDF + LightGBM 基线做对比，如果基线赢了，如实写进 README</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">torch</span><span class="pkg new">transformers</span><span class="pkg new">datasets</span><span class="pkg new">sentence-transformers</span><span class="pkg new">chromadb</span><span class="pkg new">anthropic</span></div>
+      <span class="caplbl">PyTorch 训练循环：所有深度学习代码都是这五行的变体</span>
+      <pre><code class="language-python">import torch
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model  = nn.Sequential(nn.Linear(n_feat, 64), nn.ReLU(), nn.Dropout(0.2), nn.Linear(64, 1)).to(device)
+opt    = torch.optim.AdamW(model.parameters(), lr=1e-3)
+lossf  = nn.BCEWithLogitsLoss()
+loader = DataLoader(TensorDataset(X_tr, y_tr), batch_size=256, shuffle=True)
+
+for epoch in range(20):
+    model.train()
+    for xb, yb in loader:
+        xb, yb = xb.to(device), yb.to(device)
+        opt.zero_grad()                       # 1 清梯度（忘了它是最经典的 bug）
+        loss = lossf(model(xb).squeeze(1), yb)  # 2 前向 + 算损失
+        loss.backward()                       # 3 反向
+        opt.step()                            # 4 更新
+    model.eval()
+    with torch.no_grad():                     # 5 验证时关掉梯度
+        val = lossf(model(X_val.to(device)).squeeze(1), y_val.to(device))
+    print(f"epoch {epoch:02d}  train {loss.item():.4f}  val {val.item():.4f}")</code></pre>
+      <div class="selfq"><b>周末自检</b>忘记 <code class="mono">opt.zero_grad()</code> 会发生什么？<code class="mono">model.eval()</code> 关掉了哪两个东西？什么样的任务上 LightGBM 大概率仍然打得过神经网络？</div>
+    </div>
+  </details>
+
+  <details class="wk" id="w8" data-phase="4">
+    <summary>
+      <span class="wkno">WEEK 08</span>
+      <h3>上线、可复现、以及 senior 的习惯</h3>
+      <div class="wkprog"><span class="mini"><i></i></span><span class="cnt">0/6</span><span class="chev">▸</span></div>
+      <p class="goal">目标：你的分析别人跑得起来、你的模型能进生产、出了问题查得到原因。</p>
+    </summary>
+    <div class="wkbody">
+      <ul class="tasks">
+        <li><label class="task"><input type="checkbox" data-id="w8d1"><span class="day">D1</span><span class="txt">项目结构与打包：<code class="mono">src/</code> 布局、<code class="mono">pyproject.toml</code>、配置（<code class="mono">pydantic-settings</code>）、<code class="mono">logging</code><em>练：把所有硬编码路径和魔法数字挪进一个 config，print 全换成 logger</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w8d2"><span class="day">D2</span><span class="txt">可复现：随机种子、数据版本、<code class="mono">mlflow</code> 实验跟踪、notebook → 模块的迁移<em>练：把 Week 6 的调参过程全部记进 MLflow，能按指标排序找回最好那次</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w8d3"><span class="day">D3</span><span class="txt">质量：<code class="mono">pytest</code> 参数化与 fixture、<code class="mono">pandera</code> 数据校验、<code class="mono">pre-commit</code><em>练：给数据管道加一层 schema 校验，让脏数据在入口就报错而不是在报表里</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w8d4"><span class="day">D4</span><span class="txt">服务化：<code class="mono">FastAPI</code> 推理接口、<code class="mono">Docker</code> 打镜像、GitHub Actions 跑 CI<em>练：docker run 起来，用 curl 打通一次预测</em></span></label></li>
+        <li><label class="task"><input type="checkbox" data-id="w8d5"><span class="day">D5</span><span class="txt">调度与监控：<code class="mono">prefect</code>/Airflow、批量推理、数据与效果漂移、性能优化（<code class="mono">numba</code>、多进程、内存）<em>练：写出你会盯的三个线上指标，以及各自的报警阈值</em></span></label></li>
+        <li><label class="task deliver"><input type="checkbox" data-id="w8p"><span class="day">D6·7</span><span class="txt">交付物：把 Week 6 的模型做成 Docker 化 API + CI + 监控<em>README 一页讲清：做了什么取舍、已知局限、以及下一步。这一页比代码更能体现 seniority。</em></span></label></li>
+      </ul>
+      <div class="pkgs"><span class="pkg new">mlflow</span><span class="pkg new">fastapi</span><span class="pkg new">uvicorn</span><span class="pkg new">pydantic</span><span class="pkg new">pandera</span><span class="pkg new">pre-commit</span><span class="pkg new">prefect</span><span class="pkg new">docker</span><span class="pkg new">numba</span></div>
+      <span class="caplbl">把模型变成一个别人能调的接口</span>
+      <pre><code class="language-python">import joblib, logging
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+
+log   = logging.getLogger(__name__)
+model = joblib.load("artifacts/model.joblib")     # Pipeline，预处理已在里面
+app   = FastAPI(title="churn-scorer", version="1.0.0")
+
+class Order(BaseModel):                            # 入参校验，脏数据在门口就被挡住
+    amount: float = Field(ge=0)
+    tenure_days: int = Field(ge=0)
+    city: str
+    channel: str
+
+@app.post("/predict")
+def predict(order: Order) -> dict:
+    X = pd.DataFrame([order.model_dump()])
+    p = float(model.predict_proba(X)[0, 1])
+    log.info("scored", extra={"city": order.city, "p": round(p, 4)})
+    return {"churn_probability": round(p, 4), "model_version": app.version}
+
+@app.get("/health")                                # 部署系统靠它判断你还活着
+def health() -> dict:
+    return {"status": "ok"}</code></pre>
+      <div class="selfq"><b>周末自检</b>模型上线第一周你会盯哪三个指标？训练时的特征和线上请求的特征怎么保证算法一致（training-serving skew）？你的 notebook 换台机器还跑得出同样的数吗？</div>
+    </div>
+  </details>
+
+  </div>
+</section>
+
+<section id="pkgtable">
+  <div class="sechead"><h2>包速查表</h2><span class="en">Package map</span>
+    <p class="note">senior data scientist 日常真正会碰的 42 个包。右侧色块是第几周学到它。</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>包</th><th>它解决什么</th><th style="width:1%">周</th><th>一句话记忆点</th></tr></thead>
+      <tbody>
+        <tr class="grouprow"><td colspan="4">环境与工程</td></tr>
+        <tr data-phase="1"><td class="p">uv</td><td>虚拟环境与依赖安装</td><td class="w"><span>D0</span></td><td>比 pip/conda 快一个数量级，现在的默认选择</td></tr>
+        <tr data-phase="1"><td class="p">ruff</td><td>格式化 + lint</td><td class="w"><span>D0</span></td><td>一个工具替掉 black + flake8 + isort</td></tr>
+        <tr data-phase="1"><td class="p">pytest</td><td>单元测试</td><td class="w"><span>W2</span></td><td>fixture 管数据，parametrize 管用例组合</td></tr>
+        <tr data-phase="1"><td class="p">mypy</td><td>静态类型检查</td><td class="w"><span>W2</span></td><td>类型注解不是装饰，是给未来的你的报错</td></tr>
+        <tr data-phase="1"><td class="p">pydantic</td><td>数据模型与校验</td><td class="w"><span>W8</span></td><td>配置和 API 入参都交给它</td></tr>
+        <tr data-phase="1"><td class="p">pre-commit</td><td>提交前自动检查</td><td class="w"><span>W8</span></td><td>让规范靠机器执行，不靠自觉</td></tr>
+
+        <tr class="grouprow"><td colspan="4">数据处理</td></tr>
+        <tr data-phase="2"><td class="p">numpy</td><td>数值数组与向量化</td><td class="w"><span>W3</span></td><td>看到 for 循环算数字，先想能不能广播掉</td></tr>
+        <tr data-phase="2"><td class="p">pandas</td><td>表格数据处理</td><td class="w"><span>W3</span></td><td>吃饭的家伙，链式写法 + 不改原表</td></tr>
+        <tr data-phase="2"><td class="p">pyarrow</td><td>parquet 读写与内存格式</td><td class="w"><span>W3</span></td><td>中间结果一律存 parquet，别存 csv</td></tr>
+        <tr data-phase="2"><td class="p">polars</td><td>更快的 DataFrame</td><td class="w"><span>W4</span></td><td>pandas 撑不住时的第一张牌，语法更严谨</td></tr>
+        <tr data-phase="2"><td class="p">duckdb</td><td>本地 SQL 引擎</td><td class="w"><span>W4</span></td><td>直接对 parquet 写 SQL，不用建库</td></tr>
+        <tr data-phase="2"><td class="p">sqlalchemy</td><td>连数据库取数</td><td class="w"><span>W4</span></td><td>参数化查询，永远别用 f-string 拼 SQL</td></tr>
+        <tr data-phase="2"><td class="p">pyspark</td><td>集群规模数据处理</td><td class="w"><span>W4</span></td><td>数据真的超过单机内存时才需要它</td></tr>
+        <tr data-phase="2"><td class="p">openpyxl</td><td>读写 Excel</td><td class="w"><span>W3</span></td><td>业务方给的永远是 xlsx，认命</td></tr>
+        <tr data-phase="2"><td class="p">requests / httpx</td><td>调 HTTP 接口取数</td><td class="w"><span>W4</span></td><td>加超时和重试，否则半夜任务会挂死</td></tr>
+        <tr data-phase="2"><td class="p">beautifulsoup4</td><td>解析网页</td><td class="w"><span>W4</span></td><td>能拿到 API 就别爬 HTML</td></tr>
+
+        <tr class="grouprow"><td colspan="4">可视化与统计</td></tr>
+        <tr data-phase="3"><td class="p">matplotlib</td><td>一切图的底座</td><td class="w"><span>W5</span></td><td>只用 fig, ax = plt.subplots() 这套面向对象接口</td></tr>
+        <tr data-phase="3"><td class="p">seaborn</td><td>统计图形快捷方式</td><td class="w"><span>W5</span></td><td>探索期用它，汇报期回 matplotlib 精修</td></tr>
+        <tr data-phase="3"><td class="p">plotly</td><td>交互式图表</td><td class="w"><span>W5</span></td><td>给别人看、需要悬停查数时用</td></tr>
+        <tr data-phase="3"><td class="p">scipy</td><td>检验、优化、分布</td><td class="w"><span>W5</span></td><td>stats 子模块是 A/B 分析的工具箱</td></tr>
+        <tr data-phase="3"><td class="p">statsmodels</td><td>可解释的统计模型</td><td class="w"><span>W5</span></td><td>要看系数、p 值、置信区间就用它，不是 sklearn</td></tr>
+        <tr data-phase="3"><td class="p">pingouin</td><td>更友好的统计检验</td><td class="w"><span>W5</span></td><td>输出直接带效应量，省去手算</td></tr>
+
+        <tr class="grouprow"><td colspan="4">机器学习</td></tr>
+        <tr data-phase="3"><td class="p">scikit-learn</td><td>建模主框架</td><td class="w"><span>W6</span></td><td>Pipeline 是它最重要的一个类，不是模型</td></tr>
+        <tr data-phase="3"><td class="p">lightgbm</td><td>梯度提升树</td><td class="w"><span>W6</span></td><td>表格数据的默认强基线，先跑它再谈别的</td></tr>
+        <tr data-phase="3"><td class="p">xgboost</td><td>梯度提升树</td><td class="w"><span>W6</span></td><td>老牌稳，比赛与生产都常见</td></tr>
+        <tr data-phase="3"><td class="p">catboost</td><td>梯度提升树</td><td class="w"><span>W6</span></td><td>高基数类别特征多时最省事</td></tr>
+        <tr data-phase="3"><td class="p">optuna</td><td>超参搜索</td><td class="w"><span>W6</span></td><td>比 GridSearch 聪明，能中途剪枝</td></tr>
+        <tr data-phase="3"><td class="p">shap</td><td>模型解释</td><td class="w"><span>W6</span></td><td>也是查数据泄漏的最好工具</td></tr>
+        <tr data-phase="3"><td class="p">imbalanced-learn</td><td>不平衡样本</td><td class="w"><span>W6</span></td><td>先试类别权重，再谈重采样</td></tr>
+        <tr data-phase="3"><td class="p">feature-engine</td><td>特征工程组件</td><td class="w"><span>W6</span></td><td>可以直接塞进 sklearn Pipeline</td></tr>
+        <tr data-phase="3"><td class="p">prophet</td><td>时间序列预测</td><td class="w"><span>W6</span></td><td>业务预测的快速基线，别当万能药</td></tr>
+
+        <tr class="grouprow"><td colspan="4">深度学习与 LLM</td></tr>
+        <tr data-phase="4"><td class="p">torch</td><td>深度学习框架</td><td class="w"><span>W7</span></td><td>训练循环五步：清梯度、前向、算损失、反向、更新</td></tr>
+        <tr data-phase="4"><td class="p">transformers</td><td>预训练模型</td><td class="w"><span>W7</span></td><td>先用 pipeline 跑通，再谈微调</td></tr>
+        <tr data-phase="4"><td class="p">datasets</td><td>数据集加载与流式处理</td><td class="w"><span>W7</span></td><td>大数据集不用全读进内存</td></tr>
+        <tr data-phase="4"><td class="p">sentence-transformers</td><td>句向量</td><td class="w"><span>W7</span></td><td>语义搜索与 RAG 的检索层</td></tr>
+        <tr data-phase="4"><td class="p">chromadb / faiss</td><td>向量检索</td><td class="w"><span>W7</span></td><td>小项目用 chroma，量大用 faiss</td></tr>
+        <tr data-phase="4"><td class="p">anthropic / openai</td><td>调用大模型 API</td><td class="w"><span>W7</span></td><td>结构化输出比让它写自由文本可靠得多</td></tr>
+
+        <tr class="grouprow"><td colspan="4">上线与运维</td></tr>
+        <tr data-phase="4"><td class="p">mlflow</td><td>实验跟踪与模型登记</td><td class="w"><span>W8</span></td><td>「上周那次最好的参数」不该靠记忆</td></tr>
+        <tr data-phase="4"><td class="p">fastapi</td><td>推理服务接口</td><td class="w"><span>W8</span></td><td>自带文档和入参校验</td></tr>
+        <tr data-phase="4"><td class="p">uvicorn</td><td>运行 FastAPI</td><td class="w"><span>W8</span></td><td>本地开发加 --reload</td></tr>
+        <tr data-phase="4"><td class="p">pandera</td><td>DataFrame schema 校验</td><td class="w"><span>W8</span></td><td>让脏数据在入口报错，而不是在报表里</td></tr>
+        <tr data-phase="4"><td class="p">prefect / airflow</td><td>任务调度</td><td class="w"><span>W8</span></td><td>定时任务不该靠 crontab 加一行</td></tr>
+        <tr data-phase="4"><td class="p">joblib</td><td>模型持久化与并行</td><td class="w"><span>W8</span></td><td>保存的是整个 Pipeline，不是裸模型</td></tr>
+        <tr data-phase="4"><td class="p">numba</td><td>把热点循环编译加速</td><td class="w"><span>W8</span></td><td>向量化实在写不出来时的后手</td></tr>
+        <tr data-phase="4"><td class="p">streamlit</td><td>快速做数据小应用</td><td class="w"><span>W8</span></td><td>给业务方一个能点的界面，胜过十页 PPT</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="cheat">
+  <div class="sechead"><h2>代码速查</h2><span class="en">Cheat sheet</span>
+    <p class="note">忘了语法先翻这里，翻不到再搜。这些是日常出现频率最高的写法。</p>
+  </div>
+  <div class="card pad">
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" aria-controls="tp-pandas" id="tb-pandas">pandas</button>
+      <button role="tab" aria-selected="false" aria-controls="tp-numpy" id="tb-numpy">numpy</button>
+      <button role="tab" aria-selected="false" aria-controls="tp-plot" id="tb-plot">画图</button>
+      <button role="tab" aria-selected="false" aria-controls="tp-ml" id="tb-ml">建模</button>
+      <button role="tab" aria-selected="false" aria-controls="tp-eng" id="tb-eng">工程</button>
+    </div>
+
+    <div class="panel" id="tp-pandas" role="tabpanel" aria-labelledby="tb-pandas">
+      <h4>先看清楚这份数据</h4>
+<pre><code class="language-python">df.info(memory_usage="deep")          # 行数、类型、内存
+df.describe(include="all").T          # 数值 + 类别一起看
+df.isna().mean().sort_values(ascending=False).head(20)   # 缺失率排行
+df.nunique().sort_values()            # 找出常量列和 ID 列
+df.duplicated(subset=["user_id", "day"]).sum()           # 主键真的唯一吗
+df.sample(5, random_state=0)          # 看头看尾会被排序骗，要随机看</code></pre>
+      <h4>选择与筛选</h4>
+<pre><code class="language-python">df.loc[df["amount"].gt(100), ["user_id", "amount"]]   # 标签 + 条件
+df.query("amount > 100 and city == '上海'")            # 条件多时更好读
+df[df["city"].isin(top_cities)]
+df.loc[lambda d: d["ts"].between("2026-01-01", "2026-06-30")]   # 链式里保持不断链</code></pre>
+      <h4>聚合与合并</h4>
+<pre><code class="language-python">df.groupby(["city", "channel"], observed=True).agg(
+    gmv=("amount", "sum"), users=("user_id", "nunique")).reset_index()
+
+df.merge(dim, on="city", how="left", validate="many_to_one", indicator=True)
+# indicator 生成 _merge 列：left_only 的行就是没匹配上的，一定要看一眼
+
+df.pivot_table(index="month", columns="city", values="amount",
+               aggfunc="sum", fill_value=0, margins=True)</code></pre>
+      <h4>时间序列</h4>
+<pre><code class="language-python">df["ts"] = pd.to_datetime(df["ts"], errors="coerce", utc=True).dt.tz_convert("Asia/Shanghai")
+daily = df.set_index("ts").resample("D")["amount"].sum()
+daily.rolling(7, min_periods=7).mean()      # min_periods 防止头部出现假数
+daily.pct_change(periods=7)                 # 周环比
+df["prev_amount"] = df.sort_values("ts").groupby("user_id")["amount"].shift(1)  # 只用过去</code></pre>
+    </div>
+
+    <div class="panel" id="tp-numpy" role="tabpanel" aria-labelledby="tb-numpy" hidden>
+      <h4>创建与形状</h4>
+<pre><code class="language-python">rng = np.random.default_rng(42)       # 现代写法，别再用 np.random.seed
+a = rng.normal(0, 1, size=(1000, 5))
+a.shape, a.dtype, a.nbytes / 1e6      # 形状、类型、占多少 MB
+a.reshape(-1, 1)                      # -1 = 这一维你替我算
+a[:, None].shape                      # 加一个轴，广播时最常用</code></pre>
+      <h4>用广播消灭循环</h4>
+<pre><code class="language-python">centered = a - a.mean(axis=0)                    # (1000,5) - (5,)  → 按列去均值
+z = centered / a.std(axis=0, ddof=1)
+dist = np.sqrt(((a[:, None, :] - b[None, :, :]) ** 2).sum(-1))   # 两两距离矩阵
+
+np.where(a > 2, 1, 0)                            # 向量化的 if-else
+np.clip(a, -3, 3)                                # 截断极端值
+np.nanmean(a, axis=0)                            # 带 NaN 的安全版本</code></pre>
+      <h4>常用到会背的</h4>
+<pre><code class="language-python">np.argsort(scores)[::-1][:10]      # Top10 的下标
+np.percentile(x, [25, 50, 75])
+np.unique(labels, return_counts=True)
+np.isclose(a, b).all()             # 浮点比较永远别用 ==
+np.einsum("ij,jk->ik", A, B)       # 复杂张量运算的瑞士军刀</code></pre>
+    </div>
+
+    <div class="panel" id="tp-plot" role="tabpanel" aria-labelledby="tb-plot" hidden>
+      <h4>面向对象接口（唯一推荐写法）</h4>
+<pre><code class="language-python">fig, ax = plt.subplots(figsize=(7, 4), dpi=140)
+ax.plot(daily.index, daily.values, lw=2, color="#2a6fb0", label="日 GMV")
+ax.fill_between(daily.index, daily.values, alpha=0.12, color="#2a6fb0")
+ax.set_title("日成交额", loc="left", fontsize=13)
+ax.set_ylabel("元")
+ax.spines[["top", "right"]].set_visible(False)     # 去掉多余边框
+ax.grid(axis="y", alpha=0.25)
+ax.legend(frameon=False)
+fig.tight_layout(); fig.savefig("out/gmv.png", bbox_inches="tight")</code></pre>
+      <h4>小多图 = 比一张挤满的图好懂</h4>
+<pre><code class="language-python">fig, axes = plt.subplots(2, 3, figsize=(12, 6), sharex=True, sharey=True)
+for ax, (name, g) in zip(axes.flat, df.groupby("city", observed=True)):
+    ax.plot(g["ts"], g["amount"], lw=1.5)
+    ax.set_title(name, fontsize=10, loc="left")
+fig.suptitle("各城市走势", x=0.01, ha="left")</code></pre>
+      <h4>seaborn 探索三连</h4>
+<pre><code class="language-python">sns.histplot(df, x="amount", hue="channel", element="step", stat="density", common_norm=False)
+sns.boxplot(df, x="city", y="amount", showfliers=False)
+sns.heatmap(df[num_cols].corr(numeric_only=True), annot=True, fmt=".2f", cmap="vlag", center=0)
+# 中文显示：plt.rcParams["font.sans-serif"] = ["PingFang SC", "Microsoft YaHei"]
+#           plt.rcParams["axes.unicode_minus"] = False</code></pre>
+    </div>
+
+    <div class="panel" id="tp-ml" role="tabpanel" aria-labelledby="tb-ml" hidden>
+      <h4>切分（时间数据一定按时间切）</h4>
+<pre><code class="language-python">from sklearn.model_selection import train_test_split, TimeSeriesSplit
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+# 有时间维度时改用：
+for tr_idx, te_idx in TimeSeriesSplit(n_splits=5).split(X): ...</code></pre>
+      <h4>评估：先有一个蠢基线</h4>
+<pre><code class="language-python">from sklearn.dummy import DummyClassifier
+from sklearn.metrics import (roc_auc_score, average_precision_score,
+                             classification_report, confusion_matrix)
+
+base = DummyClassifier(strategy="most_frequent").fit(X_tr, y_tr)
+print("基线 PR-AUC", average_precision_score(y_te, base.predict_proba(X_te)[:, 1]))
+
+p = model.predict_proba(X_te)[:, 1]
+print("AUC", roc_auc_score(y_te, p), "PR-AUC", average_precision_score(y_te, p))
+print(classification_report(y_te, p > 0.5, digits=3))
+print(confusion_matrix(y_te, p > 0.5))    # 正负样本极不平衡时，AUC 会骗你，这个不会</code></pre>
+      <h4>调参与解释</h4>
+<pre><code class="language-python">import optuna
+def objective(trial):
+    params = dict(
+        num_leaves    = trial.suggest_int("num_leaves", 15, 255),
+        learning_rate = trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
+        min_child_samples = trial.suggest_int("min_child_samples", 5, 200),
+    )
+    m = Pipeline([("pre", pre), ("clf", LGBMClassifier(**params, n_estimators=600))])
+    return cross_val_score(m, X_tr, y_tr, cv=cv, scoring="average_precision").mean()
+
+study = optuna.create_study(direction="maximize")
+study.optimize(objective, n_trials=40, show_progress_bar=True)
+
+import shap
+sv = shap.TreeExplainer(model.named_steps["clf"]).shap_values(X_small)
+shap.summary_plot(sv, X_small)     # 某个特征重要得离谱 → 先怀疑泄漏，别急着高兴</code></pre>
+    </div>
+
+    <div class="panel" id="tp-eng" role="tabpanel" aria-labelledby="tb-eng" hidden>
+      <h4>项目骨架</h4>
+<pre><code class="language-bash">ds-project/
+├── pyproject.toml        # 依赖 + 打包 + ruff/pytest 配置，全放这一个文件
+├── README.md             # 怎么跑、数据从哪来、结论是什么
+├── data/                 # 写进 .gitignore，数据永不进 git
+├── notebooks/            # 探索用，编号命名 01_eda.ipynb
+├── src/myproj/           # 稳定下来的代码搬到这里，notebook 只 import
+│   ├── config.py  data.py  features.py  model.py
+└── tests/                # pytest test_*.py</code></pre>
+      <h4>配置与日志，别再用 print</h4>
+<pre><code class="language-python">from pydantic_settings import BaseSettings
+import logging
+
+class Settings(BaseSettings):
+    data_dir: str = "data"
+    seed: int = 42
+    model_config = {"env_file": ".env"}     # 密钥走环境变量，永远不写进代码
+
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s %(levelname)s %(name)s | %(message)s")
+log = logging.getLogger(__name__)</code></pre>
+      <h4>测试与数据校验</h4>
+<pre><code class="language-python">import pytest, pandera as pa
+from pandera.typing import Series
+
+class OrderSchema(pa.DataFrameModel):
+    user_id: Series[str]
+    amount:  Series[float] = pa.Field(ge=0, nullable=False)
+    city:    Series[str]   = pa.Field(isin=["上海", "北京", "深圳"])
+
+@pytest.mark.parametrize("raw,expected", [("  上海 ", "上海"), ("SHANGHAI", "上海")])
+def test_normalize_city(raw, expected):
+    assert normalize_city(raw) == expected</code></pre>
+      <h4>每天都会用的 git</h4>
+<pre><code class="language-bash">git switch -c feature/eda        # 开分支干活，别在 main 上写
+git add -p                       # 分块检查再提交，顺便复查自己的代码
+git commit -m "feat: 加入城市维度聚合"
+git push -u origin feature/eda
+git log --oneline --graph -20</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="traps">
+  <div class="sechead"><h2>新手十坑</h2><span class="en">Ten traps</span>
+    <p class="note">这十个坑会吃掉你前两个月里最多的时间。提前看一遍，踩到时能立刻认出来。</p>
+  </div>
+  <div class="traps">
+    <div class="trap"><span class="bad">01 · df[df.a &gt; 1]["b"] = 0 悄悄没生效</span><p class="fix">链式赋值改的是副本。用 <code>df.loc[df.a &gt; 1, "b"] = 0</code>，或者干脆用 <code>.assign()</code> 生成新表。</p></div>
+    <div class="trap"><span class="bad">02 · 先标准化，再切分训练测试集</span><p class="fix">测试集的统计量泄漏进了训练。把所有预处理放进 <code>Pipeline</code>，让每一折自己 fit。</p></div>
+    <div class="trap"><span class="bad">03 · 用未来数据造特征</span><p class="fix">滚动、排名、聚合时问一句「这个值在预测时刻真的拿得到吗」。时间数据一律 <code>TimeSeriesSplit</code>。</p></div>
+    <div class="trap"><span class="bad">04 · 不平衡数据只看 accuracy 或 AUC</span><p class="fix">1% 正样本时全猜负也有 99% 准确率。看 PR-AUC、混淆矩阵，并明确业务更怕漏还是更怕错。</p></div>
+    <div class="trap"><span class="bad">05 · 没有基线就说模型「效果不错」</span><p class="fix">先跑 <code>DummyClassifier</code> 或「用昨天的值预测今天」。比不过基线的复杂模型没有价值。</p></div>
+    <div class="trap"><span class="bad">06 · merge 之后行数变了却没发现</span><p class="fix">养成 <code>validate="many_to_one"</code> + <code>indicator=True</code> 的习惯，join 前后各打一次 <code>len(df)</code>。</p></div>
+    <div class="trap"><span class="bad">07 · 可变默认参数 def f(x, acc=[])</span><p class="fix">默认值在定义时创建一次，会跨调用累积。用 <code>acc=None</code> 再在函数体里初始化。</p></div>
+    <div class="trap"><span class="bad">08 · 在大 DataFrame 上滥用 apply</span><p class="fix"><code>apply</code> 是伪装成向量化的 for 循环。优先内置聚合、<code>map</code>、<code>np.where</code>、<code>merge</code>。</p></div>
+    <div class="trap"><span class="bad">09 · 没固定随机种子，结果复现不出来</span><p class="fix">切分、模型、采样各自都有 seed。写进 config，并在 README 里写明版本。</p></div>
+    <div class="trap"><span class="bad">10 · 所有代码都堆在一个 notebook 里</span><p class="fix">跑通一段就搬进 <code>src/</code> 写成函数，notebook 只留调用和图。别人复现不了的分析等于没做。</p></div>
+  </div>
+</section>
+
+<section id="senior">
+  <div class="sechead"><h2>Senior 自检清单</h2><span class="en">What makes it senior</span>
+    <p class="note">语法谁都学得会。下面这 12 条才是 senior 和会写代码之间的差别，边学边勾。</p>
+  </div>
+  <div class="card pad">
+    <ul class="senior">
+      <li><label class="task"><input type="checkbox" data-id="sr1" data-nocount="1"><span class="txt">拿到需求先问「这个决定要怎么用这个数」，而不是直接开跑</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr2" data-nocount="1"><span class="txt">任何分析都先有一个笨基线，再谈复杂方法</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr3" data-nocount="1"><span class="txt">能说出自己结论的三个前提，以及前提被打破时会怎样</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr4" data-nocount="1"><span class="txt">默认怀疑数据：先查主键唯一性、时间范围、口径变更</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr5" data-nocount="1"><span class="txt">代码换台机器、换个月份还跑得出同样的数</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr6" data-nocount="1"><span class="txt">预处理全在 Pipeline 里，训练和线上走同一段代码</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr7" data-nocount="1"><span class="txt">会写误差分析：模型在哪类样本上错、错得有没有规律</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr8" data-nocount="1"><span class="txt">能对着非技术同事把置信区间讲成人话</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr9" data-nocount="1"><span class="txt">知道什么时候该说「这个问题不该用模型解决」</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr10" data-nocount="1"><span class="txt">估得出一段代码的时间和内存量级，跑之前就知道能不能跑完</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr11" data-nocount="1"><span class="txt">上线后主动盯效果与漂移，而不是交付即遗忘</span></label></li>
+      <li><label class="task"><input type="checkbox" data-id="sr12" data-nocount="1"><span class="txt">写得出一页 README 让别人一小时内接手你的项目</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<section id="res">
+  <div class="sechead"><h2>需要查文档时去哪</h2><span class="en">Resources</span>
+    <p class="note">优先读官方文档。中文教程适合入门，但版本经常过期。</p>
+  </div>
+  <div class="res">
+    <a href="https://docs.python.org/zh-cn/3/tutorial/" target="_blank" rel="noopener"><b>Python 官方教程（中文）</b><span>Week 1–2 的主线材料，读完前 10 章</span></a>
+    <a href="https://numpy.org/doc/stable/user/absolute_beginners.html" target="_blank" rel="noopener"><b>NumPy 入门指南</b><span>Week 3，重点看 broadcasting 那一节</span></a>
+    <a href="https://pandas.pydata.org/docs/user_guide/10min.html" target="_blank" rel="noopener"><b>pandas User Guide</b><span>Week 3–4，Cookbook 一节值得反复翻</span></a>
+    <a href="https://scikit-learn.org/stable/user_guide.html" target="_blank" rel="noopener"><b>scikit-learn User Guide</b><span>Week 6，本身就是一本机器学习教材</span></a>
+    <a href="https://matplotlib.org/stable/users/explain/quick_start.html" target="_blank" rel="noopener"><b>matplotlib Quick Start</b><span>Week 5，先搞懂 Figure 和 Axes 的关系</span></a>
+    <a href="https://www.statsmodels.org/stable/user-guide.html" target="_blank" rel="noopener"><b>statsmodels 用户指南</b><span>Week 5，回归结果怎么读全在这</span></a>
+    <a href="https://pytorch.org/tutorials/beginner/basics/intro.html" target="_blank" rel="noopener"><b>PyTorch 官方入门</b><span>Week 7，跟着敲一遍 60 分钟闪电战</span></a>
+    <a href="https://huggingface.co/learn/nlp-course" target="_blank" rel="noopener"><b>Hugging Face NLP Course</b><span>Week 7，免费且质量高</span></a>
+    <a href="https://fastapi.tiangolo.com/tutorial/" target="_blank" rel="noopener"><b>FastAPI 教程</b><span>Week 8，一小时能上手</span></a>
+    <a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener"><b>Kaggle Datasets</b><span>每周项目的数据来源，挑真实、脏一点的</span></a>
+    <a href="https://wesmckinney.com/book/" target="_blank" rel="noopener"><b>《Python for Data Analysis》第三版</b><span>pandas 作者写的，全书免费在线</span></a>
+    <a href="https://www.statlearning.com/" target="_blank" rel="noopener"><b>《An Introduction to Statistical Learning》</b><span>统计与机器学习的概念底子，免费 PDF</span></a>
+  </div>
+</section>
+
+<footer>
+  <span>八周之后：把 8 个仓库整理成一页 GitHub 主页，那就是你的作品集。</span>
+  <span class="mono" id="foot-stat">0 / 0</span>
+</footer>
+
+</main>
+</div>
+
+<style>
+.task .txt code,.selfq code,.rhythm code{font-family:var(--mono);font-size:12.5px;background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:0 4px;color:var(--ink)}
+.task input:checked ~ .txt code{opacity:.55}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- 主题 ---------- */
+  var root = document.documentElement;
+  var THEME_KEY = "ds8w.theme";
+  try {
+    var saved = localStorage.getItem(THEME_KEY);
+    if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+  } catch (e) {}
+  document.getElementById("themebtn").addEventListener("click", function () {
+    var isDark = root.getAttribute("data-theme") === "dark" ||
+      (!root.hasAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = isDark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+
+  /* ---------- 代码高亮 ---------- */
+  if (window.hljs) {
+    try { hljs.highlightAll(); } catch (e) {}
+  }
+
+  /* ---------- 标签页 ---------- */
+  var tabbar = document.querySelector(".tabs");
+  if (tabbar) {
+    tabbar.addEventListener("click", function (ev) {
+      var btn = ev.target.closest("button[role=tab]");
+      if (!btn) return;
+      tabbar.querySelectorAll("button[role=tab]").forEach(function (b) {
+        var on = b === btn;
+        b.setAttribute("aria-selected", on ? "true" : "false");
+        document.getElementById(b.getAttribute("aria-controls")).hidden = !on;
+      });
+    });
+  }
+
+  /* ---------- 进度状态 ---------- */
+  var STORE_KEY = "ds8w.progress.v1";
+  var boxes = Array.prototype.slice.call(document.querySelectorAll("input[data-id]"));
+  var counted = boxes.filter(function (b) { return !b.dataset.nocount; });
+  var weeks = Array.prototype.slice.call(document.querySelectorAll("details.wk"));
+  var planWeeks = weeks.filter(function (w) { return w.id !== "w0"; });
+  var state = { done: {}, ts: 0 };
+  var writeTimer = null, dbDoc = null, applying = false;
+
+  function readLocal() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var o = JSON.parse(raw);
+        if (o && typeof o.done === "object") return { done: o.done, ts: o.ts || 0 };
+      }
+    } catch (e) {}
+    return { done: {}, ts: 0 };
+  }
+  function writeLocal() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function applyToDom() {
+    applying = true;
+    boxes.forEach(function (b) { b.checked = !!state.done[b.dataset.id]; });
+    applying = false;
+    render();
+  }
+
+  function pct(a, b) { return b ? Math.round((a / b) * 100) : 0; }
+
+  function weekStats(wk) {
+    var ins = wk.querySelectorAll("input[data-id]");
+    var d = 0;
+    ins.forEach(function (b) { if (state.done[b.dataset.id]) d++; });
+    return { done: d, total: ins.length };
+  }
+
+  var railnav = document.getElementById("railnav");
+  var track = document.getElementById("track");
+  var railLinks = [], segFills = [], segEls = [];
+
+  weeks.forEach(function (wk) {
+    var label = wk.id === "w0" ? "D0" : "W" + wk.id.slice(1);
+    var name = wk.querySelector("h3").textContent;
+    var a = document.createElement("a");
+    a.href = "#" + wk.id;
+    a.innerHTML = '<span class="wk"></span><span class="nm"></span><span class="dot"></span>';
+    a.querySelector(".wk").textContent = label;
+    a.querySelector(".nm").textContent = name;
+    a.addEventListener("click", function () { wk.open = true; });
+    railnav.appendChild(a);
+    railLinks.push({ el: a, wk: wk });
+  });
+
+  planWeeks.forEach(function (wk, i) {
+    var a = document.createElement("a");
+    a.className = "seg";
+    a.href = "#" + wk.id;
+    a.setAttribute("data-phase", wk.dataset.phase);
+    a.innerHTML = '<span class="slot"><i class="fill"></i></span><span class="lb">W' + (i + 1) + "</span>";
+    var fill = a.querySelector(".fill");
+    fill.style.background = "var(--p" + wk.dataset.phase + ")";
+    a.addEventListener("click", function () { wk.open = true; });
+    track.appendChild(a);
+    segFills.push(fill); segEls.push(a);
+  });
+
+  var ring = document.getElementById("ring");
+  var CIRC = 2 * Math.PI * 24;
+
+  function render() {
+    var doneCount = counted.filter(function (b) { return state.done[b.dataset.id]; }).length;
+    var total = counted.length;
+    var p = pct(doneCount, total);
+
+    document.getElementById("m-pct").textContent = p;
+    document.getElementById("m-pct-bar").style.width = p + "%";
+    document.getElementById("m-done").textContent = doneCount;
+    document.getElementById("m-total").textContent = total;
+    document.getElementById("m-done-bar").style.width = p + "%";
+
+    var projDone = 0;
+    for (var i = 1; i <= 8; i++) if (state.done["w" + i + "p"]) projDone++;
+    document.getElementById("m-proj").textContent = projDone;
+    document.getElementById("m-proj-bar").style.width = pct(projDone, 8) + "%";
+
+    var curIdx = -1;
+    planWeeks.forEach(function (wk, i) {
+      var s = weekStats(wk);
+      var wp = pct(s.done, s.total);
+      segFills[i].style.height = wp + "%";
+      segEls[i].classList.remove("cur");
+      segEls[i].title = "第 " + (i + 1) + " 周 · " + wp + "%（" + s.done + "/" + s.total + "）";
+      if (curIdx === -1 && wp < 100) curIdx = i;
+      var mini = wk.querySelector(".wkprog .mini i");
+      if (mini) mini.style.width = wp + "%";
+      var cnt = wk.querySelector(".wkprog .cnt");
+      if (cnt) cnt.textContent = s.done + "/" + s.total;
+    });
+    if (curIdx >= 0) segEls[curIdx].classList.add("cur");
+
+    var w0 = document.getElementById("w0");
+    if (w0) {
+      var s0 = weekStats(w0);
+      var m0 = w0.querySelector(".wkprog .mini i"); if (m0) m0.style.width = pct(s0.done, s0.total) + "%";
+      var c0 = w0.querySelector(".wkprog .cnt"); if (c0) c0.textContent = s0.done + "/" + s0.total;
+    }
+
+    document.getElementById("m-week").textContent = curIdx >= 0 ? "第 " + (curIdx + 1) + " 周" : "全部完成";
+    document.getElementById("m-week-bar").style.width = (curIdx >= 0 ? pct(curIdx, 8) : 100) + "%";
+    document.getElementById("axis-now").textContent =
+      doneCount === 0 ? "尚未开始" : (curIdx >= 0 ? "当前：第 " + (curIdx + 1) + " 周" : "八周已走完 🎉");
+
+    ring.style.strokeDasharray = CIRC.toFixed(1);
+    ring.style.strokeDashoffset = (CIRC * (1 - p / 100)).toFixed(1);
+    document.getElementById("ring-pct").textContent = p + "%";
+    document.getElementById("ring-sub").textContent = doneCount + " / " + total + " 条";
+    document.getElementById("foot-stat").textContent = doneCount + " / " + total + " · " + p + "%";
+
+    railLinks.forEach(function (r) {
+      var s = weekStats(r.wk);
+      var dot = r.el.querySelector(".dot");
+      dot.classList.remove("part", "done");
+      if (s.done >= s.total && s.total > 0) dot.classList.add("done");
+      else if (s.done > 0) dot.classList.add("part");
+    });
+  }
+
+  function persist() {
+    writeLocal();
+    if (!dbDoc) return;
+    clearTimeout(writeTimer);
+    writeTimer = setTimeout(function () {
+      dbDoc.set({ done: state.done, ts: state.ts }).catch(function () {});
+    }, 700);
+  }
+
+  document.addEventListener("change", function (ev) {
+    var b = ev.target;
+    if (applying || !b.matches || !b.matches("input[data-id]")) return;
+    if (b.checked) state.done[b.dataset.id] = true; else delete state.done[b.dataset.id];
+    state.ts = Date.now();
+    render();
+    persist();
+  });
+
+  document.getElementById("resetbtn").addEventListener("click", function () {
+    if (!window.confirm("确定清空全部进度？这一步无法撤销。")) return;
+    state = { done: {}, ts: Date.now() };
+    applyToDom();
+    persist();
+  });
+
+  state = readLocal();
+  applyToDom();
+
+  /* ---------- 云端同步（在 claude.ai 上打开时生效） ---------- */
+  var syncEl = document.getElementById("synced");
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("db").then(function (db) {
+      if (!db) return;
+      dbDoc = db.doc("progress/main");
+      return dbDoc.get().then(function (snap) {
+        var remote = snap && snap.exists ? snap.data() : null;
+        if (remote && remote.done && (remote.ts || 0) >= state.ts) {
+          state = { done: remote.done, ts: remote.ts || 0 };
+          applyToDom(); writeLocal();
+        } else if (Object.keys(state.done).length) {
+          dbDoc.set({ done: state.done, ts: state.ts }).catch(function () {});
+        }
+        if (syncEl) syncEl.textContent = "进度已同步到云端，换设备也在";
+        dbDoc.onSnapshot(function (s) {
+          var r = s && s.exists ? s.data() : null;
+          if (r && r.done && (r.ts || 0) > state.ts) {
+            state = { done: r.done, ts: r.ts || 0 };
+            applyToDom(); writeLocal();
+          }
+        }, function () {});
+      });
+    }).catch(function () {});
+  }
+})();
+</script>
+</body></html>
