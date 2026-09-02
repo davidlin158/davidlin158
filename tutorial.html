@@ -465,6 +465,7 @@ pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
 <pre class="has-out"><code class="language-bash">python3 --version</code></pre>
 <div class="out">Python 3.12.4        ← 看到 3.10 以上就够用了
 （Windows 上命令是 python --version）</div>
+          <p class="tip"><b>关于版本号：</b>本教程里所有命令的输出都是写作时的版本，你跑出来的数字会更新。<strong>只要能正常打印出版本号就是成功了，不需要和教程里的数字一致。</strong>真正需要对齐的是「有没有报错」和「输出的形状对不对」，不是具体数值。</p>
           <p>如果提示 <code>command not found</code>，去 <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> 下载安装。<strong>Windows 用户装的时候一定要勾上「Add Python to PATH」那个复选框</strong>，漏了会让你后面痛苦一小时。</p>
         </li>
         <li>
@@ -480,7 +481,7 @@ everything's installed!</div>
           <p class="tip"><b>Windows 用户注意：</b>不加 <code>-ExecutionPolicy Bypass</code> 会看到 <code>Error: PowerShell requires an execution policy in [Unrestricted, RemoteSigned, Bypass] to run uv</code>。<code>Bypass</code> 只对这一次调用生效，跑完即失效，<strong>不改动你系统的任何设置，也不需要管理员权限</strong>。想一劳永逸的话见下面「常见报错」第三条。</p>
           <p>装完<strong>关掉终端重开一个</strong>（让 PATH 生效），然后验证：</p>
 <pre class="has-out"><code class="language-bash">uv --version</code></pre>
-<div class="out">uv 0.5.11</div>
+<div class="out">uv 0.12.9        ← 你看到的版本号大概率比这个新，正常</div>
         </li>
         <li>
           <p>建你的学习目录和虚拟环境</p>
@@ -513,7 +514,8 @@ Installed 48 packages in 1.2s
  + matplotlib==3.10.0
  + numpy==2.2.1
  + pandas==2.2.3
- ...</div>
+ ...
+（包的数量和版本号都会和你的不一样，只要没有 error 就是成功）</div>
         </li>
         <li>
           <p>跑起来看看</p>
