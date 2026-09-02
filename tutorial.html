@@ -199,7 +199,7 @@ section{margin-bottom:52px;scroll-margin-top:18px}
 
 /* code */
 pre{margin:14px 0 0;background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:13px 15px;overflow-x:auto}
-pre code{font-family:var(--mono);font-size:12.5px;line-height:1.72;color:var(--code-ink);white-space:pre;display:block}
+pre code{font-family:var(--mono);font-size:12.5px;line-height:1.72;color:var(--code-ink);white-space:pre-wrap;overflow-wrap:break-word;display:block}
 .caplbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-top:16px;display:block}
 .hljs-keyword,.hljs-built_in.hljs-keyword{color:var(--kw)}
 .hljs-string,.hljs-meta .hljs-string{color:var(--str)}
@@ -278,8 +278,10 @@ footer .mono{font-size:11.5px}
  .lrail a .d{font-family:var(--mono);font-size:11px;color:var(--faint);width:22px;flex:none}
  .lrail a.on .d{color:var(--accent)}
 }
-.lessonnav{display:flex;gap:8px;overflow-x:auto;padding:12px 0;margin:0 -22px;padding-left:22px;padding-right:22px;
-  border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+.lessonnav{display:flex;gap:8px;overflow-x:auto;padding:12px 0;margin:0;
+  border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;
+  scrollbar-width:none}
+.lessonnav::-webkit-scrollbar{display:none}
 @media(min-width:1040px){.lessonnav{display:none}}
 .lessonnav a{font-family:var(--mono);font-size:12px;white-space:nowrap;padding:5px 10px;border:1px solid var(--line2);
   border-radius:99px;color:var(--dim);text-decoration:none}
@@ -299,7 +301,9 @@ footer .mono{font-size:11.5px}
 .why b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
 .why p{font-size:14.5px;color:var(--ink2)}
 
-.prose{max-width:70ch}
+.prose{max-width:none}
+.prose > p,.prose > ul,.prose > ol{max-width:74ch}
+.prose > h3,.prose > h4{max-width:74ch}
 .prose h3{font-size:19px;margin:34px 0 10px;display:flex;align-items:baseline;gap:10px}
 .prose h3 .idx{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700;flex:none}
 .prose h4{font-size:15px;margin:22px 0 6px;color:var(--ink)}
@@ -312,7 +316,7 @@ footer .mono{font-size:11.5px}
 .prose pre code{background:none;border:0;padding:0;font-size:12.5px;color:var(--code-ink)}
 
 .out{background:var(--sunk);border:1px solid var(--line);border-top:0;border-radius:0 0 4px 4px;padding:10px 15px;
-  font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink2);white-space:pre;overflow-x:auto;margin:0}
+  font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink2);white-space:pre-wrap;overflow-wrap:break-word;margin:0}
 .out::before{content:"输出";display:block;font-size:10px;letter-spacing:.16em;color:var(--faint);margin-bottom:5px}
 pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
 
@@ -332,7 +336,7 @@ pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
 .gotcha > b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--warn);display:block;margin-bottom:8px}
 .gotcha dl{margin:0;display:grid;gap:0}
 .gotcha dt{font-family:var(--mono);font-size:12.5px;color:var(--warn);background:var(--card2);border:1px solid var(--line);
-  border-bottom:0;border-radius:4px 4px 0 0;padding:8px 13px;overflow-x:auto;white-space:pre}
+  border-bottom:0;border-radius:4px 4px 0 0;padding:8px 13px;white-space:pre-wrap;overflow-wrap:break-word}
 .gotcha dd{margin:0 0 12px;font-size:14px;color:var(--ink2);background:var(--card);border:1px solid var(--line);
   border-radius:0 0 4px 4px;padding:9px 13px}
 .gotcha dd code{font-family:var(--mono);font-size:12.5px;background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:0 4px}
@@ -363,6 +367,29 @@ pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
 
 .tip{border-left:2px solid var(--line2);padding:2px 0 2px 14px;margin:16px 0;font-size:14px;color:var(--dim)}
 .tip b{color:var(--ink2);font-weight:600}
+@media(max-width:760px){
+  .lessonshell{padding:0 14px 90px}
+  .why{padding:12px 14px}
+  .dothis{padding:14px 13px}
+  .ex{padding:14px 13px}
+  .checkpoint{padding:12px 14px}
+  .steps > li{padding-left:27px}
+  .steps > li::before{width:19px;height:19px;font-size:10px}
+  pre{padding:11px 12px}
+  .out{padding:9px 12px}
+  pre code,.out{font-size:11.5px;line-height:1.7}
+  .gotcha dt{font-size:11.5px;padding:8px 11px}
+  .gotcha dd{padding:9px 11px}
+  .prose h3{font-size:17.5px}
+  .lesson-head h2{font-size:26px}
+}
+@media(max-width:420px){
+  .lessonshell{padding:0 11px 80px}
+  pre code,.out{font-size:11px}
+  .steps > li{padding-left:0}
+  .steps > li::before{display:none}
+  .steps > li > p:first-child::before{content:counter(st) ". ";font-family:var(--mono);color:var(--accent);font-weight:700}
+}
 .hero-l{padding:44px 0 24px;border-bottom:1px solid var(--line);grid-column:1/-1}
 .hero-l h1{font-size:clamp(29px,5vw,45px);letter-spacing:-.026em}
 .hero-l .lede{margin-top:12px;color:var(--dim);font-size:16px;max-width:62ch}
