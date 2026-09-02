@@ -472,11 +472,12 @@ pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
 <pre class="has-out"><code class="language-bash"># Mac / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Windows PowerShell
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
+# Windows：加上 -ExecutionPolicy Bypass，否则会被脚本执行策略挡下来
+powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
 <div class="out">installing to /Users/you/.local/bin
   uv
 everything's installed!</div>
+          <p class="tip"><b>Windows 用户注意：</b>不加 <code>-ExecutionPolicy Bypass</code> 会看到 <code>Error: PowerShell requires an execution policy in [Unrestricted, RemoteSigned, Bypass] to run uv</code>。<code>Bypass</code> 只对这一次调用生效，跑完即失效，<strong>不改动你系统的任何设置，也不需要管理员权限</strong>。想一劳永逸的话见下面「常见报错」第三条。</p>
           <p>装完<strong>关掉终端重开一个</strong>（让 PATH 生效），然后验证：</p>
 <pre class="has-out"><code class="language-bash">uv --version</code></pre>
 <div class="out">uv 0.5.11</div>
@@ -496,7 +497,10 @@ Activate with: source .venv/bin/activate</div>
 source .venv/bin/activate
 
 # Windows PowerShell
-.venv\Scripts\Activate.ps1</code></pre>
+.venv\Scripts\Activate.ps1
+
+# Windows cmd（如果 PowerShell 报「禁止运行脚本」，用这个最省事）
+.venv\Scripts\activate.bat</code></pre>
 <div class="out">(.venv) you@mac ds-8weeks %      ← 行首多出 (.venv) 就是成功了</div>
           <p>行首那个 <code>(.venv)</code> 是你唯一需要认的标志。<strong>没有它，你装的包就装错地方了。</strong></p>
         </li>
@@ -578,8 +582,14 @@ To https://github.com/你的用户名/ds-8weeks.git
         <dd>装完没重开终端，PATH 还没刷新。<strong>关掉终端窗口重开一个</strong>再试。还不行就手动跑 <code>source ~/.zshrc</code>（Mac）。</dd>
         <dt>ModuleNotFoundError: No module named 'pandas'</dt>
         <dd>99% 是虚拟环境没激活。看行首有没有 <code>(.venv)</code>。在 VS Code 里则是解释器选错了，重做 0.3 的第 4 步。</dd>
+        <dt>Error: PowerShell requires an execution policy in [Unrestricted, RemoteSigned, Bypass] to run uv</dt>
+        <dd>Windows 默认禁止运行脚本，uv 的安装脚本检测到就直接拒绝。<b>一次性绕过</b>（在 cmd 或 PowerShell 里都能跑）：<br>
+        <code>powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></dd>
         <dt>无法加载文件 ...Activate.ps1，因为在此系统上禁止运行脚本</dt>
-        <dd>Windows PowerShell 的默认安全策略。以管理员身份打开 PowerShell 跑一次：<br><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code></dd>
+        <dd>同一个原因，这次是激活虚拟环境时被挡。<b>一劳永逸的改法</b>：打开 PowerShell（<strong>普通权限即可，不用管理员</strong>）跑一次，提示确认时输入 <code>Y</code>：<br>
+        <code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code><br>
+        <code>RemoteSigned</code> 表示本地脚本随便跑、网上下载的必须有签名，是微软自己推荐的日常设置；<code>-Scope CurrentUser</code> 只影响你这个账户，不动系统全局。<br>
+        如果提示被<b>组策略覆盖</b>（公司电脑常见），跳过 uv 用 Python 自带的即可：<code>python -m venv .venv</code>，激活用 <code>.venv\Scripts\activate.bat</code>，装包用 <code>pip install</code>。慢一点，但八周里没有任何一课会因此卡住。</dd>
         <dt>fatal: remote origin already exists</dt>
         <dd>你之前加过一次了。用 <code>git remote set-url origin 新地址</code> 覆盖，或者 <code>git remote -v</code> 先看看现在指向哪。</dd>
       </dl>
