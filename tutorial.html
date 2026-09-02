@@ -365,6 +365,19 @@ pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
 .checkpoint li{margin:4px 0}
 .checkpoint li::marker{color:var(--good)}
 
+.gitmap{width:100%;height:auto;display:block;margin:6px 0 2px}
+.gitmap text{font-family:var(--sans)}
+.gitmap .bx{fill:var(--card);stroke:var(--line2);stroke-width:1.2}
+.gitmap .bx-remote{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4}
+.gitmap .t1{font-size:13px;fill:var(--ink);font-weight:700}
+.gitmap .t2{font-size:11px;fill:var(--dim)}
+.gitmap .ar{stroke:var(--accent);stroke-width:1.6;fill:none}
+.gitmap .ahead{fill:var(--accent)}
+.gitmap .arlbl{font-family:var(--mono);font-size:11.5px;fill:var(--accent);font-weight:700}
+.gitmap .back{stroke:var(--line2);stroke-width:1.3;fill:none;stroke-dasharray:5 4}
+.gitmap .note{font-size:11.5px;fill:var(--dim)}
+figure.fig{margin:20px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px 12px;box-shadow:var(--shadow)}
+figure.fig figcaption{font-size:13px;color:var(--dim);margin-top:8px;text-align:center}
 .tip{border-left:2px solid var(--line2);padding:2px 0 2px 14px;margin:16px 0;font-size:14px;color:var(--dim)}
 .tip b{color:var(--ink2);font-weight:600}
 @media(max-width:760px){
@@ -537,22 +550,184 @@ Installed 48 packages in 1.2s
       <li>按 <kbd>Ctrl/Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>，输入 <code>Python: Select Interpreter</code>，选带 <code>.venv</code> 字样的那一个。<strong>这一步选错，你会遇到「明明装了 pandas 却说找不到」。</strong></li>
     </ol>
 
-    <h3><span class="idx">0.4</span>git 和 GitHub：现在只需要会四个动作</h3>
-    <p>git 的完整概念很多，但你这八周里 95% 的时间只会用到下面四条命令。剩下的以后遇到再学。</p>
+    <h3><span class="idx">0.4</span>git 是什么，为什么非用不可</h3>
 
-<pre class="has-out"><code class="language-bash">git init                          # 1. 在当前文件夹开启版本管理（只做一次）
-git add .                         # 2. 把改动放进「待提交」区
-git commit -m "完成 D1 练习"       # 3. 存一个快照，留一句说明
-git push                          # 4. 推到 GitHub</code></pre>
-<div class="out">[main a3f9c21] 完成 D1 练习
- 3 files changed, 87 insertions(+)</div>
+    <p>先说人话。<strong>git 是一个「存档」工具</strong>——就像打游戏时手动存档，只不过它存的是你整个项目文件夹的状态，而且能存无数个存档点，随时读档。</p>
+
+    <p>没有它，你的项目会变成这样：</p>
+<pre><code class="language-bash">分析_最终版.ipynb
+分析_最终版2.ipynb
+分析_最终版_改了城市口径.ipynb
+分析_最终版_真的最后一版.ipynb
+分析_最终版_真的最后一版_备份.ipynb</code></pre>
+    <p>每个人都干过这事。而且三周后你完全想不起来它们的区别在哪。</p>
+
+    <p>用了 git 之后，永远只有<strong>一个</strong> <code>分析.ipynb</code>，但你可以随时查「三周前那版是什么样」「城市口径是哪一次改的、为什么改」，也可以一键退回任何一个历史版本。</p>
+
+    <p><strong>GitHub 则是把这些存档放到云上</strong>的网站。三个作用：电脑坏了不丢代码；换台电脑能接着干；找工作时它就是你的作品集——面试官会去看你的 GitHub。</p>
+
+    <p class="tip"><b>git 和 GitHub 不是一回事：</b>git 是装在你电脑上的软件（做存档），GitHub 是一个网站（放存档）。就像「相机」和「相册网站」的关系。你可以只用 git 不用 GitHub，但反过来不行。</p>
+
+    <h4>先装 git</h4>
+    <p>Day 0 前面装的是 Python 和 uv，git 是另一个软件，要单独装。</p>
+
+<pre class="has-out"><code class="language-bash">git --version</code></pre>
+<div class="out">git version 2.47.1.windows.1     ← 有输出说明已经装了，跳过下面这步</div>
+
+    <ul>
+      <li><strong>Windows</strong>：去 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com/download/win</a> 下载安装包，双击运行，<strong>所有选项保持默认，一路点 Next 到底</strong>（安装选项很多，但默认值对你全都是对的）。装完<strong>关掉终端重开一个</strong>。</li>
+      <li><strong>Mac</strong>：终端里直接跑 <code>git --version</code>，系统会弹窗问你要不要装开发者工具，点「安装」等几分钟即可。</li>
+    </ul>
+
+    <h4>第一次用要做一次身份配置</h4>
+    <p>git 会把「谁改的」记进每一次存档，所以要先告诉它你是谁。这一步<strong>一辈子只做一次</strong>：</p>
+
+<pre class="has-out"><code class="language-bash">git config --global user.name "你的名字"
+git config --global user.email "你的邮箱@example.com"
+
+git config --global --list</code></pre>
+<div class="out">user.name=你的名字
+user.email=你的邮箱@example.com</div>
+
+    <p class="tip"><b>邮箱要用你注册 GitHub 的那个</b>，这样 GitHub 才能把提交记录和你的账号关联起来，你的主页上才会有那些绿色小方块。名字随便写，中英文都行，它只是显示用的。</p>
+
+    <h3><span class="idx">0.5</span>四个地方，四条命令</h3>
+
+    <p>git 最让初学者懵的地方在于：<strong>你的代码同时存在于四个地方</strong>。搞清楚这四个地方，那几条命令就全通了。</p>
+
+    <figure class="fig">
+      <svg class="gitmap" viewBox="0 0 782 250" role="img"
+           aria-label="代码在四个地方之间流动：工作区经 git add 到暂存区，经 git commit 到本地仓库，经 git push 到 GitHub 远程仓库；git clone 或 git pull 把远程内容取回工作区。">
+        <defs>
+          <marker id="gitarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path class="ahead" d="M 0 0 L 10 5 L 0 10 z"></path>
+          </marker>
+        </defs>
+
+        <rect class="bx" x="4"   y="52" width="130" height="64" rx="5"></rect>
+        <text class="t1" x="69"  y="80" text-anchor="middle">工作区</text>
+        <text class="t2" x="69"  y="99" text-anchor="middle">你正在编辑的文件</text>
+
+        <rect class="bx" x="216" y="52" width="130" height="64" rx="5"></rect>
+        <text class="t1" x="281" y="80" text-anchor="middle">暂存区</text>
+        <text class="t2" x="281" y="99" text-anchor="middle">这次准备存档的改动</text>
+
+        <rect class="bx" x="428" y="52" width="130" height="64" rx="5"></rect>
+        <text class="t1" x="493" y="80" text-anchor="middle">本地仓库</text>
+        <text class="t2" x="493" y="99" text-anchor="middle">你电脑上的存档历史</text>
+
+        <rect class="bx-remote" x="640" y="52" width="136" height="64" rx="5"></rect>
+        <text class="t1" x="708" y="80" text-anchor="middle">GitHub</text>
+        <text class="t2" x="708" y="99" text-anchor="middle">云端，换电脑也在</text>
+
+        <line class="ar" x1="140" y1="84" x2="208" y2="84" marker-end="url(#gitarrow)"></line>
+        <text class="arlbl" x="175" y="68" text-anchor="middle">git add</text>
+
+        <line class="ar" x1="352" y1="84" x2="420" y2="84" marker-end="url(#gitarrow)"></line>
+        <text class="arlbl" x="387" y="68" text-anchor="middle">git commit</text>
+
+        <line class="ar" x1="564" y1="84" x2="632" y2="84" marker-end="url(#gitarrow)"></line>
+        <text class="arlbl" x="599" y="68" text-anchor="middle">git push</text>
+
+        <path class="back" d="M 708 116 V 166 H 69 V 126"></path>
+        <path class="ahead" d="M 69 114 l 5 11 l -10 0 z"></path>
+        <text class="note" x="390" y="186" text-anchor="middle">git clone / git pull　（把云端的东西取回来，换电脑或多人协作时用）</text>
+
+        <text class="note" x="390" y="222" text-anchor="middle">卡住时先跑 git status —— 它会告诉你每个文件现在处在哪一格</text>
+      </svg>
+      <figcaption>一次改动从你的编辑器走到云端，要经过三道门；每道门对应一条命令。</figcaption>
+    </figure>
+
+    <p>逐个说清楚：</p>
+    <ul>
+      <li><strong>工作区</strong>就是你的 <code>ds-8weeks</code> 文件夹本身。你在 VS Code 里敲的每一个字都发生在这里。git 此刻还没管你。</li>
+      <li><strong>暂存区</strong>是一个「购物车」。你改了 5 个文件，但这次只想把其中 3 个存成一个版本，就用 <code>git add</code> 把那 3 个放进购物车。<strong>初学阶段你几乎总是全放</strong>，也就是 <code>git add .</code>（那个点表示「当前目录下所有改动」）。</li>
+      <li><strong>本地仓库</strong>是你电脑上的存档历史，藏在项目里一个叫 <code>.git</code> 的隐藏文件夹里。<code>git commit</code> 就是「按下存档键」，同时留一句说明这次改了什么。<strong>到这一步为止，一切都在你自己电脑上，断网也能做。</strong></li>
+      <li><strong>远程仓库</strong>就是 GitHub 上那个页面。<code>git push</code> 把本地的存档历史上传上去。</li>
+    </ul>
+
+    <p class="tip"><b>为什么要分「暂存」和「提交」两步，不能一步到位？</b>因为一次存档应该只包含<strong>一件事</strong>。比如你同时改了「修复城市清洗的 bug」和「加了个新图表」，分两次 commit 才能在将来单独回退其中一个。现在你可以先不管这个讲究，全用 <code>git add .</code>；等踩过一次坑自然就懂了。</p>
+
+    <h4>每次你都会用到的第五条命令：git status</h4>
+    <p>这条命令不改任何东西，只是<strong>告诉你现在是什么情况</strong>。它是 git 里最该养成条件反射的一个命令——<strong>不知道该干什么的时候就跑它，它连下一步该敲什么都会提示你。</strong></p>
+
+<pre class="has-out"><code class="language-bash">git status</code></pre>
+<div class="out">On branch main
+Changes not staged for commit:            ← 改了但还没 git add 的
+  (use "git add &lt;file&gt;..." to update what will be committed)
+        modified:   clean.py
+
+Untracked files:                          ← git 还完全没见过的新文件
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+        loader.py
+
+no changes added to commit</div>
+
+    <h3><span class="idx">0.6</span>建你的第一个仓库</h3>
 
     <div class="dothis">
-      <b>跟我敲 · 建第一个仓库</b>
+      <b>跟我敲 · 从零建一个仓库并推上 GitHub</b>
+      <p>下面每一步都有预期结果。这是整个 Day 0 最容易卡的一节，慢一点没关系。</p>
       <ol class="steps">
-        <li><p>去 <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> 建一个叫 <code>ds-8weeks</code> 的仓库，勾选 Private，其他都别动，点 Create。</p></li>
         <li>
-          <p>回到终端，在 <code>ds-8weeks</code> 目录里建一个 <code>.gitignore</code> 文件</p>
+          <p>注册 GitHub 账号</p>
+          <p>去 <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>，用邮箱注册，验证邮箱。<strong>记住你注册用的邮箱</strong>，上一节 <code>git config</code> 里要填的就是它。</p>
+        </li>
+        <li>
+          <p>在 GitHub 网站上建一个空仓库</p>
+          <p>登录后去 <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>，按下面填：</p>
+          <ul>
+            <li><b>Repository name</b> 填 <code>ds-8weeks</code></li>
+            <li><b>Description</b> 可以空着</li>
+            <li>选 <b>Private</b>（私有，只有你自己看得到。学习阶段建议私有，第八周整理好了再改成公开）</li>
+            <li><strong>下面「Initialize this repository with」的三个勾全都不要勾</strong>（Add a README file / Add .gitignore / Choose a license）。勾了会让远程先有内容，第一次推送就会冲突——这是新手最常见的一个坑。</li>
+          </ul>
+          <p>点绿色的 <b>Create repository</b>。</p>
+        </li>
+        <li>
+          <p>把建好的页面留着别关</p>
+          <p>创建完会跳到一个页面，上面有一段 <b>…or push an existing repository from the command line</b>，里面有两行带你用户名的命令。<strong>等下第 7 步要从这里复制</strong>，别关掉这个页面。</p>
+        </li>
+        <li>
+          <p>回到终端，确认你在项目目录里</p>
+<pre class="has-out"><code class="language-bash">cd ds-8weeks
+pwd</code></pre>
+<div class="out">/Users/david/ds-8weeks
+（Windows cmd 里查看当前目录的命令是 cd，直接敲 cd 回车；
+  PowerShell 里 pwd 也能用）</div>
+          <p class="tip"><b>这一步不能马虎。</b>下一步的 <code>git init</code> 会在<strong>你当前所在的目录</strong>创建仓库。站错地方的话，你可能会不小心把整个「用户主目录」变成一个 git 仓库——那会很难收拾。<strong>确认输出结尾是 <code>ds-8weeks</code> 再往下走。</strong></p>
+        </li>
+        <li>
+          <p>创建 <code>.gitignore</code> 文件</p>
+          <p>这个文件告诉 git「哪些东西永远不要管」。三种做法，<strong>Windows 用户强烈建议用第一种</strong>：</p>
+
+          <p><b>方法 A · 用 VS Code（推荐，所有系统通用）</b></p>
+          <ul>
+            <li>VS Code 里打开 <code>ds-8weeks</code> 文件夹</li>
+            <li>在左侧文件列表的空白处点右键 → <b>New File</b></li>
+            <li>文件名输入 <code>.gitignore</code>（<strong>前面那个点不能少</strong>），回车</li>
+            <li>把下面内容粘进去，<kbd>Ctrl/Cmd</kbd>+<kbd>S</kbd> 保存</li>
+          </ul>
+<pre><code class="language-bash">.venv/
+data/
+__pycache__/
+.ipynb_checkpoints/
+*.csv
+*.parquet
+.DS_Store</code></pre>
+
+          <p><b>方法 B · Windows PowerShell 一条命令</b></p>
+<pre><code class="language-powershell">@'
+.venv/
+data/
+__pycache__/
+.ipynb_checkpoints/
+*.csv
+*.parquet
+'@ | Set-Content -Encoding utf8 .gitignore</code></pre>
+          <p class="tip">注意结尾那个 <code>'@</code> <strong>必须顶格写在行首</strong>，前面不能有空格，否则 PowerShell 会一直等你输入。逐行粘贴进去、最后回车即可。</p>
+
+          <p><b>方法 C · Mac / Linux 一条命令</b></p>
 <pre><code class="language-bash">cat > .gitignore &lt;&lt;'EOF'
 .venv/
 data/
@@ -560,25 +735,91 @@ __pycache__/
 .ipynb_checkpoints/
 *.csv
 *.parquet
+.DS_Store
 EOF</code></pre>
-          <p><strong>数据永远不进 git。</strong>这是一条没有例外的规矩：数据大、会变、可能含敏感信息，git 存不下也不该存。</p>
+
+          <p>不管用哪种，都验证一下：</p>
+<pre class="has-out"><code class="language-bash">type .gitignore        # Windows
+cat .gitignore         # Mac / Linux</code></pre>
+<div class="out">.venv/
+data/
+__pycache__/
+.ipynb_checkpoints/
+*.csv
+*.parquet</div>
+
+          <p class="tip"><b>Windows 用记事本的注意：</b>记事本会偷偷存成 <code>.gitignore.txt</code>，git 就认不出来了。保存对话框里要把「保存类型」改成<b>所有文件</b>，文件名连引号一起写成 <code>".gitignore"</code>。这也是我推荐用 VS Code 的原因。</p>
+          <p><strong>为什么数据不进 git：</strong>数据文件动辄几百 MB，git 会给每个版本都存一份，仓库很快就爆掉；而且数据经常含个人信息，一旦推上去就很难彻底删干净。<strong>这是一条没有例外的规矩。</strong></p>
         </li>
         <li>
-          <p>初始化并推上去（把下面的地址换成你自己那个仓库的）</p>
-<pre class="has-out"><code class="language-bash">git init -b main
-git add .
-git commit -m "chore: 初始化学习仓库"
-git remote add origin https://github.com/你的用户名/ds-8weeks.git
-git push -u origin main</code></pre>
-<div class="out">Enumerating objects: 3, done.
+          <p>把这个文件夹变成 git 仓库，并做第一次存档</p>
+<pre class="has-out"><code class="language-bash">git init -b main</code></pre>
+<div class="out">Initialized empty Git repository in /Users/david/ds-8weeks/.git/</div>
+          <p><code>-b main</code> 是把默认分支命名为 <code>main</code>（分支是什么以后再说，现在照抄即可，GitHub 默认也叫这个名字，对齐了省事）。</p>
+
+<pre class="has-out"><code class="language-bash">git status</code></pre>
+<div class="out">On branch main
+
+No commits yet
+
+Untracked files:
+        .gitignore
+        clean.py
+        loader.py
+
+nothing added to commit but untracked files present</div>
+          <p><strong>看一眼这个列表里有没有 <code>.venv/</code> 或 <code>data/</code>。</strong>如果有，说明 <code>.gitignore</code> 没写对或者位置不对——回第 5 步检查。</p>
+
+<pre class="has-out"><code class="language-bash">git add .
+git commit -m "chore: 初始化学习仓库"</code></pre>
+<div class="out">[main (root-commit) a3f9c21] chore: 初始化学习仓库
+ 3 files changed, 87 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 clean.py
+ create mode 100644 loader.py</div>
+          <p class="tip"><b><code>-m</code> 后面那句话怎么写？</b>写「改了什么、为什么」，不要写「更新」「修改」这种废话。三周后你会庆幸自己写清楚了。常见前缀：<code>feat:</code> 新功能、<code>fix:</code> 修 bug、<code>docs:</code> 改文档、<code>chore:</code> 杂活。不强制，但用了以后自己翻历史会快很多。</p>
+        </li>
+        <li>
+          <p>告诉 git 你的云端仓库在哪，然后推上去</p>
+          <p>回到第 3 步那个 GitHub 页面，找到 <b>…or push an existing repository from the command line</b> 那一段，把里面那行 <code>git remote add origin ...</code> <strong>直接复制</strong>过来跑（里面已经带了你的用户名，不用自己拼）：</p>
+<pre class="has-out"><code class="language-bash">git remote add origin https://github.com/你的用户名/ds-8weeks.git
+git remote -v</code></pre>
+<div class="out">origin  https://github.com/你的用户名/ds-8weeks.git (fetch)
+origin  https://github.com/你的用户名/ds-8weeks.git (push)</div>
+          <p><code>origin</code> 只是这个远程地址的<strong>代号</strong>，是约定俗成的默认名字，不是什么关键字。</p>
+
+<pre class="has-out"><code class="language-bash">git push -u origin main</code></pre>
+<div class="out">Enumerating objects: 5, done.
+Writing objects: 100% (5/5), 1.21 KiB | 1.21 MiB/s, done.
 To https://github.com/你的用户名/ds-8weeks.git
- * [new branch]      main -> main</div>
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.</div>
+          <p class="tip"><b>第一次推送会要你登录。</b>Windows 上装 git 时自带的凭据管理器会<strong>自动弹出一个浏览器窗口</strong>，点 <b>Authorize</b> 授权就行，之后就不会再问了。如果没弹窗、而是在终端里问你 Username / Password，见下面「常见报错」的最后一条。</p>
+          <p><code>-u</code> 只有第一次要加，它把本地的 main 和远程的 main 绑定起来。<strong>以后直接 <code>git push</code> 就够了。</strong></p>
+        </li>
+        <li>
+          <p>去网页上确认</p>
+          <p>刷新你的 GitHub 仓库页面，应该能看到 <code>.gitignore</code>、<code>clean.py</code> 这些文件，以及你写的那句提交说明。<strong>确认页面上<u>没有</u> <code>.venv</code> 和 <code>data</code> 文件夹</strong>——这是这一步唯一的验收标准。</p>
         </li>
       </ol>
     </div>
 
+    <h3><span class="idx">0.7</span>以后每天的三步循环</h3>
+    <p>仓库建好之后，你八周里 95% 的时间只会重复这三条命令。<strong>建议每天学完就跑一遍</strong>，既是备份，也是给自己留一条学习轨迹。</p>
+
+<pre class="has-out"><code class="language-bash">git status                        # 1 先看看改了什么（可选但强烈建议）
+git add .                         # 2 把所有改动放进购物车
+git commit -m "D1: 完成字符串练习"  # 3 存档并写清楚这次干了什么
+git push                          # 4 推到云端（第一次之后不用再加 -u origin main）</code></pre>
+<div class="out">[main 8f2c114] D1: 完成字符串练习
+ 2 files changed, 41 insertions(+), 3 deletions(-)
+To https://github.com/你的用户名/ds-8weeks.git
+   a3f9c21..8f2c114  main -> main</div>
+
+    <p class="tip"><b>八周之后你会得到一份很有说服力的东西：</b>56 天连续的提交记录，每一条都写着那天学了什么。这比简历上写「熟悉 Python」有力得多——面试官可以直接翻。</p>
+
     <div class="gotcha">
-      <b>这一步最常见的四个报错</b>
+      <b>这一步最常见的报错，逐条对号入座</b>
       <dl>
         <dt>zsh: command not found: uv</dt>
         <dd>装完没重开终端，PATH 还没刷新。<strong>关掉终端窗口重开一个</strong>再试。还不行就手动跑 <code>source ~/.zshrc</code>（Mac）。</dd>
@@ -593,7 +834,23 @@ To https://github.com/你的用户名/ds-8weeks.git
         <code>RemoteSigned</code> 表示本地脚本随便跑、网上下载的必须有签名，是微软自己推荐的日常设置；<code>-Scope CurrentUser</code> 只影响你这个账户，不动系统全局。<br>
         如果提示被<b>组策略覆盖</b>（公司电脑常见），跳过 uv 用 Python 自带的即可：<code>python -m venv .venv</code>，激活用 <code>.venv\Scripts\activate.bat</code>，装包用 <code>pip install</code>。慢一点，但八周里没有任何一课会因此卡住。</dd>
         <dt>fatal: remote origin already exists</dt>
-        <dd>你之前加过一次了。用 <code>git remote set-url origin 新地址</code> 覆盖，或者 <code>git remote -v</code> 先看看现在指向哪。</dd>
+        <dd>你之前加过一次了。用 <code>git remote set-url origin 新地址</code> 覆盖，或者先 <code>git remote -v</code> 看看现在指向哪。</dd>
+        <dt>'git' 不是内部或外部命令 / command not found: git</dt>
+        <dd>git 没装，或者装完没重开终端。见 0.4 节。</dd>
+        <dt>fatal: not a git repository (or any of the parent directories): .git</dt>
+        <dd>你不在仓库目录里，或者这个文件夹还没 <code>git init</code>。先 <code>cd</code> 到 <code>ds-8weeks</code>，再 <code>git status</code> 确认。</dd>
+        <dt>Author identity unknown / Please tell me who you are</dt>
+        <dd>没做 0.4 节的身份配置。跑那两条 <code>git config --global</code> 再 commit。</dd>
+        <dt>! [rejected] main -&gt; main (fetch first)　/　Updates were rejected</dt>
+        <dd>建仓库时勾了「Add a README file」，远程已经有内容，和你本地对不上。最简单的解法：<br>
+        <code>git pull --rebase origin main</code> 然后再 <code>git push -u origin main</code>。<br>
+        或者干脆去 GitHub 上删掉这个仓库重建一个、三个勾都不勾。</dd>
+        <dt>Support for password authentication was removed / Authentication failed</dt>
+        <dd>GitHub 早就不接受账号密码了，要用 <b>访问令牌</b>。生成方法：GitHub 右上角头像 → <b>Settings</b> → 最左下 <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Tokens (classic)</b> → <b>Generate new token (classic)</b>，勾上 <code>repo</code>，有效期选 90 天，生成后<strong>把那串字符复制下来</strong>（只显示这一次）。回到终端重新 <code>git push</code>，Username 填你的 GitHub 用户名，<b>Password 那里粘贴这串令牌</b>。<br>
+        <strong>令牌等同于密码，不要写进代码、不要发给别人。</strong>粘贴时终端不显示任何字符是正常的，粘完直接回车。</dd>
+        <dt>.gitignore 写了却还是把 data/ 传上去了</dt>
+        <dd><code>.gitignore</code> 只对 git <strong>还没跟踪过</strong>的文件生效。如果之前已经 add 过，要先让 git 忘掉它们：<br>
+        <code>git rm -r --cached data</code> 然后重新 commit。（<code>--cached</code> 表示只从 git 里移除，<strong>不会删你本地的文件</strong>）</dd>
       </dl>
     </div>
 
@@ -603,7 +860,9 @@ To https://github.com/你的用户名/ds-8weeks.git
         <li>终端行首能看到 <code>(.venv)</code>，<code>python -c "import pandas; print(pandas.__version__)"</code> 能打印版本号</li>
         <li><code>jupyter lab</code> 能打开，格子里 <code>1+1</code> 出 <code>2</code></li>
         <li>VS Code 右下角显示的解释器路径里带 <code>.venv</code></li>
-        <li>GitHub 上能看到你的 <code>ds-8weeks</code> 仓库，且里面<strong>没有</strong> <code>.venv</code> 文件夹</li>
+        <li><code>git --version</code> 有输出，<code>git config --global --list</code> 里能看到你的名字和邮箱</li>
+        <li>GitHub 上能看到你的 <code>ds-8weeks</code> 仓库，里面有 <code>.gitignore</code>，且<strong>没有</strong> <code>.venv</code> 和 <code>data</code> 文件夹</li>
+        <li>说得出 git 的四个地方分别是什么，以及 add / commit / push 各自把东西从哪搬到哪</li>
       </ul>
     </div>
   </div>
