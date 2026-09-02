@@ -1,0 +1,2581 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 数据科学手把手</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#eaeef2; --grid:rgba(42,111,176,.07); --card:#fbfcfd; --card2:#f2f5f8; --sunk:#e7ecf1;
+  --ink:#101a22; --ink2:#33434f; --dim:#66798a; --faint:#8fa1b0;
+  --line:#d8e0e7; --line2:#c4cfd9;
+  --p1:#2a6fb0; --p2:#c2761a; --p3:#b23f73; --p4:#6b5bc9;
+  --accent:#2a6fb0; --accent-soft:rgba(42,111,176,.10);
+  --good:#2c7a52; --good-soft:rgba(44,122,82,.12);
+  --warn:#a8571b;
+  --code-bg:#f4f7fa; --code-ink:#1d2b36;
+  --kw:#8a3b8f; --str:#2c7a52; --num:#a8571b; --com:#8494a1; --fn:#2a6fb0; --bi:#b23f73;
+  --shadow:0 1px 1px rgba(16,32,48,.04), 0 6px 20px rgba(16,32,48,.06);
+  --display:"Archivo","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --sans:"Source Sans 3","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --grid:rgba(122,170,214,.07); --card:#161e26; --card2:#1b242d; --sunk:#121a21;
+  --ink:#e3eaf0; --ink2:#c0ccd6; --dim:#8fa1b0; --faint:#6d7f8d;
+  --line:#26313b; --line2:#33414d;
+  --p1:#5d9dd8; --p2:#d9974a; --p3:#d4739f; --p4:#9b8ce6;
+  --accent:#5d9dd8; --accent-soft:rgba(93,157,216,.14);
+  --good:#54ab7c; --good-soft:rgba(84,171,124,.16);
+  --warn:#d0913f;
+  --code-bg:#111921; --code-ink:#d3dde6;
+  --kw:#c98bd0; --str:#79c79b; --num:#e0a469; --com:#66798a; --fn:#6fb0e6; --bi:#e08bb0;
+  --shadow:0 1px 1px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.28);
+}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --grid:rgba(122,170,214,.07); --card:#161e26; --card2:#1b242d; --sunk:#121a21;
+  --ink:#e3eaf0; --ink2:#c0ccd6; --dim:#8fa1b0; --faint:#6d7f8d;
+  --line:#26313b; --line2:#33414d;
+  --p1:#5d9dd8; --p2:#d9974a; --p3:#d4739f; --p4:#9b8ce6;
+  --accent:#5d9dd8; --accent-soft:rgba(93,157,216,.14);
+  --good:#54ab7c; --good-soft:rgba(84,171,124,.16);
+  --warn:#d0913f;
+  --code-bg:#111921; --code-ink:#d3dde6;
+  --kw:#c98bd0; --str:#79c79b; --num:#e0a469; --com:#66798a; --fn:#6fb0e6; --bi:#e08bb0;
+  --shadow:0 1px 1px rgba(0,0,0,.3), 0 6px 22px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.65;text-wrap:pretty;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:700;letter-spacing:-.012em;text-wrap:balance;line-height:1.25}
+p{margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:500}
+
+/* ---------- shell ---------- */
+.shell{max-width:1200px;margin:0 auto;padding:0 22px 110px;display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:1040px){.shell{grid-template-columns:230px minmax(0,1fr);column-gap:44px;padding-top:0}}
+
+/* ---------- masthead ---------- */
+.mast{grid-column:1/-1;padding:44px 0 26px;border-bottom:1px solid var(--line)}
+.mast .row1{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.mast h1{font-size:clamp(30px,5.2vw,48px);letter-spacing:-.026em;flex:1 1 300px}
+.mast h1 .n{font-family:var(--mono);font-weight:700;color:var(--accent)}
+.mast .lede{margin-top:12px;color:var(--dim);font-size:16px;max-width:60ch}
+.mast .lede b{color:var(--ink2);font-weight:600}
+.themebtn{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;background:var(--card);border:1px solid var(--line2);color:var(--dim);
+  border-radius:99px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+.themebtn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* ---------- meters ---------- */
+.meters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:26px}
+.meter{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px 14px}
+.meter .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.meter .v{font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums}
+.meter .v small{font-size:13px;font-weight:600;color:var(--dim);margin-left:3px;letter-spacing:0}
+.bar{height:5px;background:var(--sunk);border-radius:99px;margin-top:9px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .45s ease}
+.bar i.ok{background:var(--good)}
+
+/* ---------- axis (8-week timeline) ---------- */
+.axis{margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px 12px}
+.axis .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
+.axis .head .t{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.axis .head .now{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.track{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;align-items:end}
+.seg{display:block;text-decoration:none;color:inherit}
+.seg .slot{height:34px;background:var(--sunk);border-radius:3px;display:flex;align-items:flex-end;overflow:hidden;
+  background-image:repeating-linear-gradient(to top,transparent 0,transparent calc(25% - 1px),var(--line) calc(25% - 1px),var(--line) 25%)}
+.seg .fill{width:100%;height:0%;border-radius:3px 3px 2px 2px;transition:height .45s ease;min-height:0}
+.seg .lb{display:block;font-family:var(--mono);font-size:10.5px;color:var(--faint);text-align:center;padding-top:6px;border-top:1px solid var(--line);margin-top:5px}
+.seg:hover .lb{color:var(--ink)}
+.seg.cur .lb{color:var(--ink);font-weight:700}
+.seg.cur .slot{box-shadow:inset 0 0 0 1.5px var(--line2)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--dim)}
+.legend i{width:9px;height:9px;border-radius:2px;flex:none}
+
+/* ---------- rail ---------- */
+.rail{display:none}
+@media(min-width:1040px){
+ .rail{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow-y:auto;padding:26px 0 30px}
+ .rail .ring{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+ .rail nav{display:flex;flex-direction:column;gap:1px}
+ .rail nav a{display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:4px;font-size:13.5px;color:var(--ink2);text-decoration:none;border-left:2px solid transparent}
+ .rail nav a:hover{background:var(--card);color:var(--ink)}
+ .rail nav a .wk{font-family:var(--mono);font-size:11px;color:var(--faint);width:26px;flex:none}
+ .rail nav a .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .rail nav a .dot{width:7px;height:7px;border-radius:99px;background:var(--line2);flex:none;margin-left:auto}
+ .rail nav a .dot.part{background:var(--accent)}
+ .rail nav a .dot.done{background:var(--good)}
+ .rail .sep{height:1px;background:var(--line);margin:14px 0}
+ .rail .resetbtn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;background:none;border:1px solid var(--line2);color:var(--faint);border-radius:4px;padding:5px 9px;cursor:pointer;width:100%}
+ .rail .resetbtn:hover{color:var(--warn);border-color:var(--warn)}
+ .rail .synced{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:9px;line-height:1.5}
+}
+.ringwrap{position:relative;width:56px;height:56px;flex:none}
+.ringwrap svg{transform:rotate(-90deg);display:block}
+.ringwrap b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ---------- main sections ---------- */
+main{min-width:0;padding-top:34px}
+section{margin-bottom:52px;scroll-margin-top:18px}
+.sechead{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sechead h2{font-size:clamp(20px,3vw,25px)}
+.sechead .en{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-left:auto}
+.sechead .note{font-size:13.5px;color:var(--dim);flex-basis:100%;margin-top:-6px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:18px 20px}
+.cols{display:grid;gap:14px}
+@media(min-width:660px){.cols.c2{grid-template-columns:1fr 1fr}.cols.c3{grid-template-columns:repeat(3,1fr)}}
+
+/* rules list */
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.rules li{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.rules li:first-child{border-top:0;padding-top:0}
+.rules li:last-child{padding-bottom:0}
+.rules .num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);flex:none;padding-top:3px;width:20px}
+.rules b{display:block;font-weight:600;color:var(--ink)}
+.rules p{color:var(--dim);font-size:14px;margin-top:2px}
+
+/* rhythm */
+.rhythm{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rhythm li{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.rhythm li:last-child{border-bottom:0}
+.rhythm .t{font-family:var(--mono);font-size:12.5px;color:var(--accent);font-variant-numeric:tabular-nums;text-align:right}
+.rhythm .d{font-size:14px;color:var(--ink2)}
+.rhythm .d em{font-style:normal;color:var(--dim)}
+</style>
+<style>
+/* ---------- week modules ---------- */
+.weeks{display:flex;flex-direction:column;gap:14px}
+.wk{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--pc);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.wk[data-phase="1"]{--pc:var(--p1)} .wk[data-phase="2"]{--pc:var(--p2)}
+.wk[data-phase="3"]{--pc:var(--p3)} .wk[data-phase="4"]{--pc:var(--p4)}
+.wk > summary{list-style:none;cursor:pointer;padding:16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:5px 14px;align-items:center}
+.wk > summary::-webkit-details-marker{display:none}
+.wk > summary:hover{background:var(--card2)}
+.wkno{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--pc);background:color-mix(in srgb,var(--pc) 11%,transparent);
+  border-radius:3px;padding:4px 7px;align-self:start}
+.wk h3{font-size:18.5px;letter-spacing:-.015em}
+.wk .goal{grid-column:2;font-size:13.5px;color:var(--dim);margin-top:1px}
+.wkprog{display:flex;align-items:center;gap:9px;align-self:start;padding-top:3px}
+.wkprog .mini{width:46px;height:4px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.wkprog .mini i{display:block;height:100%;width:0;background:var(--pc);border-radius:99px;transition:width .4s ease}
+.wkprog .cnt{font-family:var(--mono);font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums;min-width:32px;text-align:right}
+.wkprog .chev{color:var(--faint);font-size:11px;transition:transform .2s}
+.wk[open] .wkprog .chev{transform:rotate(90deg)}
+.wkbody{padding:2px 18px 20px;border-top:1px solid var(--line)}
+
+/* task rows */
+.tasks{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column}
+.tasks li{border-bottom:1px solid var(--line)}
+.tasks li:last-child{border-bottom:0}
+.task{display:grid;grid-template-columns:auto 34px 1fr;gap:11px;align-items:start;padding:10px 2px;cursor:pointer}
+.task input{appearance:none;width:16px;height:16px;margin:3px 0 0;border:1.5px solid var(--line2);border-radius:3.5px;background:var(--card);cursor:pointer;flex:none;position:relative}
+.task input:checked{background:var(--good);border-color:var(--good)}
+.task input:checked::after{content:"";position:absolute;left:4.6px;top:1.4px;width:4px;height:8.5px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.task .day{font-family:var(--mono);font-size:11px;color:var(--faint);padding-top:4px;letter-spacing:.03em}
+.task .txt{font-size:14.5px;color:var(--ink2)}
+.task .txt em{font-style:normal;color:var(--dim);font-size:13.5px;display:block;margin-top:1px}
+.task input:checked ~ .txt{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--line2)}
+.task input:checked ~ .txt em{text-decoration:none;opacity:.6}
+.task.deliver .day{color:var(--pc);font-weight:700}
+.task.deliver .txt{color:var(--ink)}
+
+/* pkg chips */
+.pkgs{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pkg{font-family:var(--mono);font-size:11.5px;color:var(--ink2);background:var(--card2);border:1px solid var(--line);border-radius:3px;padding:3px 7px}
+.pkg.new{border-color:color-mix(in srgb,var(--pc) 45%,var(--line));color:var(--pc)}
+
+/* check question */
+.selfq{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-left:2px solid var(--pc);border-radius:0 4px 4px 0;padding:11px 14px;font-size:13.5px;color:var(--ink2)}
+.selfq b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--pc);display:block;margin-bottom:3px;font-weight:700}
+
+/* code */
+pre{margin:14px 0 0;background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:13px 15px;overflow-x:auto}
+pre code{font-family:var(--mono);font-size:12.5px;line-height:1.72;color:var(--code-ink);white-space:pre;display:block}
+.caplbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-top:16px;display:block}
+.hljs-keyword,.hljs-built_in.hljs-keyword{color:var(--kw)}
+.hljs-string,.hljs-meta .hljs-string{color:var(--str)}
+.hljs-number,.hljs-literal{color:var(--num)}
+.hljs-comment{color:var(--com);font-style:italic}
+.hljs-title,.hljs-title.function_,.hljs-title.class_{color:var(--fn)}
+.hljs-built_in,.hljs-type{color:var(--bi)}
+.hljs-params{color:var(--code-ink)}
+.hljs-attr,.hljs-property{color:var(--code-ink)}
+.hljs-meta{color:var(--com)}
+.hljs-operator,.hljs-punctuation{color:var(--dim)}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:0;border-bottom:1px solid var(--line)}
+.tabs button{font-family:var(--mono);font-size:12px;letter-spacing:.04em;background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);padding:8px 11px;cursor:pointer;margin-bottom:-1px}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+.panel{padding-top:4px}
+.panel h4{font-size:14px;margin-top:18px;color:var(--ink)}
+.panel h4:first-child{margin-top:12px}
+
+/* table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+  padding:10px 14px;border-bottom:1px solid var(--line2);background:var(--card2);position:sticky;top:0;font-weight:500}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--card2)}
+td.p{font-family:var(--mono);font-size:12.5px;color:var(--ink);white-space:nowrap}
+td.w{font-family:var(--mono);font-size:11.5px;color:#fff;white-space:nowrap;width:1%}
+td.w span{background:var(--wc);border-radius:3px;padding:2px 6px;display:inline-block}
+tr[data-phase="1"]{--wc:var(--p1)} tr[data-phase="2"]{--wc:var(--p2)}
+tr[data-phase="3"]{--wc:var(--p3)} tr[data-phase="4"]{--wc:var(--p4)}
+.grouprow td{background:var(--sunk);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:7px 14px}
+.grouprow:hover td{background:var(--sunk)}
+
+/* traps */
+.traps{display:grid;gap:12px}
+@media(min-width:760px){.traps{grid-template-columns:1fr 1fr}}
+.trap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.trap .bad{font-family:var(--mono);font-size:12.5px;color:var(--warn);display:block}
+.trap .fix{font-size:13.5px;color:var(--ink2);margin-top:6px}
+.trap .fix code{font-family:var(--mono);font-size:12.5px;background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:1px 4px}
+
+/* senior list */
+.senior{list-style:none;margin:0;padding:0;display:grid;gap:0}
+@media(min-width:760px){.senior{grid-template-columns:1fr 1fr;column-gap:26px}}
+.senior li{border-bottom:1px solid var(--line)}
+.senior .task{grid-template-columns:auto 1fr}
+
+/* resources */
+.res{display:grid;gap:10px}
+@media(min-width:660px){.res{grid-template-columns:1fr 1fr}}
+.res a{display:flex;flex-direction:column;gap:2px;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:4px;text-decoration:none}
+.res a:hover{border-color:var(--accent);background:var(--card2)}
+.res a b{font-size:14px;color:var(--ink);font-weight:600}
+.res a span{font-size:12.5px;color:var(--dim)}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--faint);font-size:12.5px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer .mono{font-size:11.5px}
+</style><style>
+/* ---------- 教程页专用 ---------- */
+.lessonshell{max-width:1200px;margin:0 auto;padding:0 22px 110px;display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:1040px){.lessonshell{grid-template-columns:250px minmax(0,1fr);column-gap:44px}}
+.backlink{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;
+  color:var(--dim);text-decoration:none;border:1px solid var(--line2);border-radius:99px;padding:5px 12px}
+.backlink:hover{color:var(--ink);border-color:var(--accent)}
+
+.lrail{display:none}
+@media(min-width:1040px){
+ .lrail{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow-y:auto;padding:26px 0 40px}
+ .lrail .grp{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:16px 0 6px;padding-left:9px}
+ .lrail a{display:flex;gap:9px;align-items:baseline;padding:6px 9px;border-radius:4px;font-size:13.5px;color:var(--ink2);text-decoration:none}
+ .lrail a:hover{background:var(--card);color:var(--ink)}
+ .lrail a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+ .lrail a .d{font-family:var(--mono);font-size:11px;color:var(--faint);width:22px;flex:none}
+ .lrail a.on .d{color:var(--accent)}
+}
+.lessonnav{display:flex;gap:8px;overflow-x:auto;padding:12px 0;margin:0 -22px;padding-left:22px;padding-right:22px;
+  border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+@media(min-width:1040px){.lessonnav{display:none}}
+.lessonnav a{font-family:var(--mono);font-size:12px;white-space:nowrap;padding:5px 10px;border:1px solid var(--line2);
+  border-radius:99px;color:var(--dim);text-decoration:none}
+.lessonnav a.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.lesson{margin-bottom:70px;scroll-margin-top:64px}
+.lesson-head{border-bottom:2px solid var(--pc,var(--accent));padding-bottom:14px;margin-bottom:20px}
+.lesson-head .tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--pc,var(--accent))}
+.lesson-head h2{font-size:clamp(23px,4vw,31px);margin-top:6px}
+.metarow{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px}
+.metarow div{font-size:13px;color:var(--dim)}
+.metarow div b{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);
+  display:block;font-weight:500;margin-bottom:1px}
+
+.why{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 var(--r) var(--r) 0;
+  padding:14px 17px;margin-bottom:26px;box-shadow:var(--shadow)}
+.why b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+.why p{font-size:14.5px;color:var(--ink2)}
+
+.prose{max-width:70ch}
+.prose h3{font-size:19px;margin:34px 0 10px;display:flex;align-items:baseline;gap:10px}
+.prose h3 .idx{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700;flex:none}
+.prose h4{font-size:15px;margin:22px 0 6px;color:var(--ink)}
+.prose p{margin:10px 0;color:var(--ink2);font-size:15px}
+.prose ul,.prose ol{margin:10px 0;padding-left:22px;color:var(--ink2);font-size:15px}
+.prose li{margin:5px 0}
+.prose li::marker{color:var(--faint)}
+.prose code{font-family:var(--mono);font-size:13px;background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:0 4px;color:var(--ink)}
+.prose strong{color:var(--ink);font-weight:600}
+.prose pre code{background:none;border:0;padding:0;font-size:12.5px;color:var(--code-ink)}
+
+.out{background:var(--sunk);border:1px solid var(--line);border-top:0;border-radius:0 0 4px 4px;padding:10px 15px;
+  font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink2);white-space:pre;overflow-x:auto;margin:0}
+.out::before{content:"输出";display:block;font-size:10px;letter-spacing:.16em;color:var(--faint);margin-bottom:5px}
+pre.has-out{border-radius:4px 4px 0 0;margin-bottom:0}
+
+.dothis{background:var(--card);border:1px solid var(--line2);border-radius:var(--r);padding:16px 18px;margin:24px 0;box-shadow:var(--shadow)}
+.dothis > b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.dothis > b::before{content:"";width:14px;height:14px;border-radius:3px;background:var(--accent);flex:none}
+.dothis > p{font-size:13.5px;color:var(--dim);margin-bottom:6px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:st}
+.steps > li{counter-increment:st;position:relative;padding:14px 0 14px 34px;border-top:1px dashed var(--line)}
+.steps > li::before{content:counter(st);position:absolute;left:0;top:14px;width:22px;height:22px;border-radius:99px;
+  background:var(--accent-soft);color:var(--accent);font-family:var(--mono);font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center}
+.steps > li > p:first-child{margin-top:0;font-weight:600;color:var(--ink);font-size:14.5px}
+
+.gotcha{margin:24px 0}
+.gotcha > b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--warn);display:block;margin-bottom:8px}
+.gotcha dl{margin:0;display:grid;gap:0}
+.gotcha dt{font-family:var(--mono);font-size:12.5px;color:var(--warn);background:var(--card2);border:1px solid var(--line);
+  border-bottom:0;border-radius:4px 4px 0 0;padding:8px 13px;overflow-x:auto;white-space:pre}
+.gotcha dd{margin:0 0 12px;font-size:14px;color:var(--ink2);background:var(--card);border:1px solid var(--line);
+  border-radius:0 0 4px 4px;padding:9px 13px}
+.gotcha dd code{font-family:var(--mono);font-size:12.5px;background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:0 4px}
+
+.ex{margin:28px 0 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+.ex > b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);display:block;margin-bottom:10px}
+.ex ol{list-style:none;margin:0;padding:0;counter-reset:q}
+.ex ol > li{counter-increment:q;padding:12px 0;border-top:1px solid var(--line)}
+.ex ol > li:first-child{border-top:0;padding-top:0}
+.ex ol > li > p:first-child::before{content:"Q" counter(q);font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);
+  margin-right:8px;letter-spacing:.05em}
+.ex ol > li > p:first-child{margin-top:0;font-size:14.5px;color:var(--ink)}
+.ans{margin-top:8px}
+.ans > summary{list-style:none;cursor:pointer;font-family:var(--mono);font-size:11.5px;color:var(--dim);
+  border:1px solid var(--line2);border-radius:4px;padding:4px 10px;display:inline-block}
+.ans > summary::-webkit-details-marker{display:none}
+.ans > summary:hover{color:var(--accent);border-color:var(--accent)}
+.ans[open] > summary{color:var(--accent);border-color:var(--accent);margin-bottom:4px}
+.ans .body{font-size:14px;color:var(--ink2)}
+.ans .body p{margin:8px 0}
+
+.checkpoint{margin:26px 0 0;background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 32%,transparent);
+  border-radius:var(--r);padding:14px 17px}
+.checkpoint b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--good);display:block;margin-bottom:6px}
+.checkpoint ul{margin:0;padding-left:20px;font-size:14px;color:var(--ink2)}
+.checkpoint li{margin:4px 0}
+.checkpoint li::marker{color:var(--good)}
+
+.tip{border-left:2px solid var(--line2);padding:2px 0 2px 14px;margin:16px 0;font-size:14px;color:var(--dim)}
+.tip b{color:var(--ink2);font-weight:600}
+.hero-l{padding:44px 0 24px;border-bottom:1px solid var(--line);grid-column:1/-1}
+.hero-l h1{font-size:clamp(29px,5vw,45px);letter-spacing:-.026em}
+.hero-l .lede{margin-top:12px;color:var(--dim);font-size:16px;max-width:62ch}
+.hero-l .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.hero-l .lede b{color:var(--ink2);font-weight:600}
+.progressnote{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="lessonshell">
+
+<header class="hero-l">
+  <h1>Python 数据科学手把手</h1>
+  <p class="lede">和八周计划配套的<b>课本</b>。每一课都是：为什么学 → 概念讲清楚 → <b>跟我敲</b>（每步给预期输出）→ 常见报错 → 练习和答案 → 当天验收。<br>你只需要一个能打开的终端和一个浏览器。</p>
+  <div class="row">
+    <a class="backlink" href="https://claude.ai/code/artifact/384154e2-4b76-43db-aa49-43d9856f11c4" target="_blank" rel="noopener">← 回到八周计划表</a>
+    <span class="progressnote" id="pnote">第一周 · 共 7 课</span>
+  </div>
+</header>
+
+<aside class="lrail">
+  <div class="grp">开始之前</div>
+  <a href="#L0"><span class="d">D0</span><span>把环境装对</span></a>
+  <div class="grp">第一周 · Python 语法地基</div>
+  <a href="#L1"><span class="d">D1</span><span>变量、类型、字符串</span></a>
+  <a href="#L2"><span class="d">D2</span><span>四种容器</span></a>
+  <a href="#L3"><span class="d">D3</span><span>循环、判断、推导式</span></a>
+  <a href="#L4"><span class="d">D4</span><span>函数</span></a>
+  <a href="#L5"><span class="d">D5</span><span>文件与异常</span></a>
+  <a href="#L6"><span class="d">D6</span><span>项目：数据体检工具</span></a>
+</aside>
+
+<nav class="lessonnav">
+  <a href="#L0">D0 环境</a><a href="#L1">D1 变量</a><a href="#L2">D2 容器</a><a href="#L3">D3 循环</a>
+  <a href="#L4">D4 函数</a><a href="#L5">D5 文件</a><a href="#L6">D6 项目</a>
+</nav>
+
+<main>
+
+<article class="lesson" id="L0" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">DAY 0 · 开始之前</div>
+    <h2>把环境装对，一次装好</h2>
+    <div class="metarow">
+      <div><b>用时</b>60–90 分钟</div>
+      <div><b>前置</b>无</div>
+      <div><b>学完你能</b>在隔离环境里跑起 Jupyter，并把代码推上 GitHub</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么这一课不能跳</b>
+    <p>90% 的初学者卡壳不是卡在语法，是卡在「我装的这个包为什么找不到」。花一个上午把环境弄干净，后面八周能省下几十小时。</p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">0.1</span>先理解三个词</h3>
+    <p>这三个词你现在只需要知道大概，一周后自然就懂了：</p>
+    <ul>
+      <li><strong>解释器（Python 本体）</strong>：真正执行你代码的程序。电脑里可以同时装好几个版本。</li>
+      <li><strong>包（package）</strong>：别人写好的代码库，比如 pandas。用 <code>import pandas</code> 就能用。</li>
+      <li><strong>虚拟环境（venv）</strong>：一个文件夹，里面装着这个项目专用的一套包。<strong>不同项目互不干扰</strong>——这是它存在的全部理由。</li>
+    </ul>
+    <p class="tip"><b>一句话打个比方：</b>解释器是厨师，包是食材，虚拟环境是这道菜专用的一间小厨房。你不想做甜品时打翻了做川菜的辣椒罐。</p>
+
+    <h3><span class="idx">0.2</span>安装：跟着敲，不要跳步</h3>
+
+    <div class="dothis">
+      <b>跟我敲 · 装 Python 和 uv</b>
+      <p>打开终端（Mac：Spotlight 搜 Terminal；Windows：开始菜单搜 PowerShell）。下面每一步敲完都有预期输出，对不上就先别往下走。</p>
+      <ol class="steps">
+        <li>
+          <p>确认你有没有 Python</p>
+<pre class="has-out"><code class="language-bash">python3 --version</code></pre>
+<div class="out">Python 3.12.4        ← 看到 3.10 以上就够用了
+（Windows 上命令是 python --version）</div>
+          <p>如果提示 <code>command not found</code>，去 <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> 下载安装。<strong>Windows 用户装的时候一定要勾上「Add Python to PATH」那个复选框</strong>，漏了会让你后面痛苦一小时。</p>
+        </li>
+        <li>
+          <p>装 uv（现在最省心的包管理器，比 pip 快十倍以上）</p>
+<pre class="has-out"><code class="language-bash"># Mac / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows PowerShell
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
+<div class="out">installing to /Users/you/.local/bin
+  uv
+everything's installed!</div>
+          <p>装完<strong>关掉终端重开一个</strong>（让 PATH 生效），然后验证：</p>
+<pre class="has-out"><code class="language-bash">uv --version</code></pre>
+<div class="out">uv 0.5.11</div>
+        </li>
+        <li>
+          <p>建你的学习目录和虚拟环境</p>
+<pre class="has-out"><code class="language-bash">mkdir ds-8weeks
+cd ds-8weeks
+uv venv .venv</code></pre>
+<div class="out">Using CPython 3.12.4
+Creating virtual environment at: .venv
+Activate with: source .venv/bin/activate</div>
+        </li>
+        <li>
+          <p>激活它。<strong>这一步以后每次打开新终端都要做一遍</strong>。</p>
+<pre class="has-out"><code class="language-bash"># Mac / Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1</code></pre>
+<div class="out">(.venv) you@mac ds-8weeks %      ← 行首多出 (.venv) 就是成功了</div>
+          <p>行首那个 <code>(.venv)</code> 是你唯一需要认的标志。<strong>没有它，你装的包就装错地方了。</strong></p>
+        </li>
+        <li>
+          <p>装第一批包</p>
+<pre class="has-out"><code class="language-bash">uv pip install jupyterlab pandas numpy matplotlib seaborn ruff</code></pre>
+<div class="out">Resolved 48 packages in 210ms
+Installed 48 packages in 1.2s
+ + jupyterlab==4.3.4
+ + matplotlib==3.10.0
+ + numpy==2.2.1
+ + pandas==2.2.3
+ ...</div>
+        </li>
+        <li>
+          <p>跑起来看看</p>
+<pre class="has-out"><code class="language-bash">jupyter lab</code></pre>
+<div class="out">浏览器自动打开 http://localhost:8888/lab
+左边是文件树，右边点 Notebook → Python 3 就能新建一个</div>
+          <p>在第一个格子里敲 <code>1 + 1</code>，按 <kbd>Shift</kbd>+<kbd>Enter</kbd>，下面出现 <code>2</code>——环境就通了。</p>
+          <p class="tip"><b>怎么关掉：</b>回到终端按两次 <kbd>Ctrl</kbd>+<kbd>C</kbd>。别直接关浏览器窗口，那样进程还在后台跑着。</p>
+        </li>
+      </ol>
+    </div>
+
+    <h3><span class="idx">0.3</span>装 VS Code（比 Jupyter 更适合写正经代码）</h3>
+    <p>Jupyter 适合探索数据，VS Code 适合写会被复用的代码。八周里两个都要用，所以现在一起装好。</p>
+    <ol>
+      <li>下载 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code</a> 并安装。</li>
+      <li>左侧扩展面板（<kbd>Ctrl/Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>）里搜索并安装：<strong>Python</strong>、<strong>Jupyter</strong>、<strong>Ruff</strong>（三个都是微软或 Astral 官方出的）。</li>
+      <li>用 VS Code 打开 <code>ds-8weeks</code> 文件夹。</li>
+      <li>按 <kbd>Ctrl/Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>，输入 <code>Python: Select Interpreter</code>，选带 <code>.venv</code> 字样的那一个。<strong>这一步选错，你会遇到「明明装了 pandas 却说找不到」。</strong></li>
+    </ol>
+
+    <h3><span class="idx">0.4</span>git 和 GitHub：现在只需要会四个动作</h3>
+    <p>git 的完整概念很多，但你这八周里 95% 的时间只会用到下面四条命令。剩下的以后遇到再学。</p>
+
+<pre class="has-out"><code class="language-bash">git init                          # 1. 在当前文件夹开启版本管理（只做一次）
+git add .                         # 2. 把改动放进「待提交」区
+git commit -m "完成 D1 练习"       # 3. 存一个快照，留一句说明
+git push                          # 4. 推到 GitHub</code></pre>
+<div class="out">[main a3f9c21] 完成 D1 练习
+ 3 files changed, 87 insertions(+)</div>
+
+    <div class="dothis">
+      <b>跟我敲 · 建第一个仓库</b>
+      <ol class="steps">
+        <li><p>去 <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> 建一个叫 <code>ds-8weeks</code> 的仓库，勾选 Private，其他都别动，点 Create。</p></li>
+        <li>
+          <p>回到终端，在 <code>ds-8weeks</code> 目录里建一个 <code>.gitignore</code> 文件</p>
+<pre><code class="language-bash">cat > .gitignore &lt;&lt;'EOF'
+.venv/
+data/
+__pycache__/
+.ipynb_checkpoints/
+*.csv
+*.parquet
+EOF</code></pre>
+          <p><strong>数据永远不进 git。</strong>这是一条没有例外的规矩：数据大、会变、可能含敏感信息，git 存不下也不该存。</p>
+        </li>
+        <li>
+          <p>初始化并推上去（把下面的地址换成你自己那个仓库的）</p>
+<pre class="has-out"><code class="language-bash">git init -b main
+git add .
+git commit -m "chore: 初始化学习仓库"
+git remote add origin https://github.com/你的用户名/ds-8weeks.git
+git push -u origin main</code></pre>
+<div class="out">Enumerating objects: 3, done.
+To https://github.com/你的用户名/ds-8weeks.git
+ * [new branch]      main -> main</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="gotcha">
+      <b>这一步最常见的四个报错</b>
+      <dl>
+        <dt>zsh: command not found: uv</dt>
+        <dd>装完没重开终端，PATH 还没刷新。<strong>关掉终端窗口重开一个</strong>再试。还不行就手动跑 <code>source ~/.zshrc</code>（Mac）。</dd>
+        <dt>ModuleNotFoundError: No module named 'pandas'</dt>
+        <dd>99% 是虚拟环境没激活。看行首有没有 <code>(.venv)</code>。在 VS Code 里则是解释器选错了，重做 0.3 的第 4 步。</dd>
+        <dt>无法加载文件 ...Activate.ps1，因为在此系统上禁止运行脚本</dt>
+        <dd>Windows PowerShell 的默认安全策略。以管理员身份打开 PowerShell 跑一次：<br><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code></dd>
+        <dt>fatal: remote origin already exists</dt>
+        <dd>你之前加过一次了。用 <code>git remote set-url origin 新地址</code> 覆盖，或者 <code>git remote -v</code> 先看看现在指向哪。</dd>
+      </dl>
+    </div>
+
+    <div class="checkpoint">
+      <b>Day 0 验收</b>
+      <ul>
+        <li>终端行首能看到 <code>(.venv)</code>，<code>python -c "import pandas; print(pandas.__version__)"</code> 能打印版本号</li>
+        <li><code>jupyter lab</code> 能打开，格子里 <code>1+1</code> 出 <code>2</code></li>
+        <li>VS Code 右下角显示的解释器路径里带 <code>.venv</code></li>
+        <li>GitHub 上能看到你的 <code>ds-8weeks</code> 仓库，且里面<strong>没有</strong> <code>.venv</code> 文件夹</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="lesson" id="L1" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">WEEK 1 · DAY 1</div>
+    <h2>变量、类型、字符串</h2>
+    <div class="metarow">
+      <div><b>用时</b>约 3 小时</div>
+      <div><b>前置</b>Day 0 已完成</div>
+      <div><b>学完你能</b>把一列脏字符串规范化，并算出想要的统计量</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么先学这个</b>
+    <p>数据科学里 80% 的时间在洗数据，而洗数据 80% 是在跟<strong>字符串</strong>和<strong>类型</strong>打架：「上海」和「 上海 」为什么不相等、<code>"3.5"</code> 为什么不能直接做加法。今天就是把这些基本功打透。</p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">1.1</span>变量不是盒子，是标签</h3>
+    <p>很多教程说「变量是装东西的盒子」，这个比喻在 Python 里会害了你。正确的理解是：<strong>变量是贴在数据上的标签</strong>，多个标签可以贴在同一份数据上。</p>
+
+<pre class="has-out"><code class="language-python">a = [1, 2, 3]     # 创建一个列表，贴上标签 a
+b = a             # 把标签 b 也贴到同一个列表上，没有复制！
+b.append(4)       # 通过 b 改动这个列表
+
+print(a)          # a 也变了，因为 a 和 b 指着同一份数据
+print(a is b)     # is 问的是「是不是同一份数据」</code></pre>
+<div class="out">[1, 2, 3, 4]
+True</div>
+
+    <p>这就是初学者最常见的一类 bug 的源头：<strong>你以为复制了，其实只是多贴了一个标签。</strong>真要复制，得说清楚：</p>
+
+<pre class="has-out"><code class="language-python">b = a.copy()      # 或者 b = a[:]  或者 b = list(a)
+b.append(99)
+print(a, b)
+print(a is b)</code></pre>
+<div class="out">[1, 2, 3, 4] [1, 2, 3, 4, 99]
+False</div>
+
+    <p class="tip"><b>为什么数字和字符串没这个问题？</b>因为它们是<strong>不可变</strong>的——你没法「改动」一个数字 3，只能让标签改指向 4。列表、字典、集合是<strong>可变</strong>的，才会出现上面的情况。这个「可变 vs 不可变」的区分明天还会再遇到。</p>
+
+    <h3><span class="idx">1.2</span>五种你天天会用的类型</h3>
+
+<pre class="has-out"><code class="language-python">age    = 32            # int   整数
+price  = 19.9          # float 小数
+city   = "上海"         # str   字符串
+is_vip = True          # bool  真假，注意首字母大写
+missing = None         # None  「没有值」，和 0、"" 都不一样
+
+for v in (age, price, city, is_vip, missing):
+    print(f"{str(v):&lt;8} {type(v).__name__}")</code></pre>
+<div class="out">32       int
+19.9     float
+上海       str
+True     bool
+None     NoneType</div>
+
+    <p>三个必须现在就记住的转换和坑：</p>
+
+<pre class="has-out"><code class="language-python">print(int("42"), float("3.5"), str(42))
+
+# int("42.0") 会报 ValueError —— int() 不接受带小数点的字符串
+print(int(float("42.0")))          # 要转两次
+
+print(0.1 + 0.2)                   # 浮点数有精度误差，所有语言都一样
+print(0.1 + 0.2 == 0.3)            # ✗ False
+print(round(0.1 + 0.2, 10) == 0.3) # ✓ 比较小数永远要给容差</code></pre>
+<div class="out">42 3.5 42
+42
+0.30000000000000004
+False
+True</div>
+
+    <h3><span class="idx">1.3</span>字符串：数据清洗的主战场</h3>
+    <p>下面这七个方法，你八周里每周都会用到。现在把它们敲一遍。</p>
+
+<pre class="has-out"><code class="language-python">raw = "  Shanghai, CHINA  "
+
+print(repr(raw.strip()))            # 去掉两端空白（最常用的一个）
+print(raw.strip().lower())          # 转小写，用来统一大小写
+print(raw.strip().replace(",", ";"))
+print(raw.strip().split(", "))      # 按分隔符切开，得到列表
+print("shanghai" in raw.lower())    # 包含判断
+print(raw.strip().startswith("Sh")) # 前缀判断
+print("-".join(["a", "b", "c"]))    # 把列表拼成字符串</code></pre>
+<div class="out">'Shanghai, CHINA'
+shanghai, china
+Shanghai; CHINA
+['Shanghai', 'CHINA']
+True
+True
+a-b-c</div>
+
+    <p class="tip"><b>为什么用 <code>repr()</code> 而不是直接 print？</b>因为 <code>print("  a  ")</code> 和 <code>print("a")</code> 看起来几乎一样，你分辨不出空白有没有去掉。<code>repr()</code> 会把引号和转义字符都显示出来。<strong>调试字符串时永远用 repr。</strong></p>
+
+    <h4>f-string：格式化输出</h4>
+    <p>字符串前面加个 <code>f</code>，就能在 <code>{}</code> 里直接写变量和表达式。这是现在唯一推荐的写法。</p>
+
+<pre class="has-out"><code class="language-python">name, gmv, rate = "上海", 1234567.891, 0.0325
+
+print(f"{name} 的成交额是 {gmv}")
+print(f"{name} 的成交额是 {gmv:,.2f} 元")   # , 千分位   .2f 两位小数
+print(f"转化率 {rate:.2%}")                 # .2% 百分比，自动乘 100
+print(f"{name:&lt;6}|{name:&gt;6}|{name:^6}|")   # 左对齐 右对齐 居中，做表格用
+print(f"{gmv = }")                          # 加个等号，调试时打印变量名+值</code></pre>
+<div class="out">上海 的成交额是 1234567.891
+上海 的成交额是 1,234,567.89 元
+转化率 3.25%
+上海    |    上海|  上海  |
+gmv = 1234567.891</div>
+
+    <h3><span class="idx">1.4</span>真假值：Python 里「空」就是假</h3>
+    <p>这条规则在数据清洗里用得极多，值得单独讲。<code>if x:</code> 判断的不只是 <code>True/False</code>：</p>
+
+<pre class="has-out"><code class="language-python">falsy = [False, None, 0, 0.0, "", [], {}, set()]   # 这八个都是「假」
+for v in falsy:
+    print(f"{repr(v):&lt;8} → {bool(v)}")</code></pre>
+<div class="out">False    → False
+None     → False
+0        → False
+0.0      → False
+''       → False
+[]       → False
+{}       → False
+set()    → False</div>
+
+    <p>所以清洗代码可以写得很短：</p>
+
+<pre class="has-out"><code class="language-python">def clean_city(raw):
+    s = (raw or "").strip()      # raw 是 None 时用空字符串兜底
+    return s.title() if s else "未知"
+
+for x in ["  shanghai ", "", None, "BEIJING"]:
+    print(repr(x), "→", clean_city(x))</code></pre>
+<div class="out">'  shanghai ' → Shanghai
+'' → 未知
+None → 未知
+'BEIJING' → Beijing</div>
+
+    <p class="tip"><b>但要小心：</b>如果 <code>0</code> 是一个有意义的值（比如销售额为 0），<code>if amount:</code> 就会把它当成缺失漏掉。这时必须写 <code>if amount is not None:</code>。<strong>这是真实项目里非常常见的一个 bug。</strong></p>
+
+    <div class="dothis">
+      <b>跟我敲 · 15 分钟，清洗一列真实的脏城市名</b>
+      <p>在 Jupyter 里新建一个 notebook，一格一格敲下面的内容。</p>
+      <ol class="steps">
+        <li>
+          <p>准备数据（真实数据就长这样，什么脏的都有）</p>
+<pre><code class="language-python">rows = ["  上海市 ", "上海", "SHANGHAI", "北京", " 北京市", None, "", "深圳市", "shenzhen"]</code></pre>
+        </li>
+        <li>
+          <p>先看看直接去重会得到什么——体会一下问题有多大</p>
+<pre class="has-out"><code class="language-python">print(len(set(rows)), set(rows))</code></pre>
+<div class="out">9 {None, '深圳市', '上海', ' 北京市', 'SHANGHAI', '', '  上海市 ', 'shenzhen', '北京'}
+明明只有 3 个城市，却被当成了 9 个</div>
+        </li>
+        <li>
+          <p>一步步加清洗规则，每加一条就打印一次看效果</p>
+<pre class="has-out"><code class="language-python">ALIAS = {"shanghai": "上海", "shenzhen": "深圳", "beijing": "北京"}
+
+def normalize(raw):
+    s = (raw or "").strip()              # 1 兜底 + 去空白
+    if not s:
+        return "未知"                     # 2 空的统一成「未知」
+    s = ALIAS.get(s.lower(), s)          # 3 英文名映射回中文
+    if s.endswith("市"):
+        s = s[:-1]                       # 4 去掉「市」字后缀
+    return s
+
+for r in rows:
+    print(f"{repr(r):&lt;14} → {normalize(r)}")</code></pre>
+<div class="out">'  上海市 '      → 上海
+'上海'          → 上海
+'SHANGHAI'     → 上海
+'北京'          → 北京
+' 北京市'       → 北京
+None           → 未知
+''             → 未知
+'深圳市'        → 深圳
+'shenzhen'     → 深圳</div>
+        </li>
+        <li>
+          <p>验证效果</p>
+<pre class="has-out"><code class="language-python">cleaned = [normalize(r) for r in rows]     # 这个写法明天讲，先照抄
+print(len(set(cleaned)), set(cleaned))</code></pre>
+<div class="out">4 {'上海', '北京', '深圳', '未知'}
+9 个变 4 个，这就是数据清洗</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="gotcha">
+      <b>今天你大概率会撞上的报错</b>
+      <dl>
+        <dt>TypeError: can only concatenate str (not "int") to str</dt>
+        <dd>你写了 <code>"年龄" + 32</code>。Python 不会帮你自动转类型。改成 <code>f"年龄 {32}"</code> 或 <code>"年龄" + str(32)</code>。</dd>
+        <dt>AttributeError: 'NoneType' object has no attribute 'strip'</dt>
+        <dd><code>None</code> 上没有 <code>.strip()</code>。这说明你的数据里有空值。用 <code>(raw or "").strip()</code> 兜底。</dd>
+        <dt>IndentationError: unexpected indent</dt>
+        <dd>Python 用缩进表示代码块，缩进量必须一致。<strong>统一用 4 个空格，别用 Tab</strong>，VS Code 会帮你处理。</dd>
+        <dt>SyntaxError: invalid syntax</dt>
+        <dd>八成是上一行少了个括号或引号。<strong>看报错指向的那一行的上一行。</strong></dd>
+      </dl>
+    </div>
+
+    <div class="ex">
+      <b>练习 · 做完再看答案</b>
+      <ol>
+        <li>
+          <p>把 <code>"  Zhang San | 32 | shanghai  "</code> 拆成姓名、年龄（整数）、城市（中文）三个变量，并打印成 <code>张三 / 32 岁 / 上海</code> 的格式。姓名映射用 <code>{"zhang san": "张三"}</code>。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">NAME = {"zhang san": "张三"}
+CITY = {"shanghai": "上海"}
+
+raw = "  Zhang San | 32 | shanghai  "
+parts = [p.strip() for p in raw.strip().split("|")]   # 先整体去空白，再逐段去
+name  = NAME.get(parts[0].lower(), parts[0])
+age   = int(parts[1])
+city  = CITY.get(parts[2].lower(), parts[2])
+print(f"{name} / {age} 岁 / {city}")</code></pre>
+<div class="out">张三 / 32 岁 / 上海</div>
+            <p>关键点：<code>split("|")</code> 之后每一段两端都还有空格，必须再 strip 一次。用 <code>.get(key, 默认值)</code> 而不是 <code>[key]</code>，映射表里没有的名字才不会报错。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>给定 <code>amounts = ["1,234.5", "", "998", None, "0", "abc"]</code>，写一个函数把它们转成 float，转不了的返回 <code>None</code>。注意 <code>"0"</code> 必须转成 <code>0.0</code> 而不是 <code>None</code>。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">def to_amount(raw):
+    s = (raw or "").strip().replace(",", "")   # 去千分位逗号
+    if not s:
+        return None
+    try:
+        return float(s)
+    except ValueError:                          # "abc" 转不了会走到这里
+        return None
+
+for a in ["1,234.5", "", "998", None, "0", "abc"]:
+    print(f"{repr(a):&lt;10} → {to_amount(a)}")</code></pre>
+<div class="out">'1,234.5'  → 1234.5
+''         → None
+'998'      → 998.0
+None       → None
+'0'        → 0.0
+'abc'      → None</div>
+            <p><code>try/except</code> 第五天才正式讲，但这个模式太常用了，现在先照着用。注意 <code>"0"</code> 走的是 <code>float("0")</code> 这条路，返回 <code>0.0</code>——如果你写成 <code>if not s: return None</code> 之后又判断了一次 <code>if not float(s)</code>，就会把 0 错杀。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>下面这段代码为什么打印的是 <code>[1, 2, 3, 99]</code> 而不是 <code>[1, 2, 3]</code>？怎么改？</p>
+<pre><code class="language-python">original = [1, 2, 3]
+backup = original
+original.append(99)
+print(backup)</code></pre>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+            <p><code>backup = original</code> 没有复制列表，只是给同一个列表又贴了一个标签。改动 <code>original</code> 就是改动 <code>backup</code> 指的那份数据。</p>
+<pre><code class="language-python">backup = original.copy()    # 或 original[:] 或 list(original)</code></pre>
+            <p>这个坑在 pandas 里会以另一副面孔出现（第三周的 <code>SettingWithCopyWarning</code>），本质是同一件事。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>用一行 f-string 把 <code>gmv = 8_654_321.4</code> 打印成 <code>成交额：865.4 万元</code>。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">gmv = 8_654_321.4
+print(f"成交额：{gmv / 10_000:.1f} 万元")</code></pre>
+<div class="out">成交额：865.4 万元</div>
+            <p>顺带一提：数字里可以写下划线做分隔，<code>8_654_321</code> 和 <code>8654321</code> 完全等价，但前者一眼能读出量级。</p>
+          </div></details>
+        </li>
+      </ol>
+    </div>
+
+    <div class="checkpoint">
+      <b>Day 1 验收 · 都能答上来才算过</b>
+      <ul>
+        <li>能说清 <code>b = a</code> 和 <code>b = a.copy()</code> 的区别，并举出一个会出 bug 的场景</li>
+        <li>不查文档写出 strip / lower / replace / split / join 五个方法</li>
+        <li>能用 f-string 打出千分位、两位小数、百分比三种格式</li>
+        <li>说得出为什么 <code>if amount:</code> 在金额为 0 时是个 bug</li>
+        <li>练习 1–4 全部自己写出来（可以查文档，但不能抄答案）</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="lesson" id="L2" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">WEEK 1 · DAY 2</div>
+    <h2>四种容器：list、dict、set、tuple</h2>
+    <div class="metarow">
+      <div><b>用时</b>约 3 小时</div>
+      <div><b>前置</b>D1</div>
+      <div><b>学完你能</b>不用任何库，手写出一份数据的分组统计</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么先学这个</b>
+    <p>pandas 的 DataFrame 本质上就是「一堆列，每列是一个数组」。你今天手写的分组统计，第四周会变成一行 <code>groupby</code>。<strong>先用笨办法做一遍，以后才知道那一行到底替你做了什么。</strong></p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">2.1</span>一张表决定用哪个</h3>
+    <p>四个容器，选择标准其实只有两个问题：<strong>要不要保持顺序？要不要按名字取值？</strong></p>
+
+    <div class="tablewrap" style="margin:14px 0">
+      <table>
+        <thead><tr><th>容器</th><th>写法</th><th>什么时候用</th><th>取一个元素多快</th></tr></thead>
+        <tbody>
+          <tr><td class="p">list</td><td class="p">[1, 2, 3]</td><td>有顺序、会增删的一串东西（最常用）</td><td>按位置：快</td></tr>
+          <tr><td class="p">dict</td><td class="p">{"a": 1}</td><td>按名字查值：ID → 记录、城市 → 销售额</td><td>按键：极快</td></tr>
+          <tr><td class="p">set</td><td class="p">{1, 2, 3}</td><td>去重、判断「在不在里面」、求交集差集</td><td>判断存在：极快</td></tr>
+          <tr><td class="p">tuple</td><td class="p">(1, 2)</td><td>不该被改的一组值，比如坐标、函数的多个返回值</td><td>按位置：快</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="tip"><b>一条实用规则：</b>如果你在写 <code>if x in my_list:</code> 而这个 list 有几千上万个元素，把它换成 set，会快几百倍。原因是 list 要一个个比对，set 直接算哈希定位。</p>
+
+    <h3><span class="idx">2.2</span>list：最常用的那个</h3>
+
+<pre class="has-out"><code class="language-python">nums = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# 取值：从 0 开始数，负数从末尾数
+print(nums[0], nums[-1], nums[-2])
+
+# 切片 [起点:终点]，终点不包含 —— 记住「左闭右开」
+print(nums[1:4])      # 第 1、2、3 个
+print(nums[:3])       # 前三个
+print(nums[-3:])      # 后三个
+print(nums[::2])      # 每隔一个取
+print(nums[::-1])     # 反转</code></pre>
+<div class="out">3 6 2
+[1, 4, 1]
+[3, 1, 4]
+[9, 2, 6]
+[3, 4, 5, 2]
+[6, 2, 9, 5, 1, 4, 1, 3]</div>
+
+<pre class="has-out"><code class="language-python">items = ["a", "b"]
+items.append("c")          # 末尾加一个
+items.extend(["d", "e"])   # 末尾加一串（注意和 append 的区别）
+items.insert(0, "z")       # 插到指定位置
+items.remove("b")          # 按值删（只删第一个）
+last = items.pop()         # 弹出末尾并返回
+
+print(items, "弹出的是", last)
+print(len(items), "a" in items, items.index("c"))
+print(sorted([3, 1, 2]), sorted(["b", "A", "c"], key=str.lower))</code></pre>
+<div class="out">['z', 'a', 'c', 'd'] 弹出的是 e
+4 True 2
+[1, 2, 3] ['A', 'b', 'c']</div>
+
+    <p class="tip"><b>append 和 extend 别搞混：</b><code>[1,2].append([3,4])</code> 得到 <code>[1, 2, [3, 4]]</code>（塞进去一个列表），<code>extend</code> 才得到 <code>[1, 2, 3, 4]</code>。</p>
+
+    <h3><span class="idx">2.3</span>dict：数据科学里用得最多的结构</h3>
+    <p>一条数据记录、一份配置、一张映射表——在 Python 里全是 dict。<strong>你以后读到的 JSON、API 返回、DataFrame 的一行，本质都是 dict。</strong></p>
+
+<pre class="has-out"><code class="language-python">order = {"id": "A001", "city": "上海", "amount": 199.0}
+
+print(order["city"])                  # 取值：键不存在会报 KeyError
+print(order.get("channel"))           # 取值：键不存在返回 None，不报错
+print(order.get("channel", "未知"))    # 还能给默认值 ← 清洗时最常用
+
+order["channel"] = "App"              # 新增或覆盖
+order.update({"amount": 259.0})       # 批量更新
+del order["id"]                       # 删除
+
+print(order)
+print(list(order.keys()))
+print(list(order.values()))</code></pre>
+<div class="out">上海
+None
+未知
+{'city': '上海', 'amount': 259.0, 'channel': 'App'}
+['city', 'amount', 'channel']
+['上海', 259.0, 'App']</div>
+
+    <h4>遍历 dict 的标准写法</h4>
+<pre class="has-out"><code class="language-python">sales = {"上海": 1200, "北京": 980, "深圳": 1500}
+
+for city, amount in sales.items():        # .items() 同时拿键和值
+    print(f"{city:&lt;4} {amount:&gt;6,}")
+
+print("最高：", max(sales, key=sales.get))     # 按值找最大的那个键
+print("总和：", sum(sales.values()))
+print("排序：", sorted(sales.items(), key=lambda kv: -kv[1]))</code></pre>
+<div class="out">上海    1,200
+北京      980
+深圳    1,500
+最高： 深圳
+总和： 3680
+排序： [('深圳', 1500), ('上海', 1200), ('北京', 980)]</div>
+
+    <p class="tip"><b><code>key=lambda kv: -kv[1]</code> 是什么？</b><code>lambda</code> 就是「临时的小函数」，这里表示「排序时按每个元素的第 1 项（也就是值）的负数排」，加负号等于降序。明天讲函数时会讲清楚，今天先照抄。</p>
+
+    <h3><span class="idx">2.4</span>set：去重和集合运算</h3>
+
+<pre class="has-out"><code class="language-python">a = {"上海", "北京", "深圳"}
+b = {"北京", "广州"}
+
+print(a | b)        # 并集：两边加起来
+print(a &amp; b)        # 交集：两边都有的
+print(a - b)        # 差集：a 有 b 没有的 ← 对数据最有用
+print("上海" in a)   # 判断存在
+
+users_day1 = {"u1", "u2", "u3"}
+users_day2 = {"u2", "u3", "u4"}
+print("流失：", users_day1 - users_day2)
+print("新增：", users_day2 - users_day1)
+print("留存率：", f"{len(users_day1 &amp; users_day2) / len(users_day1):.0%}")</code></pre>
+<div class="out">{'广州', '北京', '深圳', '上海'}
+{'北京'}
+{'深圳', '上海'}
+True
+流失： {'u1'}
+新增： {'u4'}
+留存率： 67%</div>
+
+    <p>最后三行就是一个完整的留存分析。<strong>set 运算是做用户分析时最快的工具</strong>，比任何库都直接。</p>
+
+    <h3><span class="idx">2.5</span>tuple：不可变的一组值</h3>
+<pre class="has-out"><code class="language-python">point = (120.5, 31.2)
+lon, lat = point              # 解包：一次赋给两个变量
+
+def min_max(nums):
+    return min(nums), max(nums)   # 函数返回多个值，其实就是返回一个 tuple
+
+lo, hi = min_max([3, 1, 4, 1, 5])
+print(lon, lat, "|", lo, hi)
+
+point[0] = 999                # ✗ TypeError，tuple 不能改</code></pre>
+<div class="out">120.5 31.2 | 1 5
+TypeError: 'tuple' object does not support item assignment</div>
+
+    <p class="tip"><b>tuple 还有一个关键用途：</b>它能当 dict 的键，list 不行。所以「按（城市, 渠道）两个维度分组」时，键就是一个 tuple——下面马上会用到。</p>
+
+    <div class="dothis">
+      <b>跟我敲 · 40 分钟，不用 pandas 手写一份分组统计</b>
+      <p>这是今天的核心练习。做完你会对第四周的 <code>groupby</code> 有完全不同的理解。</p>
+      <ol class="steps">
+        <li>
+          <p>准备数据（每条订单是一个 dict，一堆订单是一个 list——真实数据就是这个形状）</p>
+<pre><code class="language-python">orders = [
+    {"id": "A1", "city": "上海", "channel": "App", "amount": 199.0, "user": "u1"},
+    {"id": "A2", "city": "上海", "channel": "Web", "amount": 89.5,  "user": "u2"},
+    {"id": "A3", "city": "北京", "channel": "App", "amount": 320.0, "user": "u1"},
+    {"id": "A4", "city": "上海", "channel": "App", "amount": 45.0,  "user": "u3"},
+    {"id": "A5", "city": "北京", "channel": "App", "amount": 158.0, "user": "u4"},
+    {"id": "A6", "city": "深圳", "channel": "Web", "amount": 620.0, "user": "u2"},
+]</code></pre>
+        </li>
+        <li>
+          <p>先算最简单的：每个城市的总额</p>
+<pre class="has-out"><code class="language-python">totals = {}
+for o in orders:
+    city = o["city"]
+    totals[city] = totals.get(city, 0) + o["amount"]   # get 给默认值 0，避免 KeyError
+
+for city, amt in sorted(totals.items(), key=lambda kv: -kv[1]):
+    print(f"{city:&lt;4} {amt:&gt;8,.1f}")</code></pre>
+<div class="out">深圳       620.0
+北京       478.0
+上海       333.5</div>
+          <p class="tip"><b>验算一遍：</b>上海 199+89.5+45=333.5，北京 320+158=478，深圳 620。三个数加起来 1431.5，和 <code>sum(o["amount"] for o in orders)</code> 对得上才算过。<strong>每写一个聚合，都手算一组核对——这个习惯能救你很多次。</strong></p>
+        </li>
+        <li>
+          <p>升级：同时算总额、单数、去重用户数</p>
+<pre class="has-out"><code class="language-python">stats = {}
+for o in orders:
+    city = o["city"]
+    if city not in stats:
+        stats[city] = {"gmv": 0.0, "orders": 0, "users": set()}
+    stats[city]["gmv"] += o["amount"]
+    stats[city]["orders"] += 1
+    stats[city]["users"].add(o["user"])       # set 自动去重
+
+for city, s in stats.items():
+    print(f"{city:&lt;4} 成交 {s['gmv']:&gt;7,.1f}  {s['orders']} 单  {len(s['users'])} 人  "
+          f"客单价 {s['gmv'] / s['orders']:.1f}")</code></pre>
+<div class="out">上海    成交   333.5  3 单  3 人  客单价 111.2
+北京    成交   478.0  2 单  2 人  客单价 239.0
+深圳    成交   620.0  1 单  1 人  客单价 620.0</div>
+        </li>
+        <li>
+          <p>再升级：按两个维度分组——键用 tuple</p>
+<pre class="has-out"><code class="language-python">two_dim = {}
+for o in orders:
+    key = (o["city"], o["channel"])           # tuple 当键，list 不行
+    two_dim[key] = two_dim.get(key, 0) + o["amount"]
+
+for (city, ch), amt in sorted(two_dim.items()):
+    print(f"{city:&lt;4} {ch:&lt;4} {amt:&gt;7,.1f}")</code></pre>
+<div class="out">上海   App     244.0
+上海   Web      89.5
+北京   App     478.0
+深圳   Web     620.0</div>
+          <p>记住这个形状。<strong>第四周你会写成 <code>df.groupby(["city","channel"])["amount"].sum()</code>——一行，做的是同一件事。</strong></p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="gotcha">
+      <b>今天的四个高频报错</b>
+      <dl>
+        <dt>KeyError: 'channel'</dt>
+        <dd>dict 里没有这个键。用 <code>d.get("channel", 默认值)</code>，或先 <code>if "channel" in d:</code> 判断。</dd>
+        <dt>TypeError: unhashable type: 'list'</dt>
+        <dd>你拿 list 当 dict 的键或往 set 里塞了 list。改成 tuple：<code>(a, b)</code> 而不是 <code>[a, b]</code>。</dd>
+        <dt>IndexError: list index out of range</dt>
+        <dd>下标超出了长度。用 <code>len(x)</code> 先看看到底有几个；空列表取 <code>[0]</code> 也会报这个。</dd>
+        <dt>循环里改列表，结果漏掉一半元素</dt>
+        <dd>边遍历边删会让下标错位。正确做法是<strong>造一个新列表</strong>：<code>kept = [x for x in items if 条件]</code>（明天讲）。</dd>
+      </dl>
+    </div>
+
+    <div class="ex">
+      <b>练习 · 都基于上面的 orders</b>
+      <ol>
+        <li>
+          <p>找出下单超过一次的用户，以及他们各自的总消费。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">by_user = {}
+for o in orders:
+    u = o["user"]
+    if u not in by_user:
+        by_user[u] = {"n": 0, "amount": 0.0}
+    by_user[u]["n"] += 1
+    by_user[u]["amount"] += o["amount"]
+
+repeat = {u: v for u, v in by_user.items() if v["n"] &gt; 1}
+print(repeat)</code></pre>
+<div class="out">{'u1': {'n': 2, 'amount': 519.0}, 'u2': {'n': 2, 'amount': 709.5}}</div>
+            <p>最后一行是<strong>字典推导式</strong>，明天正式讲，形式和列表推导式一样。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>算出每个渠道的销售额占总额的百分比，按占比从高到低打印。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">by_ch = {}
+for o in orders:
+    by_ch[o["channel"]] = by_ch.get(o["channel"], 0) + o["amount"]
+
+total = sum(by_ch.values())
+for ch, amt in sorted(by_ch.items(), key=lambda kv: -kv[1]):
+    print(f"{ch:&lt;4} {amt:&gt;7,.1f}  {amt / total:.1%}")</code></pre>
+<div class="out">App     722.0  50.4%
+Web     709.5  49.6%</div>
+            <p>注意先算完再求 total，别在循环里反复算。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>用 set 找出「在 App 下过单但从没在 Web 下过单」的用户。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">app_users = {o["user"] for o in orders if o["channel"] == "App"}   # 集合推导式
+web_users = {o["user"] for o in orders if o["channel"] == "Web"}
+print("只用 App：", app_users - web_users)
+print("两边都用：", app_users &amp; web_users)</code></pre>
+<div class="out">只用 App： {'u1', 'u3', 'u4'}
+两边都用： set()</div>
+            <p>交集是<strong>空集</strong>——这本身就是一个结论：这批数据里没有任何用户跨过渠道。<strong>「算出来是空的」不等于「代码写错了」，先确认数据本身是不是就这样。</strong>用循环写也完全正确，但集合差集是这类问题最自然的表达。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>为什么下面这段会漏删？写出正确版本。</p>
+<pre><code class="language-python">nums = [1, 2, 2, 3, 2, 4]
+for n in nums:
+    if n == 2:
+        nums.remove(n)
+print(nums)   # 得到 [1, 3, 2, 4]，还剩一个 2</code></pre>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+            <p>删掉一个元素后，后面的元素整体前移，但循环的下标还在往后走，于是跳过了一个。<strong>永远不要边遍历边修改同一个列表。</strong></p>
+<pre class="has-out"><code class="language-python">nums = [1, 2, 2, 3, 2, 4]
+nums = [n for n in nums if n != 2]     # 造新列表，最推荐
+print(nums)</code></pre>
+<div class="out">[1, 3, 4]</div>
+          </div></details>
+        </li>
+      </ol>
+    </div>
+
+    <div class="checkpoint">
+      <b>Day 2 验收</b>
+      <ul>
+        <li>说得出 list / dict / set / tuple 各自最适合什么场景</li>
+        <li>不看笔记写出「按城市累加金额」的 5 行循环</li>
+        <li>知道为什么 <code>in</code> 在 set 上比在 list 上快得多</li>
+        <li>能解释「边遍历边删」为什么会漏</li>
+        <li>把「跟我敲」的四步全部跑通，输出和文中一致</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="lesson" id="L3" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">WEEK 1 · DAY 3</div>
+    <h2>循环、判断、推导式</h2>
+    <div class="metarow">
+      <div><b>用时</b>约 3 小时</div>
+      <div><b>前置</b>D1–D2</div>
+      <div><b>学完你能</b>用一行推导式替掉四行循环，并知道什么时候不该这么做</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么先学这个</b>
+    <p>推导式是 Python 最有辨识度的写法，也是从「会写」到「写得像 Python」的分水岭。更重要的是：<strong>pandas 和 NumPy 的向量化思维，就是推导式思维的延伸</strong>——先想「我要把这一列变成什么」，而不是「我要怎么一个个循环」。</p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">3.1</span>if / elif / else：注意缩进就行</h3>
+
+<pre class="has-out"><code class="language-python">def grade(amount):
+    if amount is None:          # 先处理特殊情况，这叫「早返回」
+        return "缺失"
+    if amount &gt;= 500:
+        return "高"
+    elif amount &gt;= 100:         # elif 只在上面都不成立时才判断
+        return "中"
+    else:
+        return "低"
+
+for a in [620, 199, 45, None]:
+    print(a, "→", grade(a))</code></pre>
+<div class="out">620 → 高
+199 → 中
+45 → 低
+None → 缺失</div>
+
+    <p class="tip"><b>写判断的两条实用习惯：</b>①<strong>把特殊情况放最前面提前 return</strong>，能让主逻辑不用层层嵌套；②区间判断从大到小或从小到大排，中间不留缝——上面 <code>&gt;= 500</code> 和 <code>&gt;= 100</code> 就是这样，写反了会全落进第一个分支。</p>
+
+    <h3><span class="idx">3.2</span>for 循环的三个搭档</h3>
+    <p><code>for</code> 本身很简单，真正天天用的是这三个内置函数：</p>
+
+<pre class="has-out"><code class="language-python">cities = ["上海", "北京", "深圳"]
+amounts = [1200, 980, 1500]
+
+for i in range(3):                       # range(n)：0 到 n-1
+    print(i, end=" ")
+print()
+
+for i, c in enumerate(cities, start=1):  # 同时要下标和值
+    print(f"{i}. {c}")
+
+for c, a in zip(cities, amounts):        # 两个等长列表配对遍历
+    print(f"{c} {a}")</code></pre>
+<div class="out">0 1 2 
+1. 上海
+2. 北京
+3. 深圳
+上海 1200
+北京 980
+深圳 1500</div>
+
+    <p class="tip"><b>看到 <code>for i in range(len(x))</code> 就该警觉。</b>需要值就直接 <code>for item in x</code>，需要下标和值就 <code>enumerate</code>，两个列表配对就 <code>zip</code>。用下标去索引是 C 语言的思维，在 Python 里几乎总有更清楚的写法。</p>
+
+    <h4>break、continue，以及 for-else</h4>
+<pre class="has-out"><code class="language-python">for o in [{"id": "A1", "amount": 50}, {"id": "A2", "amount": -3}, {"id": "A3", "amount": 80}]:
+    if o["amount"] &lt; 0:
+        print("发现负数金额，中止：", o["id"])
+        break                # 跳出整个循环
+    print("处理", o["id"])
+else:
+    print("全部处理完，没有异常")   # 只有循环「没被 break」才执行</code></pre>
+<div class="out">处理 A1
+发现负数金额，中止： A2</div>
+
+    <p><code>continue</code> 则是「跳过这一条，继续下一条」，做数据清洗时用来跳过坏行非常顺手。</p>
+
+    <h3><span class="idx">3.3</span>推导式：本节的重点</h3>
+    <p>推导式就是把「造一个新列表」的循环压缩成一行。<strong>先看它和循环的一一对应关系：</strong></p>
+
+<pre><code class="language-python"># 循环写法
+result = []
+for x in nums:
+    if x &gt; 0:
+        result.append(x * 2)
+
+# 推导式写法 —— 顺序：先写要什么，再写从哪来，最后写筛选条件
+result = [x * 2 for x in nums if x &gt; 0]
+#          ↑要什么   ↑从哪来      ↑筛什么</code></pre>
+
+<pre class="has-out"><code class="language-python">nums = [3, -1, 4, -1, 5, 9]
+
+print([x * 2 for x in nums])                    # 变形
+print([x for x in nums if x &gt; 0])               # 筛选
+print([x * 2 for x in nums if x &gt; 0])           # 又筛又变
+print([x if x &gt; 0 else 0 for x in nums])        # 三元表达式：不筛掉，而是替换</code></pre>
+<div class="out">[6, -2, 8, -2, 10, 18]
+[3, 4, 5, 9]
+[6, 8, 10, 18]
+[3, 0, 4, 0, 5, 9]</div>
+
+    <p class="tip"><b>注意最后两行的区别，初学者最容易混：</b><code>if</code> 写在<strong>后面</strong>是筛选（元素会消失，长度变短）；<code>if...else</code> 写在<strong>前面</strong>是替换（长度不变）。清洗数据时你几乎总是想要后者——因为长度不变才能和其他列对齐。</p>
+
+    <h4>字典推导式和集合推导式</h4>
+<pre class="has-out"><code class="language-python">sales = {"上海": 1200, "北京": 980, "深圳": 1500}
+
+print({k: v / 10000 for k, v in sales.items()})           # 单位换成万
+print({k: v for k, v in sales.items() if v &gt; 1000})        # 筛选
+print({v: k for k, v in sales.items()})                    # 键值对调
+print({c[0] for c in sales})                               # 集合推导式：首字去重</code></pre>
+<div class="out">{'上海': 0.12, '北京': 0.098, '深圳': 0.15}
+{'上海': 1200, '深圳': 1500}
+{1200: '上海', 980: '北京', 1500: '深圳'}
+{'上', '北', '深'}</div>
+
+    <h4>什么时候不该用推导式</h4>
+    <p>推导式不是越长越好。<strong>这三种情况请老老实实写循环：</strong></p>
+    <ul>
+      <li>嵌套超过两层——没人读得懂 <code>[y for x in a for y in x if ...]</code> 再套一层</li>
+      <li>循环体里有多个步骤或需要中间变量</li>
+      <li>你需要在里面 print 调试</li>
+    </ul>
+    <p>判断标准很朴素：<strong>一行写不下、或者读一遍要停顿两次，就拆回循环。</strong></p>
+
+    <div class="dothis">
+      <b>跟我敲 · 30 分钟，把一段循环代码逐步压缩</b>
+      <p>用 D2 的 orders 数据。每一步都跑一遍，确认输出一样。</p>
+      <ol class="steps">
+        <li>
+          <p>准备数据</p>
+<pre><code class="language-python">orders = [
+    {"id": "A1", "city": "上海", "channel": "App", "amount": 199.0},
+    {"id": "A2", "city": "上海", "channel": "Web", "amount": 89.5},
+    {"id": "A3", "city": "北京", "channel": "App", "amount": 320.0},
+    {"id": "A4", "city": "上海", "channel": "App", "amount": None},   # 故意放一条脏数据
+    {"id": "A5", "city": "北京", "channel": "App", "amount": 158.0},
+    {"id": "A6", "city": "深圳", "channel": "Web", "amount": 620.0},
+]</code></pre>
+        </li>
+        <li>
+          <p>先用最笨的循环写：取出所有有效金额</p>
+<pre class="has-out"><code class="language-python">amounts = []
+for o in orders:
+    if o["amount"] is not None:
+        amounts.append(o["amount"])
+print(amounts)</code></pre>
+<div class="out">[199.0, 89.5, 320.0, 158.0, 620.0]</div>
+        </li>
+        <li>
+          <p>压成推导式，输出必须一模一样</p>
+<pre class="has-out"><code class="language-python">amounts = [o["amount"] for o in orders if o["amount"] is not None]
+print(amounts)
+print(f"共 {len(amounts)} 单，总额 {sum(amounts):,.1f}，均值 {sum(amounts)/len(amounts):,.1f}")</code></pre>
+<div class="out">[199.0, 89.5, 320.0, 158.0, 620.0]
+共 5 单，总额 1,386.5，均值 277.3</div>
+          <p class="tip"><b>为什么用 <code>is not None</code> 而不是 <code>if o["amount"]</code>？</b>回想 D1：金额为 0 也是「假」，会被错误地筛掉。这是真实项目里的经典 bug。</p>
+        </li>
+        <li>
+          <p>加一列：给每单打上金额档位（长度不变，用 if-else 在前的形式）</p>
+<pre class="has-out"><code class="language-python">def grade(a):
+    if a is None: return "缺失"
+    return "高" if a &gt;= 300 else ("中" if a &gt;= 100 else "低")
+
+tagged = [{**o, "grade": grade(o["amount"])} for o in orders]   # {**o, 新键: 值} = 复制并加一列
+for t in tagged:
+    print(f"{t['id']}  {str(t['amount']):&gt;6}  {t['grade']}")</code></pre>
+<div class="out">A1   199.0  中
+A2    89.5  低
+A3   320.0  高
+A4    None  缺失
+A5   158.0  中
+A6   620.0  高</div>
+          <p><code>{**o, "grade": ...}</code> 是「把 o 的所有键值展开，再加一个新键」。<strong>这正是第三周 pandas 的 <code>df.assign(grade=...)</code> 在做的事。</strong></p>
+        </li>
+        <li>
+          <p>最后：按城市分组，但这次用 <code>setdefault</code> 让代码更短</p>
+<pre class="has-out"><code class="language-python">groups = {}
+for o in orders:
+    groups.setdefault(o["city"], []).append(o["id"])   # 键不存在就先建一个空列表
+print(groups)
+print({city: len(ids) for city, ids in groups.items()})</code></pre>
+<div class="out">{'上海': ['A1', 'A2', 'A4'], '北京': ['A3', 'A5'], '深圳': ['A6']}
+{'上海': 3, '北京': 2, '深圳': 1}</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="gotcha">
+      <b>今天的坑</b>
+      <dl>
+        <dt>推导式里用了 if-else 却报 SyntaxError</dt>
+        <dd>位置错了。筛选：<code>[x for x in a if 条件]</code>；替换：<code>[x if 条件 else y for x in a]</code>。<strong>if-else 必须写在 for 前面。</strong></dd>
+        <dt>ZeroDivisionError: division by zero</dt>
+        <dd>算均值时列表是空的。养成习惯：<code>sum(a) / len(a) if a else 0</code>。</dd>
+        <dt>循环跑完了变量却没变</dt>
+        <dd>你可能在循环里 <code>x = x * 2</code> 改的是临时变量，没写回列表。要么用推导式造新列表，要么 <code>a[i] = ...</code> 按下标写回。</dd>
+        <dt>while 循环停不下来</dt>
+        <dd>忘了在循环体里改变判断条件。<strong>初学阶段 99% 的场景用 for 就够，能不用 while 就不用。</strong>卡死了按 <kbd>Ctrl</kbd>+<kbd>C</kbd>（Jupyter 里点方块停止按钮）。</dd>
+      </dl>
+    </div>
+
+    <div class="ex">
+      <b>练习</b>
+      <ol>
+        <li>
+          <p>用一行推导式，从 <code>orders</code> 里取出所有 App 渠道且金额大于 150 的订单 id。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">ids = [o["id"] for o in orders
+       if o["channel"] == "App" and o["amount"] is not None and o["amount"] &gt; 150]
+print(ids)</code></pre>
+<div class="out">['A1', 'A3', 'A5']</div>
+            <p>条件多的时候可以换行写，Python 允许在中括号内断行——比挤成一长行可读得多。注意必须先判 <code>is not None</code>，否则 <code>None &gt; 150</code> 会直接报 TypeError。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>把 <code>["  上海 ", "BEIJING", "", None, "深圳市"]</code> 用<strong>一行</strong>推导式全部规范化成中文城市名，空的变「未知」。（可以复用 D1 的 normalize 函数）</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">ALIAS = {"beijing": "北京", "shanghai": "上海", "shenzhen": "深圳"}
+
+def normalize(raw):
+    s = (raw or "").strip()
+    if not s: return "未知"
+    s = ALIAS.get(s.lower(), s)
+    return s[:-1] if s.endswith("市") else s
+
+print([normalize(x) for x in ["  上海 ", "BEIJING", "", None, "深圳市"]])</code></pre>
+<div class="out">['上海', '北京', '未知', '未知', '深圳']</div>
+            <p>重点不是把 normalize 也压成一行——<strong>复杂逻辑放函数里，推导式只负责「对每个元素调用它」</strong>，这才是好代码。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>下面两行分别输出什么？为什么长度不一样？</p>
+<pre><code class="language-python">a = [x for x in [1, -2, 3, -4] if x &gt; 0]
+b = [x if x &gt; 0 else 0 for x in [1, -2, 3, -4]]</code></pre>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">print(a, len(a))
+print(b, len(b))</code></pre>
+<div class="out">[1, 3] 2
+[1, 0, 3, 0] 4</div>
+            <p><code>a</code> 是筛选：不满足条件的元素直接消失。<code>b</code> 是替换：每个元素都产出一个结果，长度不变。<strong>做数据处理时几乎总要用 b 这种，因为长度变了就没法和其他列对齐。</strong></p>
+          </div></details>
+        </li>
+        <li>
+          <p>写一个循环，找出 <code>orders</code> 里第一条金额缺失的订单并打印它的 id，如果全都有值就打印「数据完整」。（提示：for-else）</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">for o in orders:
+    if o["amount"] is None:
+        print("第一条缺失：", o["id"])
+        break
+else:
+    print("数据完整")</code></pre>
+<div class="out">第一条缺失： A4</div>
+            <p><code>for-else</code> 里的 else 只有在循环<strong>正常跑完没被 break</strong> 时才执行。这个语法不常见，但用来表达「找遍了都没找到」非常贴切。</p>
+          </div></details>
+        </li>
+      </ol>
+    </div>
+
+    <div class="checkpoint">
+      <b>Day 3 验收</b>
+      <ul>
+        <li>能把任意一段「造新列表」的循环改写成推导式，再改回去</li>
+        <li>说得清 <code>[x for x in a if c]</code> 和 <code>[x if c else y for x in a]</code> 的区别</li>
+        <li>不再写 <code>for i in range(len(x))</code>，改用 enumerate / zip</li>
+        <li>知道推导式在什么情况下该拆回循环</li>
+        <li>「跟我敲」五步全部跑通</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="lesson" id="L4" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">WEEK 1 · DAY 4</div>
+    <h2>函数：把代码变成能复用的东西</h2>
+    <div class="metarow">
+      <div><b>用时</b>约 3 小时</div>
+      <div><b>前置</b>D1–D3</div>
+      <div><b>学完你能</b>写出带默认参数、有文档、别人一看就懂的函数</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么先学这个</b>
+    <p>notebook 写着写着就变成 300 行谁也读不懂的流水账——所有人都经历过。<strong>函数是唯一的解药</strong>：把「洗一列城市」「算一次留存」各自封成一个函数，notebook 就只剩调用和看结果。第八周你要把函数搬进 <code>src/</code> 打包，起点就是今天。</p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">4.1</span>一个函数的完整长相</h3>
+
+<pre class="has-out"><code class="language-python">def summarize(amounts, ndigits=1):
+    """算一组金额的基本统计量。
+
+    参数
+        amounts:  数字列表，可以含 None
+        ndigits:  结果保留几位小数，默认 1
+    返回
+        一个 dict：n / total / mean / max
+    """
+    valid = [a for a in amounts if a is not None]
+    if not valid:                                  # 边界情况先处理掉
+        return {"n": 0, "total": 0.0, "mean": None, "max": None}
+    return {
+        "n": len(valid),
+        "total": round(sum(valid), ndigits),
+        "mean": round(sum(valid) / len(valid), ndigits),
+        "max": max(valid),
+    }
+
+print(summarize([199.0, 89.5, None, 320.0]))
+print(summarize([], ndigits=2))
+print(summarize([1.234, 5.678], ndigits=2))</code></pre>
+<div class="out">{'n': 3, 'total': 608.5, 'mean': 202.8, 'max': 320.0}
+{'n': 0, 'total': 0.0, 'mean': None, 'max': None}
+{'n': 2, 'total': 6.91, 'mean': 3.46, 'max': 5.678}</div>
+
+    <p>这个函数里藏着五个好习惯，逐个说：</p>
+    <ol>
+      <li><strong>名字是动词</strong>：<code>summarize</code>、<code>clean_city</code>、<code>load_orders</code>。函数在「做事」，名字就该说清做什么事。</li>
+      <li><strong>docstring 写在第一行</strong>，用三引号。在 Jupyter 里按 <kbd>Shift</kbd>+<kbd>Tab</kbd> 就能弹出来看。</li>
+      <li><strong>边界情况提前处理</strong>：空列表直接返回，不要让它掉进除零错误。</li>
+      <li><strong>默认参数</strong>让常见调用变短：<code>summarize(x)</code> 和 <code>summarize(x, ndigits=2)</code> 都行。</li>
+      <li><strong>返回结构化的 dict</strong> 而不是四个散值，调用方读起来清楚，以后加字段也不破坏旧代码。</li>
+    </ol>
+
+    <h3><span class="idx">4.2</span>参数的四种传法</h3>
+
+<pre class="has-out"><code class="language-python">def report(city, amount, currency="CNY", *tags, **extra):
+    print(f"{city} {amount} {currency} | tags={tags} | extra={extra}")
+
+report("上海", 199)                                  # 位置参数
+report(city="上海", amount=199)                      # 关键字参数（推荐，可读性最好）
+report("上海", 199, "USD")                           # 覆盖默认值
+report("上海", 199, "CNY", "vip", "new")             # *tags 收集多余的位置参数
+report("上海", 199, source="app", region="华东")      # **extra 收集多余的关键字参数</code></pre>
+<div class="out">上海 199 CNY | tags=() | extra={}
+上海 199 CNY | tags=() | extra={}
+上海 199 USD | tags=() | extra={}
+上海 199 CNY | tags=('vip', 'new') | extra={}
+上海 199 CNY | tags=() | extra={'source': 'app', 'region': '华东'}</div>
+
+    <p class="tip"><b>实用建议：</b><code>*args</code> 和 <code>**kwargs</code> 你现在只需要<strong>看得懂</strong>，因为读 pandas、sklearn 的文档时到处都是。自己写函数时，参数超过三四个就该考虑传一个 dict 或者拆成两个函数了。</p>
+
+    <h3><span class="idx">4.3</span>那个著名的可变默认参数坑</h3>
+
+<pre class="has-out"><code class="language-python">def bad_append(item, bucket=[]):     # ✗ 千万别这么写
+    bucket.append(item)
+    return bucket
+
+print(bad_append("a"))
+print(bad_append("b"))               # 期待 ['b']，实际呢？
+print(bad_append("c"))</code></pre>
+<div class="out">['a']
+['a', 'b']
+['a', 'b', 'c']</div>
+
+    <p>原因：<strong>默认值只在函数定义那一刻创建一次</strong>，之后所有调用共用同一个列表。正确写法：</p>
+
+<pre class="has-out"><code class="language-python">def good_append(item, bucket=None):
+    if bucket is None:
+        bucket = []                  # 每次调用都新建一个
+    bucket.append(item)
+    return bucket
+
+print(good_append("a"))
+print(good_append("b"))</code></pre>
+<div class="out">['a']
+['b']</div>
+
+    <p class="tip"><b>记忆口诀：</b>默认值只能用不可变的东西——数字、字符串、True/False、None。想用 list 或 dict 当默认值，一律先写 <code>None</code> 再在函数体里建。</p>
+
+    <h3><span class="idx">4.4</span>作用域：函数里改不了外面的变量</h3>
+
+<pre class="has-out"><code class="language-python">total = 0
+
+def add_wrong(x):
+    total = total + x        # ✗ UnboundLocalError
+
+def add_right(current, x):
+    return current + x       # ✓ 要什么传进来，算完返回出去
+
+total = add_right(total, 10)
+total = add_right(total, 5)
+print(total)</code></pre>
+<div class="out">15</div>
+
+    <p>Python 确实有 <code>global</code> 关键字能强行改外部变量，但<strong>你在这八周里应该一次都用不上</strong>。函数的价值就在于「输入 → 输出」这条边界清楚；一旦开始改全局变量，就没人说得清数据是在哪一步被改的了。</p>
+
+    <h3><span class="idx">4.5</span>lambda：一次性的小函数</h3>
+
+<pre class="has-out"><code class="language-python">orders = [{"id": "A1", "amount": 199.0}, {"id": "A2", "amount": 89.5}, {"id": "A3", "amount": 620.0}]
+
+print(sorted(orders, key=lambda o: -o["amount"])[0])        # 按金额降序取第一
+print(sorted(["banana", "Apple", "cherry"], key=str.lower)) # 忽略大小写排序
+print(list(map(lambda x: x * 2, [1, 2, 3])))                # map：对每个元素做同一件事</code></pre>
+<div class="out">{'id': 'A3', 'amount': 620.0}
+['Apple', 'banana', 'cherry']
+[2, 4, 6]</div>
+
+    <p class="tip"><b>lambda 只该出现在一个地方：</b>当作 <code>sorted</code>、<code>max</code>、后面 pandas 的 <code>apply</code> 的 <code>key</code> 参数。如果你想给一个 lambda 起名字（<code>f = lambda x: ...</code>），那就直接用 <code>def</code>——一样长，还能写 docstring。至于 <code>map</code>/<code>filter</code>，推导式几乎总是更好读。</p>
+
+    <div class="dothis">
+      <b>跟我敲 · 45 分钟，把 D1–D3 的零散代码收成一个函数库</b>
+      <p>这一节的产出直接就是 D6 项目的雏形。在 VS Code 里新建 <code>clean.py</code>，不要在 notebook 里写。</p>
+      <ol class="steps">
+        <li>
+          <p>建文件，先写最上面的常量和第一个函数</p>
+<pre><code class="language-python"># clean.py
+"""订单数据清洗工具。"""
+
+CITY_ALIAS = {"shanghai": "上海", "beijing": "北京", "shenzhen": "深圳"}
+UNKNOWN = "未知"
+
+
+def clean_city(raw):
+    """把各种写法的城市名统一成标准中文名。None / 空 → '未知'。"""
+    s = (raw or "").strip()
+    if not s:
+        return UNKNOWN
+    s = CITY_ALIAS.get(s.lower(), s)
+    return s[:-1] if s.endswith("市") else s</code></pre>
+        </li>
+        <li>
+          <p>加第二个函数：金额解析</p>
+<pre><code class="language-python">def parse_amount(raw):
+    """把 '1,234.5' 这类字符串转成 float，转不了返回 None。"""
+    if isinstance(raw, (int, float)):     # 已经是数字就直接用
+        return float(raw)
+    s = (raw or "").strip().replace(",", "").replace("￥", "")
+    if not s:
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None</code></pre>
+          <p class="tip"><code>isinstance(x, (int, float))</code> 判断「是不是数字类型」。真实数据里同一列可能既有数字又有字符串，这个判断能省掉很多麻烦。</p>
+        </li>
+        <li>
+          <p>加第三个函数：把一整条记录洗干净</p>
+<pre><code class="language-python">def clean_order(row, drop_negative=True):
+    """清洗一条订单记录，返回新的 dict（不修改原始数据）。"""
+    amount = parse_amount(row.get("amount"))
+    if drop_negative and amount is not None and amount &lt; 0:
+        amount = None
+    return {
+        "id": (row.get("id") or "").strip().upper(),
+        "city": clean_city(row.get("city")),
+        "channel": (row.get("channel") or UNKNOWN).strip().title(),
+        "amount": amount,
+        "is_valid": amount is not None,
+    }</code></pre>
+          <p><strong>注意「返回新的 dict，不修改原始数据」</strong>——这条原则从今天贯穿到第八周。原始数据一旦被就地改掉，出了问题你没法回头对账。</p>
+        </li>
+        <li>
+          <p>加第四个函数：汇总</p>
+<pre><code class="language-python">def summarize_by(rows, key="city"):
+    """按某个字段分组，返回 {分组值: {n, valid, gmv, mean}}。"""
+    out = {}
+    for r in rows:
+        g = out.setdefault(r[key], {"n": 0, "valid": 0, "gmv": 0.0})
+        g["n"] += 1
+        if r["is_valid"]:
+            g["valid"] += 1
+            g["gmv"] += r["amount"]
+    for g in out.values():
+        g["mean"] = round(g["gmv"] / g["valid"], 2) if g["valid"] else None
+        g["gmv"] = round(g["gmv"], 2)
+    return out</code></pre>
+        </li>
+        <li>
+          <p>文件末尾加一段自测，然后在终端跑它</p>
+<pre class="has-out"><code class="language-python">if __name__ == "__main__":          # 只有直接运行这个文件时才执行
+    raw_rows = [
+        {"id": " a1 ", "city": "  上海市 ", "channel": "app", "amount": "199.0"},
+        {"id": "a2", "city": "SHANGHAI", "channel": "web", "amount": "1,289.5"},
+        {"id": "a3", "city": "北京", "channel": "App", "amount": "-30"},
+        {"id": "a4", "city": None, "channel": None, "amount": ""},
+        {"id": "a5", "city": "深圳市", "channel": "APP", "amount": 620},
+    ]
+    rows = [clean_order(r) for r in raw_rows]
+    for r in rows:
+        print(r)
+    print()
+    for city, s in summarize_by(rows).items():
+        print(f"{city:&lt;4} {s}")</code></pre>
+<div class="out">$ python clean.py
+{'id': 'A1', 'city': '上海', 'channel': 'App', 'amount': 199.0, 'is_valid': True}
+{'id': 'A2', 'city': '上海', 'channel': 'Web', 'amount': 1289.5, 'is_valid': True}
+{'id': 'A3', 'city': '北京', 'channel': 'App', 'amount': None, 'is_valid': False}
+{'id': 'A4', 'city': '未知', 'channel': '未知', 'amount': None, 'is_valid': False}
+{'id': 'A5', 'city': '深圳', 'channel': 'App', 'amount': 620.0, 'is_valid': True}
+
+上海   {'n': 2, 'valid': 2, 'gmv': 1488.5, 'mean': 744.25}
+北京   {'n': 1, 'valid': 0, 'gmv': 0.0, 'mean': None}
+未知   {'n': 1, 'valid': 0, 'gmv': 0.0, 'mean': None}
+深圳   {'n': 1, 'valid': 1, 'gmv': 620.0, 'mean': 620.0}</div>
+          <p class="tip"><b>读一遍这份汇总，注意「北京」和「未知」两组：</b><code>gmv</code> 都是 0，<code>mean</code> 都是 <code>None</code>——因为它们唯一的那条订单金额无效（一个是负数被丢掉，一个是空值）。<strong>这就是为什么 <code>n</code> 和 <code>valid</code> 必须分开统计</strong>：只看 gmv=0 你会以为这两个城市卖了 0 元，实际是「没有可用数据」。真实报表里把这两者混为一谈，是非常昂贵的错误。</p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="gotcha">
+      <b>今天的坑</b>
+      <dl>
+        <dt>TypeError: summarize() missing 1 required positional argument</dt>
+        <dd>少传了参数。看函数定义里哪些没有默认值——那些是必须传的。</dd>
+        <dt>函数返回 None，明明算出来了</dt>
+        <dd>忘了写 <code>return</code>。Python 函数不写 return 就默认返回 None，不会报错，很隐蔽。</dd>
+        <dt>UnboundLocalError: local variable 'total' referenced before assignment</dt>
+        <dd>你在函数里给一个外部变量赋值了。改成「传进来、返回出去」。</dd>
+        <dt>改了 clean.py 但 notebook 里还是旧行为</dt>
+        <dd>notebook 缓存了导入的模块。开头加这两行就能自动重载：<br><code>%load_ext autoreload</code> 换行 <code>%autoreload 2</code></dd>
+      </dl>
+    </div>
+
+    <div class="ex">
+      <b>练习</b>
+      <ol>
+        <li>
+          <p>给 <code>clean_city</code> 加一个参数 <code>unknown="未知"</code>，让调用方能自定义空值的填充词，并保持原来的调用方式不报错。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">def clean_city(raw, unknown="未知"):
+    s = (raw or "").strip()
+    if not s:
+        return unknown
+    s = CITY_ALIAS.get(s.lower(), s)
+    return s[:-1] if s.endswith("市") else s
+
+print(clean_city(None))
+print(clean_city(None, unknown="N/A"))</code></pre>
+<div class="out">未知
+N/A</div>
+            <p>关键是<strong>带默认值的参数必须放在没默认值的参数后面</strong>，而且加了默认值不会破坏已有调用——这就是默认参数最大的价值：向后兼容。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>写一个 <code>top_n(rows, key="amount", n=3)</code>，返回金额最高的 n 条记录，要能正确跳过 <code>None</code>。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">def top_n(rows, key="amount", n=3):
+    """按 key 降序取前 n 条，忽略该字段为 None 的记录。"""
+    valid = [r for r in rows if r.get(key) is not None]
+    return sorted(valid, key=lambda r: r[key], reverse=True)[:n]
+
+for r in top_n(rows, n=2):
+    print(r["id"], r["amount"])</code></pre>
+<div class="out">A2 1289.5
+A5 620.0</div>
+            <p>两个细节：先过滤 None 再排序（否则 <code>None</code> 参与比较会 TypeError）；切片 <code>[:n]</code> 不够 n 条也不报错，会有几条给几条。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>下面的函数每次调用都会累积上一次的结果，为什么？改对它。</p>
+<pre><code class="language-python">def collect_errors(msg, log={}):
+    log[msg] = log.get(msg, 0) + 1
+    return log</code></pre>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+            <p>可变默认参数：<code>log={}</code> 这个字典在函数定义时创建一次，所有调用共享它。</p>
+<pre class="has-out"><code class="language-python">def collect_errors(msg, log=None):
+    if log is None:
+        log = {}
+    log[msg] = log.get(msg, 0) + 1
+    return log
+
+print(collect_errors("坏行"))
+print(collect_errors("坏行"))          # 现在每次都是全新的
+
+shared = {}                            # 想累积就自己传一个进去，意图明确
+collect_errors("坏行", shared); collect_errors("坏行", shared)
+print(shared)</code></pre>
+<div class="out">{'坏行': 1}
+{'坏行': 1}
+{'坏行': 2}</div>
+          </div></details>
+        </li>
+        <li>
+          <p>把 <code>summarize_by</code> 改成能按<strong>任意多个字段</strong>分组，比如 <code>summarize_by(rows, keys=["city", "channel"])</code>。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">def summarize_by(rows, keys=("city",)):
+    """按任意多个字段分组。keys 是字段名的序列。"""
+    if isinstance(keys, str):
+        keys = (keys,)                       # 允许传单个字符串，调用方省事
+    out = {}
+    for r in rows:
+        k = tuple(r[c] for c in keys)        # 多字段分组：键是 tuple（D2 学过）
+        g = out.setdefault(k, {"n": 0, "valid": 0, "gmv": 0.0})
+        g["n"] += 1
+        if r["is_valid"]:
+            g["valid"] += 1
+            g["gmv"] += r["amount"]
+    for g in out.values():
+        g["mean"] = round(g["gmv"] / g["valid"], 2) if g["valid"] else None
+        g["gmv"] = round(g["gmv"], 2)
+    return out
+
+for k, s in summarize_by(rows, ["city", "channel"]).items():
+    print(f"{' / '.join(k):&lt;12} {s}")</code></pre>
+<div class="out">上海 / App    {'n': 1, 'valid': 1, 'gmv': 199.0, 'mean': 199.0}
+上海 / Web    {'n': 1, 'valid': 1, 'gmv': 1289.5, 'mean': 1289.5}
+北京 / App    {'n': 1, 'valid': 0, 'gmv': 0.0, 'mean': None}
+未知 / 未知    {'n': 1, 'valid': 0, 'gmv': 0.0, 'mean': None}
+深圳 / App    {'n': 1, 'valid': 1, 'gmv': 620.0, 'mean': 620.0}</div>
+            <p>两个设计细节：①<strong>允许 keys 传字符串或列表</strong>，让老代码 <code>summarize_by(rows, "city")</code> 不至于报错；②默认值用 tuple <code>("city",)</code> 而不是 list，避开可变默认参数的坑。<strong>第四周 pandas 的 <code>groupby(["city","channel"])</code> 做的就是这件事。</strong></p>
+          </div></details>
+        </li>
+      </ol>
+    </div>
+
+    <div class="checkpoint">
+      <b>Day 4 验收</b>
+      <ul>
+        <li><code>clean.py</code> 里有四个函数，每个都有 docstring，<code>python clean.py</code> 能跑出结果</li>
+        <li>说得出可变默认参数为什么危险，并当场写出正确写法</li>
+        <li>知道为什么不该在函数里改全局变量</li>
+        <li>能用 <code>sorted(..., key=lambda ...)</code> 按任意字段排序</li>
+        <li>把 <code>clean.py</code> commit 并 push 到 GitHub</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="lesson" id="L5" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">WEEK 1 · DAY 5</div>
+    <h2>读写文件与异常处理</h2>
+    <div class="metarow">
+      <div><b>用时</b>约 3 小时</div>
+      <div><b>前置</b>D1–D4</div>
+      <div><b>学完你能</b>读进一个有坏行的真实 CSV，不崩溃，并报告坏在第几行</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么先学这个</b>
+    <p>真实数据永远是脏的：编码不对、某一行少一列、金额栏里写着「面议」。<strong>能不能优雅地处理坏数据，是业余和职业的分界线。</strong>业余的做法是程序崩了改一改再跑；职业的做法是程序跑完，然后告诉你哪 37 行有问题、分别是什么问题。</p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">5.1</span>pathlib：别再手动拼路径</h3>
+
+<pre class="has-out"><code class="language-python">from pathlib import Path
+
+data_dir = Path("data")
+csv_path = data_dir / "orders.csv"        # 用 / 拼路径，Windows 和 Mac 通用
+
+print(csv_path)
+print(csv_path.name, csv_path.stem, csv_path.suffix)
+print(csv_path.exists())
+print(Path.cwd())                          # 当前工作目录 —— 找不到文件时先打印这个
+
+data_dir.mkdir(exist_ok=True)              # 建目录，已存在也不报错
+print(sorted(p.name for p in data_dir.glob("*.csv")))   # 列出所有 csv</code></pre>
+<div class="out">data/orders.csv
+orders.csv orders .csv
+False
+/Users/you/ds-8weeks
+[]</div>
+
+    <p class="tip"><b>「文件明明在那儿却说找不到」</b>是初学者最常见的困惑。原因几乎总是：<strong>你的工作目录不是你以为的那个。</strong>先 <code>print(Path.cwd())</code> 看清楚自己站在哪，再决定路径怎么写。</p>
+
+    <h3><span class="idx">5.2</span>读写文件：永远用 with</h3>
+
+<pre class="has-out"><code class="language-python">p = Path("data/demo.txt")
+p.parent.mkdir(exist_ok=True)
+
+with p.open("w", encoding="utf-8") as f:      # "w" 写入（会覆盖），"a" 追加
+    f.write("第一行\n")
+    f.write("第二行\n")
+
+with p.open(encoding="utf-8") as f:            # 默认就是读
+    for lineno, line in enumerate(f, start=1):
+        print(lineno, repr(line))</code></pre>
+<div class="out">1 '第一行\n'
+2 '第二行\n'</div>
+
+    <p>两个必须记住的点：</p>
+    <ul>
+      <li><strong>永远写 <code>encoding="utf-8"</code>。</strong>不写的话 Windows 上默认是 GBK，读中文会乱码或直接报错。这是中文用户的头号踩坑点。</li>
+      <li><strong>永远用 <code>with</code>。</strong>它保证文件一定会被关闭，哪怕中间出错。手动 <code>open()</code> 忘了 <code>close()</code>，写入的内容可能根本没落盘。</li>
+    </ul>
+
+    <h3><span class="idx">5.3</span>CSV：用 csv 模块，别自己 split</h3>
+    <p>你可能想「CSV 不就是逗号分隔吗，<code>line.split(",")</code> 不就行了」。<strong>不行</strong>——因为字段里本身可能含逗号，那时它会被引号包起来：</p>
+
+<pre class="has-out"><code class="language-python">import csv
+from pathlib import Path
+
+p = Path("data/orders.csv")
+p.parent.mkdir(exist_ok=True)
+p.write_text(
+    'id,city,note,amount\n'
+    'A1,上海,"买了 2 件,送朋友",199.0\n'      # ← note 里有逗号
+    'A2,北京,普通订单,320\n'
+    'A3,深圳,缺一列\n'                        # ← 只有 3 列，坏行
+    'A4,广州,金额写成中文,面议\n',             # ← 金额不是数字
+    encoding="utf-8")
+
+print("split 的结果（错的）:", p.read_text(encoding="utf-8").splitlines()[1].split(","))
+
+with p.open(encoding="utf-8", newline="") as f:
+    for row in csv.DictReader(f):
+        print(row)</code></pre>
+<div class="out">split 的结果（错的）: ['A1', '上海', '"买了 2 件', '送朋友"', '199.0']
+{'id': 'A1', 'city': '上海', 'note': '买了 2 件,送朋友', 'amount': '199.0'}
+{'id': 'A2', 'city': '北京', 'note': '普通订单', 'amount': '320'}
+{'id': 'A3', 'city': '深圳', 'note': '缺一列', 'amount': None}
+{'id': 'A4', 'city': '广州', 'note': '金额写成中文', 'amount': '面议'}</div>
+
+    <p><code>split</code> 把一个字段切成了两半，<code>csv.DictReader</code> 处理得完全正确。<strong>另外注意 <code>newline=""</code></strong>——这是 csv 模块文档明确要求的，不写在某些 Windows 文件上会多出空行。</p>
+
+    <p class="tip"><b>那第三行缺列怎么办？</b>DictReader 给了 <code>None</code>，没有崩。第四行金额是「面议」，它照样读进来了——<strong>CSV 层面不报错，问题会往下游流</strong>。所以下一节的异常处理才是关键。</p>
+
+    <h3><span class="idx">5.4</span>异常：让程序在坏数据面前活下来</h3>
+
+<pre class="has-out"><code class="language-python">def to_float(s):
+    try:
+        return float(s)
+    except (TypeError, ValueError):     # 可以一次捕获多种
+        return None
+
+print(to_float("199.0"), to_float("面议"), to_float(None))</code></pre>
+<div class="out">199.0 None None</div>
+
+    <h4>完整的四段式</h4>
+<pre class="has-out"><code class="language-python">def load(path):
+    try:
+        text = Path(path).read_text(encoding="utf-8")
+    except FileNotFoundError:
+        print(f"找不到文件：{path}")
+        return None
+    except UnicodeDecodeError:
+        print("编码不是 utf-8，试试 encoding='gbk'")
+        return None
+    else:
+        print("读取成功")               # 没出错才执行
+        return text
+    finally:
+        print("这一句无论如何都会执行")   # 常用来清理资源
+
+load("data/orders.csv")
+print("---")
+load("data/不存在.csv")</code></pre>
+<div class="out">读取成功
+这一句无论如何都会执行
+---
+找不到文件：data/不存在.csv
+这一句无论如何都会执行</div>
+
+    <h4>三条铁律</h4>
+    <ul>
+      <li><strong>捕获具体的异常类型</strong>，不要写光秃秃的 <code>except:</code>。后者连 <kbd>Ctrl</kbd>+<kbd>C</kbd> 都会吞掉，出了问题你完全不知道发生了什么。</li>
+      <li><strong>try 块要小</strong>，只包住可能出错的那一两行。包一大段的话，你分不清是哪句炸的。</li>
+      <li><strong>别静默吞掉错误。</strong><code>except: pass</code> 是最危险的写法——数据错了程序还一脸正常地跑完。至少要记下来。</li>
+    </ul>
+
+    <h4>主动抛错：raise</h4>
+<pre class="has-out"><code class="language-python">def check_columns(row, required=("id", "city", "amount")):
+    missing = [c for c in required if row.get(c) in (None, "")]
+    if missing:
+        raise ValueError(f"缺少必需字段：{missing}")
+    return True
+
+try:
+    check_columns({"id": "A3", "city": "深圳"})
+except ValueError as e:
+    print("校验失败：", e)</code></pre>
+<div class="out">校验失败： 缺少必需字段：['amount']</div>
+
+    <p><strong>什么时候该 raise，什么时候该返回 None？</strong>规则很简单：能合理兜底的（金额解析失败 → None）就兜底；<strong>继续跑下去必然产出错误结果的</strong>（整个文件没有 amount 列）就 raise，让程序尽早停在正确的地方。</p>
+
+    <div class="dothis">
+      <b>跟我敲 · 50 分钟，写一个「不会崩」的 CSV 读取器</b>
+      <p>接着昨天的 <code>clean.py</code>，新建 <code>loader.py</code>。这是 D6 项目的另一半。</p>
+      <ol class="steps">
+        <li>
+          <p>先造一份足够脏的测试数据</p>
+<pre><code class="language-python"># make_data.py
+from pathlib import Path
+
+Path("data").mkdir(exist_ok=True)
+Path("data/orders.csv").write_text(
+    "id,city,channel,amount\n"
+    "a1,  上海市 ,app,199.0\n"
+    "a2,SHANGHAI,web,\"1,289.5\"\n"
+    "a3,北京,App,-30\n"
+    "a4,,,\n"
+    "a5,深圳市,APP,620\n"
+    "a6,广州,web,面议\n"
+    "a7,北京,app\n"                       # 少一列
+    "a8,上海,web,88.8\n",
+    encoding="utf-8")
+print("已生成 data/orders.csv")</code></pre>
+        </li>
+        <li>
+          <p>写读取函数：一边读一边记录问题，绝不中途崩溃</p>
+<pre><code class="language-python"># loader.py
+import csv
+from pathlib import Path
+from clean import clean_order            # 复用昨天写的
+
+def load_orders(path, encoding="utf-8"):
+    """读 CSV 并清洗。返回 (清洗后的记录列表, 问题列表)。"""
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(f"找不到 {path.resolve()}")
+
+    rows, issues = [], []
+    with path.open(encoding=encoding, newline="") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames is None:
+            raise ValueError("文件是空的，连表头都没有")
+
+        for lineno, raw in enumerate(reader, start=2):    # 表头是第 1 行
+            try:
+                rec = clean_order(raw)
+            except Exception as e:                         # 兜底：任何一行出错都不影响其他行
+                issues.append({"line": lineno, "type": "解析失败", "detail": str(e)})
+                continue
+
+            if not rec["id"]:
+                issues.append({"line": lineno, "type": "缺少 id", "detail": str(raw)})
+                continue
+            if not rec["is_valid"]:
+                issues.append({"line": lineno, "type": "金额无效",
+                               "detail": repr(raw.get("amount"))})
+            rows.append(rec)
+    return rows, issues</code></pre>
+        </li>
+        <li>
+          <p>写报告函数</p>
+<pre><code class="language-python">def report(rows, issues):
+    total = len(rows)
+    valid = sum(1 for r in rows if r["is_valid"])
+    print(f"读入 {total} 行，其中金额可用 {valid} 行（{valid / total:.0%}）")
+    print(f"问题 {len(issues)} 处：")
+    for i in issues:
+        print(f"  第 {i['line']:&gt;3} 行  {i['type']:&lt;8} {i['detail']}")</code></pre>
+        </li>
+        <li>
+          <p>跑起来</p>
+<pre class="has-out"><code class="language-python">if __name__ == "__main__":
+    rows, issues = load_orders("data/orders.csv")
+    report(rows, issues)</code></pre>
+<div class="out">$ python make_data.py &amp;&amp; python loader.py
+已生成 data/orders.csv
+读入 8 行，其中金额可用 4 行（50%）
+问题 4 处：
+  第   4 行  金额无效     '-30'
+  第   5 行  金额无效     ''
+  第   7 行  金额无效     '面议'
+  第   8 行  金额无效     None</div>
+          <p class="tip"><b>四条问题，其实是三种不同的毛病，现在却被归成了一类：</b>第 4 行是负金额（业务问题，可能是退款），第 5 行是空值（采集缺失），第 7 行是文本（录入不规范），第 8 行的 <code>None</code> 是<strong>整行少了一列</strong>——性质完全不同却都叫「金额无效」。<strong>好的数据质量报告要把它们分开</strong>，这正是 D6 项目要改进的地方。</p>
+        </li>
+        <li>
+          <p>最后加一个能从命令行调用的入口</p>
+<pre class="has-out"><code class="language-python">import argparse
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser(description="读取并体检一份订单 CSV")
+    ap.add_argument("path", help="CSV 文件路径")
+    ap.add_argument("--encoding", default="utf-8")
+    args = ap.parse_args()
+
+    try:
+        rows, issues = load_orders(args.path, encoding=args.encoding)
+    except (FileNotFoundError, ValueError) as e:
+        print("无法处理：", e)
+        raise SystemExit(1)          # 用非 0 退出码表示失败
+    report(rows, issues)</code></pre>
+<div class="out">$ python loader.py data/orders.csv
+读入 7 行，其中金额可用 5 行（71%）
+...
+
+$ python loader.py 不存在.csv
+无法处理： 找不到 /Users/you/ds-8weeks/不存在.csv</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="gotcha">
+      <b>今天的坑</b>
+      <dl>
+        <dt>UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd6</dt>
+        <dd>文件不是 UTF-8，多半是 Excel 导出的 GBK。试 <code>encoding="gbk"</code> 或 <code>encoding="utf-8-sig"</code>（带 BOM 的 UTF-8）。</dd>
+        <dt>FileNotFoundError，但文件明明在</dt>
+        <dd>工作目录不对。<code>print(Path.cwd())</code> 看清楚，或者直接用绝对路径 <code>Path(__file__).parent / "data" / "x.csv"</code>。</dd>
+        <dt>ModuleNotFoundError: No module named 'clean'</dt>
+        <dd><code>loader.py</code> 和 <code>clean.py</code> 不在同一个目录，或者你不是在那个目录下运行的。<code>cd</code> 到项目根目录再跑。</dd>
+        <dt>写出来的 CSV 用 Excel 打开是乱码</dt>
+        <dd>Excel 认 BOM。写的时候用 <code>encoding="utf-8-sig"</code> 就正常了。</dd>
+      </dl>
+    </div>
+
+    <div class="ex">
+      <b>练习</b>
+      <ol>
+        <li>
+          <p>改造 <code>load_orders</code>，让它在读失败时自动重试 GBK 编码，而不是直接抛错。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre><code class="language-python">def load_orders(path, encoding=None):
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(f"找不到 {path.resolve()}")
+
+    encodings = [encoding] if encoding else ["utf-8", "utf-8-sig", "gbk"]
+    last_err = None
+    for enc in encodings:
+        try:
+            with path.open(encoding=enc, newline="") as f:
+                return _parse(csv.DictReader(f))       # 把解析逻辑抽成 _parse
+        except UnicodeDecodeError as e:
+            last_err = e
+            continue
+    raise UnicodeDecodeError_from(last_err)  # 或者简单地 raise last_err</code></pre>
+            <p>关键点：把「打开文件」和「解析内容」拆成两个函数，重试才好写。<strong>一个函数只做一件事——这就是拆分带来的好处。</strong></p>
+          </div></details>
+        </li>
+        <li>
+          <p>把 <code>issues</code> 写进一份 <code>data/issues.csv</code>，方便发给上游同事。</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">def dump_issues(issues, path="data/issues.csv"):
+    if not issues:
+        print("没有问题需要导出")
+        return
+    with Path(path).open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["line", "type", "detail"])
+        writer.writeheader()
+        writer.writerows(issues)
+    print(f"已导出 {len(issues)} 条问题到 {path}")
+
+dump_issues(issues)</code></pre>
+<div class="out">已导出 3 条问题到 data/issues.csv</div>
+            <p>用 <code>utf-8-sig</code> 是为了对方用 Excel 打开不乱码。<code>DictWriter</code> 和 <code>DictReader</code> 是对称的一组。</p>
+          </div></details>
+        </li>
+        <li>
+          <p>下面这段有什么问题？</p>
+<pre><code class="language-python">try:
+    rows = load_orders(path)
+    stats = summarize_by(rows)
+    save_report(stats)
+except:
+    pass</code></pre>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+            <p>三个严重问题：</p>
+            <ul>
+              <li><strong>try 块太大</strong>：三句话里任何一句炸了都长一个样，你不知道是读失败、算失败还是存失败。</li>
+              <li><strong>裸 except</strong>：连 <kbd>Ctrl</kbd>+<kbd>C</kbd>（KeyboardInterrupt）和内存耗尽都会被吞。</li>
+              <li><strong>pass 静默吞掉</strong>：程序表面正常结束，实际什么都没做。这类 bug 可能几个月后才被发现。</li>
+            </ul>
+<pre><code class="language-python">try:
+    rows = load_orders(path)
+except (FileNotFoundError, UnicodeDecodeError) as e:
+    print(f"读取失败：{e}")
+    raise SystemExit(1)
+
+stats = summarize_by(rows)      # 这两句不该被 try 包着，
+save_report(stats)              # 它们出错就该让程序响亮地崩掉</code></pre>
+          </div></details>
+        </li>
+        <li>
+          <p>写一个函数，读入任意 CSV 并打印每一列的：非空率、不同取值个数、前 3 个最常见的值。（这是明天项目的核心功能，先自己试）</p>
+          <details class="ans"><summary>参考答案</summary><div class="body">
+<pre class="has-out"><code class="language-python">from collections import Counter
+
+def profile(path, encoding="utf-8", top=3):
+    with Path(path).open(encoding=encoding, newline="") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        print("空文件"); return
+
+    n = len(rows)
+    for col in rows[0].keys():
+        vals = [(r.get(col) or "").strip() for r in rows]
+        nonempty = [v for v in vals if v]
+        c = Counter(nonempty).most_common(top)
+        print(f"{col:&lt;10} 非空 {len(nonempty)/n:&gt;5.0%}  不同值 {len(set(nonempty)):&gt;3}  常见 {c}")
+
+profile("data/orders.csv")</code></pre>
+<div class="out">id         非空  100%  不同值   8  常见 [('a1', 1), ('a2', 1), ('a3', 1)]
+city       非空   88%  不同值   6  常见 [('北京', 2), ('上海市', 1), ('SHANGHAI', 1)]
+channel    非空   88%  不同值   4  常见 [('app', 3), ('web', 3), ('App', 1)]
+amount     非空   75%  不同值   6  常见 [('199.0', 1), ('1,289.5', 1), ('-30', 1)]</div>
+            <p><code>Counter</code> 来自标准库 <code>collections</code>，是统计频次的最佳工具。看输出：<strong>city 列有 6 个不同值但实际只有 4 个城市</strong>——这就是数据体检的价值，一眼看出需要清洗。</p>
+          </div></details>
+        </li>
+      </ol>
+    </div>
+
+    <div class="checkpoint">
+      <b>Day 5 验收</b>
+      <ul>
+        <li><code>python loader.py data/orders.csv</code> 能跑出体检报告，且遇到坏行不崩溃</li>
+        <li>说得出为什么不能用 <code>line.split(",")</code> 解析 CSV</li>
+        <li>知道 <code>encoding="utf-8"</code> 和 <code>newline=""</code> 各自解决什么问题</li>
+        <li>能说清 <code>except: pass</code> 的三个危害</li>
+        <li>本周代码全部 push 到 GitHub</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="lesson" id="L6" style="--pc:var(--p1)">
+  <div class="lesson-head">
+    <div class="tag">WEEK 1 · DAY 6–7 · 交付物</div>
+    <h2>项目：给任意 CSV 做一份体检报告</h2>
+    <div class="metarow">
+      <div><b>用时</b>两天，每天 3–4 小时</div>
+      <div><b>前置</b>D1–D5 全部完成</div>
+      <div><b>交付</b>一个能跑的命令行工具 + README + GitHub 仓库</div>
+    </div>
+  </div>
+
+  <div class="why"><b>为什么做这个项目</b>
+    <p>「拿到一份没见过的数据，先搞清楚它长什么样」——这是数据科学家每周都在做的第一件事。<strong>今天你用标准库手写一遍，第三周会发现 pandas 的 <code>df.info()</code> 和 <code>describe()</code> 就是这个东西。</strong>亲手写过，你才知道它算的是什么、什么时候会骗你。</p>
+  </div>
+
+  <div class="prose">
+    <h3><span class="idx">6.1</span>先定义「做完」长什么样</h3>
+    <p>动手之前先写清楚验收标准，这是一个职业习惯。这个工具应该：</p>
+    <ul>
+      <li>接受任意 CSV 路径：<code>python -m profiler data/orders.csv</code></li>
+      <li>自动猜出每列的类型（数字 / 日期 / 文本 / 布尔）</li>
+      <li>对每列输出：非空率、不同值个数、Top 3 高频值；数字列额外给 min / 中位数 / max</li>
+      <li>报告出问题的行：重复的 id、列数不对、数字列里的非数字</li>
+      <li>遇到任何坏数据都不崩溃，坏行只记录不中断</li>
+      <li>能把结果导出成 CSV</li>
+      <li>只用标准库，不装任何第三方包</li>
+    </ul>
+
+    <h3><span class="idx">6.2</span>目录结构</h3>
+<pre><code class="language-bash">ds-8weeks/
+├── README.md
+├── .gitignore
+├── data/                    # 不进 git
+│   └── orders.csv
+└── profiler/
+    ├── __init__.py          # 空文件，告诉 Python 这是一个包
+    ├── clean.py             # D4 写的清洗函数
+    ├── loader.py            # D5 写的读取函数
+    ├── profile.py           # 今天的核心：统计每一列
+    └── __main__.py          # 命令行入口</code></pre>
+    <p class="tip"><b><code>__main__.py</code> 是什么？</b>放了它以后，<code>python -m profiler xxx.csv</code> 就会执行这个文件。这是 Python 包提供命令行入口的标准做法，比让用户去记「要跑哪个脚本」体面得多。</p>
+
+    <div class="dothis">
+      <b>第一天（D6）· 把统计核心写出来</b>
+      <ol class="steps">
+        <li>
+          <p>建好目录，把昨天两个文件搬进去</p>
+<pre><code class="language-bash">mkdir -p profiler
+touch profiler/__init__.py
+mv clean.py loader.py profiler/</code></pre>
+        </li>
+        <li>
+          <p>写 <code>profiler/profile.py</code>：先做类型猜测</p>
+<pre><code class="language-python">"""对任意一列数据做统计画像。"""
+from collections import Counter
+from datetime import datetime
+
+DATE_FORMATS = ("%Y-%m-%d", "%Y/%m/%d", "%Y-%m-%d %H:%M:%S", "%Y%m%d")
+BOOL_WORDS = {"true", "false", "yes", "no", "是", "否", "0", "1"}
+
+
+def as_number(s):
+    """能转成数字就返回数字，否则 None。"""
+    try:
+        return float(str(s).strip().replace(",", ""))
+    except (TypeError, ValueError):
+        return None
+
+
+def as_date(s):
+    for fmt in DATE_FORMATS:
+        try:
+            return datetime.strptime(str(s).strip(), fmt)
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
+def guess_type(values, threshold=0.8):
+    """看这一列里有多少比例能转成某种类型，超过阈值就认定为该类型。"""
+    vals = [v for v in values if v]           # 只看非空的
+    if not vals:
+        return "空列"
+    n = len(vals)
+    if sum(as_number(v) is not None for v in vals) / n &gt;= threshold:
+        return "数字"
+    if sum(as_date(v) is not None for v in vals) / n &gt;= threshold:
+        return "日期"
+    if len(set(v.lower() for v in vals)) &lt;= 2 and \
+       all(v.lower() in BOOL_WORDS for v in vals):
+        return "布尔"
+    return "文本"</code></pre>
+          <p class="tip"><b>为什么用 80% 阈值而不是 100%？</b>真实数据里一列数字混进两三个「面议」「N/A」很常见。要求 100% 会把这列判成文本，反而丢掉了它本该有的统计量。代价是含 20% 以内脏值的文本列可能被误判——所以报告里必须同时列出「无法解析的值」，让人能复核。<strong>这个阈值本身就是一个可以在 README 里讨论的设计选择</strong>，写出来是加分项。</p>
+        </li>
+        <li>
+          <p>继续写 <code>profile.py</code>：单列画像</p>
+<pre><code class="language-python">def profile_column(name, values, top=3):
+    """返回一列的画像 dict。"""
+    n = len(values)
+    clean = [(v or "").strip() for v in values]
+    nonempty = [v for v in clean if v]
+    kind = guess_type(nonempty)
+
+    out = {
+        "column": name,
+        "type": kind,
+        "n": n,
+        "non_null_rate": round(len(nonempty) / n, 4) if n else 0.0,
+        "n_unique": len(set(nonempty)),
+        "top": Counter(nonempty).most_common(top),
+        "bad_values": [],
+    }
+
+    if kind == "数字":
+        nums = [as_number(v) for v in nonempty]
+        out["bad_values"] = sorted({v for v, x in zip(nonempty, nums) if x is None})[:5]
+        nums = sorted(x for x in nums if x is not None)
+        if nums:
+            mid = len(nums) // 2
+            out.update({
+                "min": nums[0],
+                "median": nums[mid] if len(nums) % 2 else (nums[mid - 1] + nums[mid]) / 2,
+                "max": nums[-1],
+                "mean": round(sum(nums) / len(nums), 4),
+            })
+    return out</code></pre>
+          <p><strong>中位数为什么自己算？</strong>因为这周不许用第三方库。注意偶数个元素要取中间两个的平均——这个细节很多人第一次会写错。第五周用 <code>numpy.median</code> 时，你会知道它内部就是这么干的。</p>
+        </li>
+        <li>
+          <p>写整表画像和行级问题检查</p>
+<pre><code class="language-python">def profile_table(rows, id_column=None, top=3):
+    """rows 是 list[dict]。返回 (每列画像, 行级问题)。"""
+    if not rows:
+        return [], [{"line": 0, "type": "空文件", "detail": ""}]
+
+    columns = list(rows[0].keys())
+    profiles = [profile_column(c, [r.get(c) for r in rows], top=top) for c in columns]
+
+    issues = []
+    for i, r in enumerate(rows, start=2):
+        if any(v is None for v in r.values()):
+            issues.append({"line": i, "type": "列数不足", "detail": str(r)[:60]})
+
+    if id_column and id_column in columns:
+        seen, dup = set(), []
+        for i, r in enumerate(rows, start=2):
+            key = (r.get(id_column) or "").strip().lower()
+            if key and key in seen:
+                dup.append({"line": i, "type": "id 重复", "detail": key})
+            seen.add(key)
+        issues += dup
+    return profiles, sorted(issues, key=lambda d: d["line"])</code></pre>
+        </li>
+        <li>
+          <p>写打印函数——<strong>报告好不好读，决定了这个工具有没有人用</strong></p>
+<pre><code class="language-python">def print_report(profiles, issues, path):
+    print(f"\n数据体检报告  {path}")
+    print("=" * 78)
+    n = profiles[0]["n"] if profiles else 0
+    print(f"{n} 行 × {len(profiles)} 列\n")
+
+    head = f"{'列名':&lt;14}{'类型':&lt;6}{'非空':&gt;7}{'唯一值':&gt;7}   高频值"
+    print(head); print("-" * 78)
+    for p in profiles:
+        top = "  ".join(f"{v}({c})" for v, c in p["top"]) or "—"
+        print(f"{p['column']:&lt;14}{p['type']:&lt;6}{p['non_null_rate']:&gt;6.0%}{p['n_unique']:&gt;7}   {top[:34]}")
+
+    nums = [p for p in profiles if p["type"] == "数字"]
+    if nums:
+        print(f"\n{'数字列':&lt;14}{'最小':&gt;12}{'中位':&gt;12}{'均值':&gt;12}{'最大':&gt;12}")
+        print("-" * 78)
+        for p in nums:
+            print(f"{p['column']:&lt;14}{p.get('min', 0):&gt;12,.2f}{p.get('median', 0):&gt;12,.2f}"
+                  f"{p.get('mean', 0):&gt;12,.2f}{p.get('max', 0):&gt;12,.2f}")
+            if p["bad_values"]:
+                print(f"{'':&lt;14}⚠ 无法解析的值：{p['bad_values']}")
+
+    print(f"\n行级问题 {len(issues)} 处")
+    print("-" * 78)
+    for i in issues[:20]:
+        print(f"  第 {i['line']:&gt;4} 行  {i['type']:&lt;8} {i['detail']}")
+    if len(issues) &gt; 20:
+        print(f"  ... 还有 {len(issues) - 20} 处")</code></pre>
+        </li>
+      </ol>
+    </div>
+
+    <div class="dothis">
+      <b>第二天（D7）· 命令行入口、测试、README</b>
+      <ol class="steps">
+        <li>
+          <p>写 <code>profiler/__main__.py</code></p>
+<pre><code class="language-python">"""命令行入口：python -m profiler data/orders.csv"""
+import argparse, csv, sys
+from pathlib import Path
+
+from .profile import profile_table, print_report
+
+
+def read_csv(path, encoding=None):
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(f"找不到 {path.resolve()}")
+    for enc in ([encoding] if encoding else ["utf-8", "utf-8-sig", "gbk"]):
+        try:
+            with path.open(encoding=enc, newline="") as f:
+                rows = list(csv.DictReader(f))
+            return rows, enc
+        except UnicodeDecodeError:
+            continue
+    raise UnicodeDecodeError("尝试过 utf-8 / utf-8-sig / gbk 都读不了，请手动指定 --encoding")
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="profiler", description="给任意 CSV 做一份数据体检报告")
+    ap.add_argument("path", help="CSV 文件路径")
+    ap.add_argument("--encoding", help="强制指定编码，默认自动尝试")
+    ap.add_argument("--id-column", help="主键列名，用来检查重复")
+    ap.add_argument("--top", type=int, default=3, help="每列显示几个高频值")
+    ap.add_argument("--out", help="把列画像导出到这个 CSV")
+    args = ap.parse_args(argv)
+
+    try:
+        rows, enc = read_csv(args.path, args.encoding)
+    except (FileNotFoundError, UnicodeDecodeError, ValueError) as e:
+        print(f"无法读取：{e}", file=sys.stderr)
+        return 1
+
+    profiles, issues = profile_table(rows, id_column=args.id_column, top=args.top)
+    print(f"（编码 {enc}）", end="")
+    print_report(profiles, issues, args.path)
+
+    if args.out:
+        fields = ["column", "type", "n", "non_null_rate", "n_unique", "min", "median", "mean", "max"]
+        with Path(args.out).open("w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
+            w.writeheader(); w.writerows(profiles)
+        print(f"\n已导出列画像到 {args.out}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())</code></pre>
+        </li>
+        <li>
+          <p>跑一遍，应该看到这样的输出</p>
+<pre class="has-out"><code class="language-bash">python -m profiler data/orders.csv --id-column id</code></pre>
+<div class="out">（编码 utf-8）
+数据体检报告  data/orders.csv
+==============================================================================
+8 行 × 4 列
+
+列名            类型         非空    唯一值   高频值
+------------------------------------------------------------------------------
+id            文本      100%      8   a1(1)  a2(1)  a3(1)
+city          文本       88%      6   北京(2)  上海市(1)  SHANGHAI(1)
+channel       文本       88%      4   web(3)  app(2)  App(1)
+amount        数字       75%      6   199.0(1)  1,289.5(1)  -30(1)
+
+数字列                     最小          中位          均值          最大
+------------------------------------------------------------------------------
+amount              -30.00      199.00      433.46    1,289.50
+              ⚠ 无法解析的值：['面议']
+
+行级问题 1 处
+------------------------------------------------------------------------------
+  第    8 行  列数不足     {'id': 'a7', 'city': '北京', 'channel': 'app', 'amount': None}</div>
+          <p class="tip"><b>表头看起来没对齐？</b>因为 <code>f"{x:&lt;14}"</code> 数的是<strong>字符数</strong>，而一个汉字在终端里占两格宽。想对齐得自己按显示宽度算——<code>unicodedata.east_asian_width</code> 能判断。这是中文数据工作里一个很烦但绕不开的细节，先知道有这回事。</p>
+          <p class="tip"><b>看报告，你应该立刻发现三件事：</b>①city 有 6 个不同值但实际只有 4 个城市 → 需要清洗；②amount 最小值是 -30 → 负金额是异常还是退款？③第 8 行少一列。<strong>一份好的体检报告，就是能让人在 30 秒内提出这三个问题。</strong></p>
+        </li>
+        <li>
+          <p>加几个测试（还没学 pytest，先用最朴素的 assert）</p>
+<pre class="has-out"><code class="language-python"># tests_manual.py
+from profiler.profile import guess_type, as_number, profile_column
+
+assert as_number("1,234.5") == 1234.5
+assert as_number("面议") is None
+assert guess_type(["1", "2", "3"]) == "数字"
+assert guess_type(["1", "2", "3", "4", "面议"]) == "数字"   # 4/5 = 80%，刚好达标
+assert guess_type(["1", "2", "面议"]) == "文本"             # 2/3 = 67%，不够
+assert guess_type(["a", "b", "c"]) == "文本"
+assert guess_type(["2024-01-01", "2024-02-01"]) == "日期"
+
+p = profile_column("amount", ["10", "20", "30", "", None])
+assert p["n"] == 5 and p["n_unique"] == 3
+assert p["median"] == 20 and p["non_null_rate"] == 0.6
+
+print("全部通过 ✓")</code></pre>
+<div class="out">$ python tests_manual.py
+全部通过 ✓</div>
+          <p><code>assert 条件</code> 的意思是「这里必须成立，不成立就报错」。第二周会把这些改写成正式的 pytest 用例。</p>
+        </li>
+        <li>
+          <p>写 README.md——<strong>这是整个项目里最该花时间的文件</strong></p>
+<pre><code class="language-markdown"># profiler · CSV 数据体检工具
+
+拿到一份没见过的 CSV，30 秒内知道它能不能用。只依赖 Python 标准库。
+
+## 用法
+
+```bash
+python -m profiler data/orders.csv --id-column id --out report.csv
+```
+
+| 参数 | 说明 |
+|---|---|
+| `path` | CSV 路径（必填） |
+| `--encoding` | 强制指定编码，默认按 utf-8 → utf-8-sig → gbk 顺序尝试 |
+| `--id-column` | 主键列名，用于检查重复 |
+| `--top` | 每列展示几个高频值，默认 3 |
+| `--out` | 把列画像导出为 CSV |
+
+## 它检查什么
+
+- 每列的类型（数字/日期/布尔/文本）、非空率、唯一值个数、高频值
+- 数字列的 min / 中位数 / 均值 / max，以及无法解析的脏值
+- 行级问题：列数不足、主键重复
+
+## 设计取舍
+
+- **类型判断用 80% 阈值而非 100%**：真实数据里一列数字混几个「面议」很常见，
+  要求全部可解析会让这一列被误判成文本，反而丢掉统计量。代价是含 20% 以内
+  脏值的文本列可能被误判成数字——报告里会列出无法解析的值，便于人工复核。
+- **坏行只记录不中断**：数据质量工具的价值在于一次跑完给出全部问题清单。
+- **不修改原始数据**：所有清洗都产出新对象。
+
+## 已知局限
+
+- 日期格式只支持四种常见写法，不识别时区
+- 大文件会全部读进内存，超过约 100 万行需要改成流式处理
+- 中位数在含 NaN 的列上按剔除后计算，与 pandas 默认行为一致
+
+## 下一步
+
+第三周用 pandas 重写一版，对比两者的代码量和运行速度。</code></pre>
+        </li>
+        <li>
+          <p>提交并推送</p>
+<pre class="has-out"><code class="language-bash">git add .
+git commit -m "feat: 第一周项目 —— CSV 数据体检工具"
+git push</code></pre>
+<div class="out">[main 7c31a09] feat: 第一周项目 —— CSV 数据体检工具
+ 7 files changed, 312 insertions(+)</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="ex">
+      <b>做完主线后的加分项（有余力再做）</b>
+      <ol>
+        <li>
+          <p>加一个 <code>--sample N</code> 参数，只读前 N 行做体检（大文件时有用）。</p>
+          <details class="ans"><summary>思路</summary><div class="body">
+            <p>用 <code>itertools.islice(reader, n)</code> 而不是先 <code>list()</code> 再切片——后者会把整个文件读进内存，就失去意义了。<strong>这个区别在第二周讲生成器时会再遇到。</strong></p>
+          </div></details>
+        </li>
+        <li>
+          <p>给文本列加一个「疑似同义值」检测：把值做 strip + lower + 去掉「市/省」后如果重复了，就提示可能需要清洗。</p>
+          <details class="ans"><summary>思路</summary><div class="body">
+            <p>把 D4 的 <code>clean_city</code> 泛化成一个 <code>canonical(s)</code> 函数，然后比较 <code>len(set(原值))</code> 和 <code>len(set(规范化后))</code>。差值大于 0 就说明有同义值。<strong>这正是上面报告里 city 列「6 个唯一值但只有 4 个城市」的自动化版本。</strong></p>
+          </div></details>
+        </li>
+        <li>
+          <p>把报告输出成 Markdown，方便直接贴进周报。</p>
+          <details class="ans"><summary>思路</summary><div class="body">
+            <p>加一个 <code>--format md</code> 参数，把 <code>print_report</code> 拆成 <code>render_text</code> 和 <code>render_markdown</code> 两个函数，主流程只负责选一个调。<strong>「一个函数只做一件事」的好处在这种时候最明显：加一种输出格式不用动任何已有逻辑。</strong></p>
+          </div></details>
+        </li>
+      </ol>
+    </div>
+
+    <div class="checkpoint">
+      <b>第一周结课验收</b>
+      <ul>
+        <li><code>python -m profiler 任意一份CSV</code> 能跑出报告，换一份陌生数据也不崩</li>
+        <li>去 <a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener">Kaggle</a> 随便下一份真实数据跑一遍，看看报告能不能帮你发现问题</li>
+        <li><code>tests_manual.py</code> 全部通过</li>
+        <li>README 里写清了用法、<strong>设计取舍</strong>和<strong>已知局限</strong>——这两节比代码更能体现水平</li>
+        <li>GitHub 上仓库结构干净，<code>data/</code> 和 <code>.venv/</code> 都没被提交</li>
+        <li>回到<a href="https://claude.ai/code/artifact/384154e2-4b76-43db-aa49-43d9856f11c4" target="_blank" rel="noopener">八周计划表</a>，把第一周的 6 个格子全部勾掉</li>
+      </ul>
+    </div>
+
+    <div class="why" style="margin-top:30px"><b>下周预告</b>
+      <p>第二周把这个项目<strong>重构</strong>一遍：加类型注解、用 dataclass 管配置、写正式的 pytest 用例、用生成器处理大文件、打包成能 <code>pip install</code> 的项目。同一份代码，从「能跑」变成「能维护」。</p>
+    </div>
+  </div>
+</article>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  try {
+    var saved = localStorage.getItem("ds8w.theme");
+    if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+  } catch (e) {}
+
+  if (window.hljs) { try { hljs.highlightAll(); } catch (e) {} }
+
+  var links = Array.prototype.slice.call(document.querySelectorAll(".lrail a, .lessonnav a"));
+  var lessons = Array.prototype.slice.call(document.querySelectorAll("article.lesson"));
+  function mark() {
+    var y = window.scrollY + 140, cur = lessons[0];
+    lessons.forEach(function (a) { if (a.offsetTop <= y) cur = a; });
+    links.forEach(function (l) {
+      l.classList.toggle("on", l.getAttribute("href") === "#" + cur.id);
+    });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () { mark(); ticking = false; });
+  }, { passive: true });
+  mark();
+})();
+</script>
+</body></html>

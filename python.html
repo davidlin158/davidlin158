@@ -258,6 +258,15 @@ tr[data-phase="3"]{--wc:var(--p3)} tr[data-phase="4"]{--wc:var(--p4)}
 .res a:hover{border-color:var(--accent);background:var(--card2)}
 .res a b{font-size:14px;color:var(--ink);font-weight:600}
 .res a span{font-size:12.5px;color:var(--dim)}
+.tutcard{display:grid;grid-template-columns:1fr auto;gap:10px 20px;align-items:center;margin-top:24px;
+  background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);
+  padding:16px 20px;box-shadow:var(--shadow);text-decoration:none}
+.tutcard:hover{border-color:var(--accent)}
+.tutcard b{display:block;font-family:var(--display);font-size:17px;color:var(--ink);letter-spacing:-.01em}
+.tutcard span{display:block;font-size:13.5px;color:var(--dim);margin-top:3px}
+.tutcard .go{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:#fff;background:var(--accent);
+  border-radius:99px;padding:7px 15px;white-space:nowrap}
+@media(max-width:520px){.tutcard{grid-template-columns:1fr}.tutcard .go{justify-self:start}}
 footer{border-top:1px solid var(--line);padding-top:18px;color:var(--faint);font-size:12.5px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 footer .mono{font-size:11.5px}
 </style>
@@ -308,6 +317,14 @@ footer .mono{font-size:11.5px}
       <span><i style="background:var(--p4)"></i>阶段四 · 深度学习与上线</span>
     </div>
   </figure>
+
+  <a class="tutcard" href="https://claude.ai/code/artifact/7cefbf2c-96c7-4991-a689-94006be4e7bb" target="_blank" rel="noopener">
+    <div>
+      <b>需要有人一步步教？打开配套课本</b>
+      <span>这一页是计划表。《Python 数据科学手把手》才是教材：每天一课，概念讲解 → 跟我敲（每步给预期输出）→ 常见报错 → 练习和答案 → 当天验收。第一周 7 课已写完。</span>
+    </div>
+    <span class="go">打开课本 →</span>
+  </a>
 </header>
 
 <aside class="rail">
@@ -325,6 +342,7 @@ footer .mono{font-size:11.5px}
   <nav id="railnav" aria-label="周次导航"></nav>
   <div class="sep"></div>
   <nav style="gap:1px">
+    <a href="https://claude.ai/code/artifact/7cefbf2c-96c7-4991-a689-94006be4e7bb" target="_blank" rel="noopener"><span class="wk">📖</span>手把手课本</a>
     <a href="#pkgtable"><span class="wk">REF</span>包速查表</a>
     <a href="#cheat"><span class="wk">REF</span>代码速查</a>
     <a href="#traps"><span class="wk">REF</span>新手十坑</a>
@@ -343,6 +361,7 @@ footer .mono{font-size:11.5px}
   <div class="cols c2">
     <div class="card pad">
       <ol class="rules">
+        <li><span class="num">00</span><div><b>这页是计划，课本在另一页</b><p>不知道某一格具体该学什么、该怎么敲，就去 <a href="https://claude.ai/code/artifact/7cefbf2c-96c7-4991-a689-94006be4e7bb" target="_blank" rel="noopener">手把手课本</a> 看对应那一课。计划表负责「今天做什么」，课本负责「具体怎么做」。</p></div></li>
         <li><span class="num">01</span><div><b>一次只做一格</b><p>每一格是一个 40–90 分钟能闭环的动作。做完勾掉再看下一格，不要通读全页。</p></div></li>
         <li><span class="num">02</span><div><b>读两成，敲八成</b><p>每个概念先读一小段官方文档，然后立刻在 Jupyter 里复现，再故意改坏它看报错。看视频不算学过。</p></div></li>
         <li><span class="num">03</span><div><b>交付物才是学习</b><p>每周后两天不学新东西，只把这周的项目做完、写 README、推到 GitHub。8 周结束你有 8 个能拿出手的仓库。</p></div></li>
