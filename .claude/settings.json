@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Read(~/Downloads/**)",
+      "Bash(node tools/plaid-sync.mjs sync:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_tab_list",
+      "mcp__playwright__browser_wait_for"
+    ],
+    "ask": [
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_fill_form",
+      "mcp__playwright__browser_select_option",
+      "mcp__playwright__browser_file_upload",
+      "mcp__playwright__browser_handle_dialog",
+      "Bash(node tools/plaid-sync.mjs link:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Read(./tools/.plaid.env)",
+      "Read(./tools/.plaid-tokens.json)",
+      "Bash(cat tools/.plaid.env)",
+      "Bash(cat tools/.plaid-tokens.json)",
+      "mcp__playwright__browser_evaluate"
+    ]
+  }
+}
